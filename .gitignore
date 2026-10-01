@@ -3,3 +3,5 @@ tools/
 *.genie
 .wbapp*
 _chk_*
+_fontsrc/
+_charset.txt
