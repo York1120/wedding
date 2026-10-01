@@ -4,14 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#9E1C1B">
-<title>张令仪 & 周煜全 · 婚礼请柬</title>
-<!-- 微信分享卡片描述:好友点开前能看到这一句 -->
+<title>张令仪 &amp; 周煜全 · 婚礼请柬</title>
+<!-- ══════════ 微信 / 社交分享卡片 ══════════
+     这些标签必须在 HTML 首次响应里就存在 —— 微信爬虫不执行 JS,
+     所以靠 JS 动态改 document.title 是无效的。
+     注意: 名字里的 & 必须写成 &amp;, 裸 & 会让解析器截断标题。
+     换域名时同步改下面 og:url / og:image(含 secure_url) 三行。
+     改完微信仍会缓存旧卡片, 测试时给链接加 ?v=2 可拿到全新卡片。
+     ═════════════════════════════════════════ -->
 <meta name="description" content="谨定于二〇二七年一月二十六日,为小女张令仪与女婿周煜全举行结婚典礼,敬备喜宴,恭请光临。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="张令仪 & 周煜全 · 婚礼请柬">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="张令仪 &amp; 周煜全 · 婚礼请柬">
+<meta property="og:title" content="张令仪 &amp; 周煜全 · 婚礼请柬">
 <meta property="og:description" content="谨定于2027年1月26日(农历腊月十九) · 湖南省常德市桃源县沙坪镇思元鲜肉坊 · 敬备喜宴,恭请光临">
-<!-- 微信卡片缩略图:指向正式发布地址(即分享出去的链接);若换域名请同步修改这两行 -->
 <meta property="og:image" content="https://wedding-invitation-35805.app.workbuddy.host/share.png">
+<meta property="og:image:secure_url" content="https://wedding-invitation-35805.app.workbuddy.host/share.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="500">
+<meta property="og:image:height" content="500">
+<meta property="og:image:alt" content="囍 · 张令仪与周煜全婚礼请柬">
 <meta property="og:url" content="https://wedding-invitation-35805.app.workbuddy.host/">
 <link rel="icon" type="image/png" href="xi.png">
 <!-- 字体自托管:已按本页用字裁剪为 178KB,无需联网加载 Google Fonts -->
