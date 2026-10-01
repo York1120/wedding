@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#8E1616">
+<title>张令仪 & 周煜全 · 婚礼请柬</title>
+<!-- 微信分享卡片描述:好友点开前能看到这一句 -->
+<meta name="description" content="谨定于二〇二七年一月二十八日,为小女张令仪与女婿周煜全举行结婚典礼,敬备喜宴,恭请光临。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="张令仪 & 周煜全 · 婚礼请柬">
+<meta property="og:description" content="谨定于2027年1月28日(农历腊月廿一) · 桃源县大酒店 · 敬备喜宴,恭请光临">
+<!-- ★ 微信卡片缩略图:网页部署到公网后,把下面两行的「https://你的域名」替换成实际网址 -->
+<meta property="og:image" content="https://你的域名/share.png">
+<meta property="og:url" content="https://你的域名/index.html">
+<link rel="icon" type="image/png" href="xi.png">
+<!-- 字体自托管:已按本页用字裁剪为 178KB,无需联网加载 Google Fonts -->
+<link rel="stylesheet" href="fonts/fonts.css">
+<!--
+  ════════════════ 使 用 说 明 ════════════════
+  1. 放照片:把照片命名为「照片1.jpg」「照片2.jpg」「照片3.jpg」,
+     与本网页放在同一文件夹,刷新即可自动显示(占位框会消失)。
+     照片多于三张?复制一个 .photo-slot 区块、改文件名即可。
+  2. 宾客称呼:搜索「宾客称呼」四个字,改成实际称呼,如「王伯父」。
+  3. 落款:搜索「张府 敬邀」,改成父亲姓名,如「张建国 暨全家 敬邀」。
+  4. 宴会时间:搜索「恭候」,补充具体时刻(如 恭候 11:00 · 开席 11:58)。
+  5. 背景音乐:放一个「bgm.mp3」在本文件夹即可自动播放;
+     右上角按钮可暂停/继续。若浏览器拦截自动播放,点一下页面任意处就会响起。
+  6. 微信分享卡片:先把整个文件夹上传到任一公网网站空间(虚拟主机 /
+     阿里云OSS / 腾讯云COS / GitHub Pages 均可),再把 head 中两处
+     「https://你的域名」换成实际网址。卡片标题 = <title>,
+     简介 = og:description,缩略图 = share.png(500x500)。
+  ═══════════════════════════════════════════
+-->
+<style>
+:root{
+  --red-deep:#4A0B0D;
+  --red:#8E1616;
+  --red-mid:#A61B29;
+  --gold:#D9A441;
+  --gold-light:#F2D18B;
+  --gold-bright:#F7E08B;
+  --cream:#F7E7C3;
+  --font-display:'Ma Shan Zheng','STKaiti','KaiTi',serif;
+  --font-body:'Noto Serif SC','STSong','SimSun',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-body);
+  background:radial-gradient(ellipse at 50% 0%,#4A0B0D,#2A0607 70%);
+  color:var(--cream);
+  overflow-x:hidden;
+}
+body.locked{overflow:hidden}
+.page{
+  max-width:520px;margin:0 auto;
+  background:linear-gradient(180deg,#A21C1C 0%,#8E1616 40%,#6E1013 100%);
+  box-shadow:0 0 70px rgba(0,0,0,.6);
+  background-image:radial-gradient(rgba(242,209,139,.05) 1px,transparent 1.6px);
+  background-size:22px 22px;
+}
+section{padding:58px 26px;position:relative}
+
+/* ── 装饰:灯笼 ─────────────────────── */
+.lantern{position:absolute;top:0;z-index:3;pointer-events:none;transform-origin:top center;animation:sway 5s ease-in-out infinite alternate}
+.lantern i{display:block}
+.lantern .string{width:1.5px;height:64px;margin:0 auto;background:linear-gradient(180deg,transparent,var(--gold));opacity:.8}
+.lantern .cap{width:20px;height:7px;margin:0 auto;border-radius:2px;background:linear-gradient(180deg,var(--gold-bright),#B07E2C)}
+.lantern .body{width:56px;height:46px;border-radius:50% 50% 50% 50%/44% 44% 56% 56%;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 38%,#D2463A,#8E1616 72%);
+  border:2px solid var(--gold);box-shadow:0 6px 18px rgba(0,0,0,.4),inset 0 -6px 14px rgba(0,0,0,.3)}
+.lantern .rib{position:absolute;inset:0;border-radius:inherit;
+  background:repeating-linear-gradient(90deg,transparent 0 11px,rgba(217,164,65,.4) 11px 13px)}
+.lantern .tassel{width:2px;height:26px;margin:0 auto;background:var(--gold);opacity:.85}
+.lantern .tassel::after{content:'';display:block;width:6px;height:6px;margin:2px auto 0;border-radius:50%;background:var(--gold-bright)}
+.lantern.small .string{height:44px}
+.lantern.small .body{width:44px;height:36px}
+.lantern.small .cap{width:16px;height:6px}
+@keyframes sway{from{transform:rotate(3.5deg)}to{transform:rotate(-3.5deg)}}
+.c-l{left:6%}
+.c-r{right:6%;animation-duration:6s;animation-delay:.6s}
+.h-l{left:9%;animation-duration:5.4s}
+.h-r{right:9%;animation-duration:6.4s;animation-delay:.9s}
+
+/* ── 装饰:祥云 ─────────────────────── */
+.cloud{position:absolute;width:110px;color:var(--gold);opacity:.28;pointer-events:none}
+.cloud.tl{top:24px;left:18px}
+.cloud.br{bottom:24px;right:18px;transform:rotate(180deg)}
+
+/* ── 封面(点击开启)────────────────── */
+#cover{
+  position:fixed;inset:0;z-index:50;cursor:pointer;
+  background:radial-gradient(ellipse at 50% 30%,#A61B29,#5C0D10 78%);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .8s ease .15s,visibility 0s linear 1.1s;
+}
+#cover::before{content:'';position:absolute;inset:14px;border:1.5px solid rgba(217,164,65,.65);border-radius:6px;pointer-events:none}
+#cover::after{content:'';position:absolute;inset:21px;border:1px solid rgba(217,164,65,.3);border-radius:4px;pointer-events:none}
+#cover.open{opacity:0;visibility:hidden;pointer-events:none}
+.cover-inner{text-align:center;position:relative;z-index:4;padding:20px;transition:opacity .55s ease,transform .55s ease}
+#cover.open .cover-inner{opacity:0;transform:translateY(-16px)}
+.cover-tag{font-size:15px;letter-spacing:.6em;text-indent:.6em;color:var(--gold-light);opacity:.9;margin-bottom:30px}
+.seal{
+  width:128px;height:128px;border-radius:50%;margin:0 auto;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:68px;color:var(--gold-bright);
+  background:radial-gradient(circle at 35% 30%,#B5322A,#751115 78%);
+  border:3px solid var(--gold);
+  box-shadow:0 0 0 7px rgba(217,164,65,.14),0 12px 34px rgba(0,0,0,.45),inset 0 0 20px rgba(0,0,0,.35);
+  animation:pulse 2.4s ease-in-out infinite;position:relative;
+}
+.seal::after{content:'';position:absolute;inset:7px;border:1px solid rgba(247,224,139,.45);border-radius:50%}
+.seal img{width:92px;height:auto;display:block;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3))}
+#cover.open .seal{transform:scale(2.6);opacity:0;transition:transform .7s ease,opacity .7s ease}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.cover-names{margin-top:34px;font-family:var(--font-display);font-size:34px;letter-spacing:.12em;color:var(--cream)}
+.cover-date{margin-top:12px;font-size:14px;letter-spacing:.25em;color:rgba(247,231,195,.8)}
+.cover-hint{margin-top:44px;font-size:13px;letter-spacing:.35em;color:rgba(247,231,195,.75);animation:blink 2.2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
+.spark{position:absolute;bottom:-10px;width:5px;height:5px;border-radius:50%;background:var(--gold-light);opacity:0;filter:blur(.5px);animation:rise 7s linear infinite;z-index:2;pointer-events:none}
+.spark:nth-child(2){animation-delay:1.3s;height:4px;width:4px}
+.spark:nth-child(3){animation-delay:2.7s;left:52%!important}
+.spark:nth-child(4){animation-delay:4s;height:3px;width:3px;left:70%!important}
+.spark:nth-child(5){animation-delay:5.4s;left:86%!important}
+@keyframes rise{0%{transform:translateY(0);opacity:0}10%{opacity:.9}100%{transform:translateY(-88vh);opacity:0}}
+
+/* ── 通用:小标题 / 分隔 ─────────────── */
+.sec-title{display:flex;align-items:center;justify-content:center;gap:16px;font-family:var(--font-display);font-weight:400;font-size:30px;color:var(--gold-bright);letter-spacing:.3em;margin-bottom:34px}
+.sec-title::before,.sec-title::after{content:'';width:54px;height:1px;flex:none}
+.sec-title::before{background:linear-gradient(90deg,transparent,var(--gold))}
+.sec-title::after{background:linear-gradient(270deg,transparent,var(--gold))}
+.reveal{transition:opacity .85s ease,transform .85s ease}
+.js .reveal{opacity:0;transform:translateY(26px)}
+.js .reveal.in{opacity:1;transform:none}
+
+/* ── 首屏 ─────────────────────────── */
+.hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:120px}
+.hero-fu img{width:160px;height:auto;display:block;filter:drop-shadow(0 0 34px rgba(247,224,139,.35))}
+.hero-names{margin-top:30px;display:flex;align-items:center;gap:18px;font-family:var(--font-display);font-size:40px;color:var(--cream)}
+.hero-names .amp{width:42px;height:42px;flex:none;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--gold-bright);border:1.5px solid var(--gold);border-radius:50%;box-shadow:0 0 0 3px rgba(217,164,65,.15)}
+.hero-names .amp img{width:28px;height:auto;display:block}
+.hero-sub{margin-top:22px;font-size:15px;letter-spacing:.55em;text-indent:.55em;color:var(--gold-light)}
+.hero-date{margin-top:12px;font-size:14px;letter-spacing:.3em;color:rgba(247,231,195,.75)}
+.scroll-cue{margin-top:46px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;letter-spacing:.35em;color:rgba(247,231,195,.8)}
+.scroll-cue i{width:1.5px;height:36px;background:linear-gradient(180deg,transparent,var(--gold-light));animation:cue 1.7s ease-in-out infinite}
+@keyframes cue{0%{transform:translateY(-8px);opacity:0}45%{opacity:1}100%{transform:translateY(10px);opacity:0}}
+
+/* ── 喜帖(竖排正文)────────────────── */
+.frame{border:1.5px solid rgba(217,164,65,.75);border-radius:6px;padding:34px 18px 30px;position:relative;background:rgba(0,0,0,.1)}
+.frame::before{content:'';position:absolute;inset:7px;border:1px solid rgba(217,164,65,.32);border-radius:3px;pointer-events:none}
+.vscroll{writing-mode:vertical-rl;width:max-content;max-width:100%;min-height:18em;margin:0 auto;line-height:1.75;letter-spacing:.22em;font-size:16px;color:var(--cream)}
+.vscroll p{margin-block-end:.72em}
+.vscroll .guest{font-size:1.08em;letter-spacing:.3em;color:var(--gold-light)}
+.vscroll .em{color:var(--gold-light)}
+.vscroll .name{font-family:var(--font-display);font-size:1.72em;line-height:1.1;letter-spacing:.12em;color:var(--gold-bright);text-shadow:0 0 14px rgba(247,224,139,.3)}
+.stamps{display:flex;gap:16px;margin-top:22px;padding-left:8px}
+.stamp{writing-mode:vertical-rl;font-family:var(--font-display);font-size:14px;letter-spacing:.3em;color:var(--gold-light);background:linear-gradient(160deg,#B5322A,#7E1113);border:1.5px solid rgba(242,209,139,.75);border-radius:6px;padding:12px 7px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.stamp:first-child{transform:rotate(-3deg)}
+.stamp:last-child{transform:rotate(3deg);margin-top:16px}
+
+/* ── 照片 ─────────────────────────── */
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.photo-slot{grid-column:1/-1;background:#F6EBD2;border-radius:6px;padding:10px 10px 38px;box-shadow:0 10px 26px rgba(0,0,0,.38);position:relative}
+.photo-slot.rot-l{transform:rotate(-1.6deg)}
+.photo-slot.rot-r{transform:rotate(1.8deg)}
+.photo-slot.half{grid-column:auto}
+.ph-area{position:relative;aspect-ratio:4/3;overflow:hidden;border:2px dashed rgba(142,22,22,.4);background:rgba(142,22,22,.05)}
+.photo-slot.half .ph-area{aspect-ratio:1/1}
+.ph-area img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo-slot.has-img{border:none}
+.photo-slot.has-img .ph-area{border:none;background:none}
+.photo-slot.has-img .ph-hint{display:none}
+.photo-slot.has-img::after{content:none}
+.ph-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;color:#A8524F;padding:8px}
+.ph-hint .ico{font-size:32px;opacity:.85}
+.ph-hint b{font-family:var(--font-display);font-weight:400;font-size:18px;letter-spacing:.15em}
+.ph-hint small{font-size:11.5px;line-height:1.7;opacity:.8}
+.ph-cap{position:absolute;left:0;right:0;bottom:9px;text-align:center;font-family:var(--font-display);font-size:15px;letter-spacing:.2em;color:#8E1616}
+.ph-cap .fu-inline{height:1em;vertical-align:-.12em}
+
+/* ── 婚礼信息 ─────────────────────── */
+.countdown{margin:-6px 0 26px;text-align:center;font-size:15px;letter-spacing:.2em;color:var(--cream)}
+.countdown b{font-family:var(--font-display);font-weight:400;font-size:36px;color:var(--gold-bright);margin:0 8px;text-shadow:0 0 18px rgba(247,224,139,.35)}
+.cal{max-width:330px;margin:0 auto 30px;background:rgba(0,0,0,.18);border:1px solid rgba(217,164,65,.35);border-radius:10px;padding:16px 14px 14px}
+.cal-title{text-align:center;font-family:var(--font-display);font-size:18px;letter-spacing:.25em;color:var(--gold-light);margin-bottom:12px}
+#cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.cal-h{color:rgba(217,164,65,.9);font-size:12px;padding:5px 0}
+.cal-d{color:var(--cream);font-size:13.5px;padding:7px 0;border-radius:50%}
+.cal-d.today{background:var(--gold);color:#5C0D10;font-weight:700;box-shadow:0 0 12px rgba(247,224,139,.55)}
+.info-list{max-width:360px;margin:0 auto}
+.info-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:15px 4px;border-bottom:1px solid rgba(217,164,65,.22)}
+.info-row:last-child{border-bottom:none}
+.info-row .k{font-size:13px;letter-spacing:.3em;color:rgba(217,164,65,.95);flex:none}
+.info-row .v{font-size:16px;color:var(--cream);text-align:right}
+.info-row .v.hl{font-family:var(--font-display);font-size:20px;color:var(--gold-bright)}
+.nav-btns{display:flex;gap:14px;justify-content:center;margin-top:30px}
+.btn-nav{padding:11px 28px;border:1px solid var(--gold);border-radius:999px;color:var(--gold-light);text-decoration:none;font-size:15px;letter-spacing:.15em;transition:background .25s,color .25s}
+.btn-nav:hover{background:var(--gold);color:#5C0D10}
+
+/* ── 落款 ─────────────────────────── */
+.footer{text-align:center;padding-bottom:64px}
+.footer-fu img{width:72px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 0 24px rgba(247,224,139,.3))}
+.sign-name{margin-top:20px;font-family:var(--font-display);font-size:30px;letter-spacing:.15em;color:var(--cream)}
+.sign-sub{margin-top:12px;font-size:14px;letter-spacing:.45em;text-indent:.45em;color:rgba(247,231,195,.85)}
+.foot-date{margin-top:30px;font-size:12.5px;letter-spacing:.18em;color:rgba(247,231,195,.55)}
+
+/* ── 音乐按钮 ─────────────────────── */
+#music-btn{position:fixed;top:18px;right:16px;z-index:60;width:44px;height:44px;border-radius:50%;border:1px solid rgba(242,209,139,.8);background:rgba(0,0,0,.3);color:var(--gold-light);font-size:17px;cursor:pointer}
+#music-btn[hidden]{display:none}
+
+@media (max-width:400px){
+  .hero-names{font-size:33px;gap:12px}
+  .vscroll{font-size:15px}
+  section{padding:52px 16px}
+  .frame{padding:30px 14px}
+}
+@media (max-width:350px){
+  .vscroll{font-size:14px}
+  section{padding:48px 8px}
+  .frame{padding:26px 10px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .reveal{opacity:1;transform:none}
+}
+@media print{
+  #cover,#music-btn,.scroll-cue,.spark{display:none!important}
+  body{background:#fff}
+  body.locked{overflow:auto}
+  .page{max-width:100%;box-shadow:none}
+  .js .reveal{opacity:1;transform:none}
+  .hero{min-height:auto;padding:60px 26px}
+  section{page-break-inside:avoid}
+}
+</style>
+<noscript><style>.reveal{opacity:1;transform:none}#cover{display:none}body.locked{overflow:auto}</style></noscript>
+</head>
+<body class="locked">
+
+<!-- 微信缩略图兜底:部分微信版本从页面首图抓取(勿改成 display:none) -->
+<img src="share.png" alt="" style="position:absolute;left:-9999px;top:0;width:300px;height:300px;">
+
+<!-- 背景音乐:自动播放;右上角按钮可暂停/继续 -->
+<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
+<button id="music-btn" hidden title="背景音乐">♪</button>
+
+<!-- ════════ 封面 ════════ -->
+<div id="cover" title="点击开启请柬">
+  <span class="spark" style="left:12%"></span>
+  <span class="spark" style="left:30%"></span>
+  <span class="spark" style="left:50%"></span>
+  <span class="spark" style="left:70%"></span>
+  <span class="spark" style="left:86%"></span>
+  <div class="lantern c-l"><i class="string"></i><i class="cap"></i><i class="body"><i class="rib"></i></i><i class="cap"></i><i class="tassel"></i></div>
+  <div class="lantern c-r small"><i class="string"></i><i class="cap"></i><i class="body"><i class="rib"></i></i><i class="cap"></i><i class="tassel"></i></div>
+  <div class="cover-inner">
+    <div class="cover-tag">于 归 之 喜</div>
+    <div class="seal" id="seal"><img src="xi.png" alt="囍"></div>
+    <div class="cover-names">张令仪 · 周煜全</div>
+    <div class="cover-date">2027.01.28 · 桃源县大酒店</div>
+    <div class="cover-hint">— 轻触囍印 · 开启喜帖 —</div>
+  </div>
+</div>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="xiangyun" viewBox="0 0 120 48">
+    <path d="M8 38 C2 38 2 30 8 28 C6 20 16 14 24 18 C26 8 40 6 46 14 C52 6 66 8 68 18 C78 12 90 18 88 26 C98 24 104 32 96 38 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M30 28 a6 6 0 1 1 8 -6 a8 8 0 0 1 10 -2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<main class="page">
+
+  <!-- ════════ 首屏 ════════ -->
+  <section class="hero">
+    <div class="lantern h-l small"><i class="string"></i><i class="cap"></i><i class="body"><i class="rib"></i></i><i class="cap"></i><i class="tassel"></i></div>
+    <div class="lantern h-r small"><i class="string"></i><i class="cap"></i><i class="body"><i class="rib"></i></i><i class="cap"></i><i class="tassel"></i></div>
+    <svg class="cloud tl"><use href="#xiangyun"/></svg>
+    <svg class="cloud br"><use href="#xiangyun"/></svg>
+    <div class="hero-fu"><img src="xi.png" alt="囍"></div>
+    <div class="hero-names"><span>张令仪</span><span class="amp"><img src="xi.png" alt="囍"></span><span>周煜全</span></div>
+    <div class="hero-sub">于归之喜</div>
+    <div class="hero-date">2027 · 01 · 28</div>
+    <div class="scroll-cue"><i></i>上滑查看喜帖</div>
+  </section>
+
+  <!-- ════════ 喜帖正文(竖排,从右往左读)════════ -->
+  <section class="invite reveal">
+    <h2 class="sec-title">喜帖</h2>
+    <div class="frame">
+      <div class="vscroll">
+        <!-- 「宾客称呼」改成实际称呼,如:王伯父 / 李阿姨 / 各位亲友 -->
+        <p class="guest">送呈〔宾客称呼〕台启</p>
+        <p>谨定于</p>
+        <p>公历<span class="em">二〇二七年</span>一月二十八日</p>
+        <p>农历丙午年腊月廿一 · 星期四</p>
+        <p>为小女<span class="name">张令仪</span></p>
+        <p>与女婿<span class="name">周煜全</span></p>
+        <p>举行结婚典礼</p>
+        <p>敬备喜宴 · 恭请光临</p>
+      </div>
+      <div class="stamps">
+        <span class="stamp">百年好合</span>
+        <span class="stamp">永结同心</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 照片 ════════ -->
+  <section class="photos reveal">
+    <h2 class="sec-title">幸福留影</h2>
+    <div class="photo-grid">
+      <div class="photo-slot">
+        <div class="ph-area">
+          <img src="照片1.jpg" alt="照片一" onload="this.closest('.photo-slot').classList.add('has-img')" onerror="this.remove()">
+          <div class="ph-hint">
+            <span class="ico">📷</span>
+            <b>照片一</b>
+            <small>将照片命名为「照片1.jpg」<br>与本网页放同一文件夹<br>即可自动显示</small>
+          </div>
+        </div>
+        <div class="ph-cap"><img src="xi.png" alt="囍" class="fu-inline"> · 记录我们的故事</div>
+      </div>
+      <div class="photo-slot half rot-l">
+        <div class="ph-area">
+          <img src="照片2.jpg" alt="照片二" onload="this.closest('.photo-slot').classList.add('has-img')" onerror="this.remove()">
+          <div class="ph-hint">
+            <span class="ico">📷</span>
+            <b>照片二</b>
+            <small>照片2.jpg</small>
+          </div>
+        </div>
+        <div class="ph-cap">初 见</div>
+      </div>
+      <div class="photo-slot half rot-r">
+        <div class="ph-area">
+          <img src="照片3.jpg" alt="照片三" onload="this.closest('.photo-slot').classList.add('has-img')" onerror="this.remove()">
+          <div class="ph-hint">
+            <span class="ico">📷</span>
+            <b>照片三</b>
+            <small>照片3.jpg</small>
+          </div>
+        </div>
+        <div class="ph-cap">相 守</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 婚礼信息 ════════ -->
+  <section class="info reveal">
+    <h2 class="sec-title">婚礼信息</h2>
+    <div class="countdown">距 婚 礼 还 有<b id="cd">—</b>天</div>
+    <div class="cal">
+      <div class="cal-title">公元二〇二七年 · 一月</div>
+      <div id="cal-grid"></div>
+    </div>
+    <div class="info-list">
+      <div class="info-row"><span class="k">婚期</span><span class="v hl">2027年1月28日</span></div>
+      <div class="info-row"><span class="k">星期</span><span class="v">星期四</span></div>
+      <div class="info-row"><span class="k">农历</span><span class="v">丙午年腊月廿一</span></div>
+      <!-- 「恭候」一行可改成具体时刻,如:恭候 11:00 · 开席 11:58 -->
+      <div class="info-row"><span class="k">恭候</span><span class="v">午间吉时(可补充具体时刻)</span></div>
+      <div class="info-row"><span class="k">席设</span><span class="v hl">桃源县大酒店</span></div>
+    </div>
+    <div class="nav-btns">
+      <a class="btn-nav" href="https://uri.amap.com/search?keyword=桃源县大酒店" target="_blank" rel="noopener">高德导航</a>
+      <a class="btn-nav" href="https://map.baidu.com/search/桃源县大酒店" target="_blank" rel="noopener">百度地图</a>
+    </div>
+  </section>
+
+  <!-- ════════ 落款 ════════ -->
+  <section class="footer reveal">
+    <svg class="cloud tl"><use href="#xiangyun"/></svg>
+    <div class="footer-fu"><img src="xi.png" alt="囍"></div>
+    <!-- 落款:建议改成父亲姓名,如「张建国 暨全家 敬邀」 -->
+    <p class="sign-name">张府 敬邀</p>
+    <p class="sign-sub">恭候台驾 · 阖府光临</p>
+    <p class="foot-date">二〇二七年一月二十八日 · 桃源县大酒店</p>
+  </section>
+
+</main>
+
+<script>
+document.documentElement.classList.add('js');
+
+/* 封面开启 */
+const cover = document.getElementById('cover');
+const bgm = document.getElementById('bgm');
+let opened = false;
+function openInvite(){
+  if (opened) return; opened = true;
+  cover.classList.add('open');
+  document.body.classList.remove('locked');
+  tryPlayBgm();
+}
+cover.addEventListener('click', openInvite);
+
+/* 滚动渐显 */
+const targets = document.querySelectorAll('.reveal');
+if ('IntersectionObserver' in window){
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.15});
+  targets.forEach(el=>io.observe(el));
+}else{
+  targets.forEach(el=>el.classList.add('in'));
+}
+
+/* 倒计时 */
+const target = new Date(2027, 0, 28);
+const days = Math.max(0, Math.ceil((target - new Date()) / 864e5));
+document.getElementById('cd').textContent = days;
+
+/* 2027年1月日历,高亮 28 日 */
+(function(){
+  const grid = document.getElementById('cal-grid');
+  let html = ['一','二','三','四','五','六','日'].map(h=>'<span class="cal-h">'+h+'</span>').join('');
+  const offset = (new Date(2027,0,1).getDay() + 6) % 7;  /* 周一开头 */
+  for(let i=0;i<offset;i++) html += '<span></span>';
+  for(let d=1;d<=31;d++) html += '<span class="cal-d'+(d===28?' today':'')+'">'+d+'</span>';
+  grid.innerHTML = html;
+})();
+
+/* 背景音乐:自动播放;右上角按钮可暂停/继续(文件不存在时按钮自动隐藏) */
+const mbtn = document.getElementById('music-btn');
+let userPaused = false;
+function tryPlayBgm(){
+  if (userPaused || !bgm.paused) return;
+  const p = bgm.play();
+  if (p && p.catch) p.catch(()=>{});  /* 被浏览器拦截时保持静默,等首次触摸 */
+}
+bgm.addEventListener('canplaythrough', ()=>{ mbtn.hidden = false; }, {once:true});
+bgm.addEventListener('error', ()=>{ mbtn.hidden = true; });
+if (bgm.readyState >= 3) mbtn.hidden = false;
+tryPlayBgm();                                   /* 加载后立即尝试 */
+window.addEventListener('load', tryPlayBgm);
+document.addEventListener('WeixinJSBridgeReady', tryPlayBgm, false);  /* 微信内置浏览器 */
+['touchstart','mousedown'].forEach(ev =>
+  document.addEventListener(ev, tryPlayBgm, {passive:true})           /* 自动播放被拦时的兜底 */
+);
+mbtn.addEventListener('click', e=>{
+  e.stopPropagation();
+  if (bgm.paused){ userPaused = false; bgm.play(); mbtn.textContent = '❚❚'; }
+  else { userPaused = true; bgm.pause(); mbtn.textContent = '♪'; }
+});
+</script>
+</body>
+</html>

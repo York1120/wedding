@@ -1,0 +1,5 @@
+.workbuddy/
+tools/
+*.genie
+.wbapp*
+_chk_*

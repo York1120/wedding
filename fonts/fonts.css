@@ -1,0 +1,22 @@
+/* 本地自托管字体子集 — 由 _build_fonts.py 自动生成, 修改正文后用脚本重建 */
+@font-face {
+  font-family: 'Ma Shan Zheng';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('MaShanZheng-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('NotoSerifSC-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('NotoSerifSC-700.woff2') format('woff2');
+}
