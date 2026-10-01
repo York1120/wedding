@@ -1,5 +1,7 @@
 .workbuddy/
-tools/
+# 开发脚本不入库, 但字体覆盖检查要进 CI, 所以单独放行
+tools/*
+!tools/_check_font_coverage.py
 *.genie
 .wbapp*
 _chk_*

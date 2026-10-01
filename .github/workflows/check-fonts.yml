@@ -1,0 +1,34 @@
+name: 字体子集覆盖检查
+
+# 背景: 页面字体是按「当时出现的字」裁剪成子集的(见 fonts/fonts.css)。
+# 缺字不会报错, 只会静默降级到系统字体 —— 在安卓上看起来会明显不一致。
+# 所以每次改动正文就自动查一遍, 缺字直接让流水线变红提醒。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "fonts/**"
+      - ".github/workflows/check-fonts.yml"
+  pull_request:
+    paths:
+      - "index.html"
+      - "fonts/**"
+  workflow_dispatch:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安装 fonttools
+        run: pip install --quiet "fonttools[woff]" brotli
+
+      - name: 检查字体子集是否覆盖页面用字
+        run: python tools/_check_font_coverage.py .
