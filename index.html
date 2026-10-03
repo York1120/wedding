@@ -57,12 +57,14 @@
   --font-body:'Noto Serif SC','STSong','SimSun',serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+/* 锁定纵向浏览:禁用左右滑动与横向回弹(接听滑块自带 touch-action:none,不受影响) */
+html{-webkit-text-size-adjust:100%;overflow-x:hidden;touch-action:pan-y pinch-zoom;overscroll-behavior-x:none}
 body{
   font-family:var(--font-body);
   background:radial-gradient(ellipse at 50% 0%,#551010,#2F0709 70%);
   color:var(--cream);
   overflow-x:hidden;
+  overscroll-behavior-x:none;
 }
 body.locked{overflow:hidden}
 .page{
@@ -799,6 +801,21 @@ mbtn.addEventListener('click', e=>{
 function syncMusicBtn(){ mbtn.classList.toggle('playing', !bgm.paused); }
 bgm.addEventListener('play', syncMusicBtn);
 bgm.addEventListener('pause', syncMusicBtn);
+/* 禁用左右滑动:拦掉明显的横向手势(接听滑块除外),兜底旧内核 */
+let hLock = null;
+document.addEventListener('touchstart', e => {
+  const t = e.touches[0];
+  hLock = t ? {x:t.clientX, y:t.clientY} : null;
+}, {passive:true});
+document.addEventListener('touchmove', e => {
+  if (!hLock) return;
+  const t = e.touches[0];
+  if (!t) return;
+  const dx = t.clientX - hLock.x, dy = t.clientY - hLock.y;
+  if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) + 4 && !(e.target.closest && e.target.closest('.knob')))
+    e.preventDefault();
+}, {passive:false});
+document.addEventListener('touchend', ()=>{ hLock = null; }, {passive:true});
 </script>
 </body>
 </html>
