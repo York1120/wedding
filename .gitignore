@@ -6,3 +6,4 @@
 _*
 # 唯一例外: 字体覆盖检查要进 CI。放在最后, 优先级高于上面的 _*
 !tools/_check_font_coverage.py
+.zcode/
