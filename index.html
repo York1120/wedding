@@ -102,6 +102,41 @@ section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,
 .cloud.tl{top:24px;left:18px}
 .cloud.br{bottom:24px;right:18px;transform:rotate(180deg)}
 
+/* ── 模拟来电开场(灵动岛)───────────── */
+#callScreen{position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;align-items:center;
+  background:radial-gradient(ellipse at 50% 18%,#232328,#0C0C10 74%);
+  transition:opacity .8s ease,transform .8s ease;font-family:var(--font-body)}
+#callScreen.off{opacity:0;transform:scale(1.05);pointer-events:none}
+.island{display:flex;align-items:center;gap:8px;margin-top:16px;padding:7px 16px 7px 8px;border-radius:999px;background:#000;
+  box-shadow:0 4px 18px rgba(0,0,0,.55);animation:islandIn 1s .25s cubic-bezier(.2,.8,.3,1.1) backwards}
+.island img{width:24px;height:24px;border-radius:7px;display:block}
+.island span{font-size:12.5px;color:rgba(255,255,255,.92);letter-spacing:.06em;white-space:nowrap}
+@keyframes islandIn{from{transform:translateY(-26px) scale(.72);opacity:0}}
+.caller{margin-top:11vh;text-align:center}
+.avatar{position:relative;width:112px;height:112px;display:block;margin:0 auto}
+.avatar img{width:100%;height:100%;border-radius:50%;display:block;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.avatar i{position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(120,220,150,.4);animation:ringPulse 2.1s ease-out infinite}
+.avatar i:nth-child(2){animation-delay:1.05s}
+@keyframes ringPulse{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.34);opacity:0}}
+.cname{margin-top:26px;font-size:32px;font-weight:600;color:#F5F5F7;letter-spacing:.08em}
+.csub{margin-top:10px;font-size:14.5px;letter-spacing:.28em;color:rgba(255,255,255,.55)}
+.call-actions{margin-top:auto;display:flex;gap:11vw;margin-bottom:4vh}
+.cbtn{width:66px;border:none;background:none;padding:0;cursor:pointer;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:9px}
+.cbtn .cico{width:64px;height:64px;border-radius:50%;background:rgba(120,120,128,.42);display:flex;align-items:center;justify-content:center}
+.cbtn .cico svg{width:26px;height:26px;fill:#fff}
+.cbtn em{font-style:normal;font-size:12.5px;color:rgba(255,255,255,.82);letter-spacing:.12em}
+.cbtn:active .cico{background:rgba(120,120,128,.6)}
+.answer{position:relative;width:min(78%,320px);height:58px;margin-bottom:5.5vh;border-radius:999px;background:rgba(120,120,128,.34)}
+.answer .hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;letter-spacing:.3em;text-indent:.3em;color:rgba(255,255,255,.85);animation:blink 2.2s ease-in-out infinite}
+.answer .knob{position:absolute;left:4px;top:4px;width:50px;height:50px;border-radius:50%;border:none;cursor:grab;padding:0;
+  background:linear-gradient(180deg,#6FDE8B,#2FBF5F);box-shadow:0 3px 12px rgba(47,191,95,.45);touch-action:none;
+  display:flex;align-items:center;justify-content:center;transition:left .3s ease}
+.answer .knob svg{width:24px;height:24px;fill:#fff;transform:rotate(-100deg)}
+.answer .knob:active{cursor:grabbing}
+.call-toast{position:fixed;left:50%;bottom:12vh;transform:translateX(-50%);z-index:75;padding:10px 22px;border-radius:999px;
+  background:rgba(20,20,24,.92);border:1px solid rgba(255,255,255,.14);color:#F5F5F7;font-size:13.5px;letter-spacing:.08em;white-space:nowrap}
+.call-toast[hidden]{display:none}
+
 /* ── 封面(点击开启)────────────────── */
 #cover{
   position:fixed;inset:0;z-index:50;cursor:pointer;
@@ -403,7 +438,7 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
   .petals{display:none}
 }
 @media print{
-  #cover,#music-btn,.scroll-cue,.spark,.petals,.share-fallback{display:none!important}
+  #cover,#callScreen,#music-btn,.scroll-cue,.spark,.petals,.share-fallback{display:none!important}
   body{background:#fff}
   body.locked{overflow:auto}
   .page{max-width:100%;box-shadow:none}
@@ -413,7 +448,7 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
   .hero{padding:60px 26px}
 }
 </style>
-<noscript><style>.reveal{opacity:1;transform:none}#cover{display:none}body.locked{overflow:auto}</style></noscript>
+<noscript><style>.reveal{opacity:1;transform:none}#cover,#callScreen{display:none}body.locked{overflow:auto}</style></noscript>
 </head>
 <body class="locked">
 
@@ -426,6 +461,33 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
 
 <!-- 金红花瓣飘落(纯装饰) -->
 <div class="petals" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- ════════ 模拟来电开场 ════════ -->
+<div id="callScreen">
+  <div class="island"><img src="call-icon.png" alt="电话"><span>张思元 · 婚礼来电</span></div>
+  <div class="caller">
+    <span class="avatar"><img src="xi.png" alt="囍"><i></i><i></i></span>
+    <p class="cname">张思元</p>
+    <p class="csub">婚礼请柬来电</p>
+  </div>
+  <div class="call-actions">
+    <button type="button" class="cbtn" id="remindBtn">
+      <span class="cico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm1-13h-2v6l5 3 1-1.7-4-2.3V7z"/></svg></span>
+      <em>提醒我</em>
+    </button>
+    <a class="cbtn" href="sms:" aria-label="短信回复(跳转系统短信)">
+      <span class="cico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-9 9H7V9h4v2zm6 0h-4V9h4v2z"/></svg></span>
+      <em>短信回复</em>
+    </a>
+  </div>
+  <div class="answer" id="answerTrack">
+    <span class="hint">滑动来接听</span>
+    <button type="button" class="knob" id="answerKnob" aria-label="接听,打开婚礼请柬">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.85 21 3 13.15 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
+    </button>
+  </div>
+</div>
+<div class="call-toast" id="callToast" hidden>已记下 · 2027.01.26 张府见</div>
 
 <!-- ════════ 封面 ════════ -->
 <div id="cover" title="点击开启请柬">
@@ -577,6 +639,55 @@ function openInvite(){
 }
 cover.addEventListener('click', openInvite);
 
+/* 模拟来电:接听 → 囍封面 → 倒计时自动开启 */
+const callScreen = document.getElementById('callScreen');
+let answered = false;
+function acceptCall(){
+  if (answered) return; answered = true;
+  tryPlayBgm();
+  callScreen.classList.add('off');
+  setTimeout(()=>{ callScreen.remove(); }, 900);
+  startCoverCd();
+}
+(function(){
+  const track = document.getElementById('answerTrack');
+  const knob = document.getElementById('answerKnob');
+  let startX = null, curX = 0, dragged = false;
+  const max = () => Math.max(1, track.clientWidth - knob.offsetWidth - 8);
+  knob.addEventListener('pointerdown', e => {
+    if (answered) return;
+    startX = e.clientX - curX; dragged = false;
+    knob.style.transition = 'none';
+    knob.setPointerCapture(e.pointerId);
+  });
+  knob.addEventListener('pointermove', e => {
+    if (startX === null) return;
+    const x = Math.min(max(), Math.max(0, e.clientX - startX));
+    if (Math.abs(x - curX) > 4) dragged = true;
+    curX = x;
+    knob.style.left = (4 + curX) + 'px';
+  });
+  function release(){
+    if (startX === null) return;
+    startX = null;
+    knob.style.transition = '';
+    if (curX >= max() * 0.7){ curX = 0; acceptCall(); }
+    else { curX = 0; knob.style.left = '4px'; }
+  }
+  knob.addEventListener('pointerup', release);
+  knob.addEventListener('pointercancel', release);
+  knob.addEventListener('click', ()=>{            /* 点击即接听(拖动后松开不算) */
+    if (!answered && !dragged) acceptCall();
+    dragged = false;
+  });
+  document.getElementById('remindBtn').addEventListener('click', ()=>{
+    const t = document.getElementById('callToast');
+    t.hidden = false;
+    clearTimeout(t._h);
+    t._h = setTimeout(()=>{ t.hidden = true; }, 2200);
+  });
+})();
+
 /* 封面倒计时:3 秒未点击囍印,自动开启 */
 let coverCdTimer = null;
 function startCoverCd(){
@@ -596,7 +707,6 @@ function stopCoverCd(){
   const wrap = document.getElementById('coverCd');
   if (wrap) wrap.hidden = true;
 }
-setTimeout(startCoverCd, 400);
 
 /* 滚动离场:滑过的章节淡出并轻微翻走(无实际分页) */
 const secEls = Array.from(document.querySelectorAll('main section'));
