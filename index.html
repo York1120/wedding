@@ -17,7 +17,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:site_name" content="张令仪 &amp; 周煜全 · 婚礼请柬">
 <meta property="og:title" content="张令仪 &amp; 周煜全 · 婚礼请柬">
-<meta property="og:description" content="谨定于2027年1月26日(农历腊月十九) · 湖南省常德市桃源县沙坪镇思元鲜肉坊 · 敬备喜宴,恭请光临">
+<meta property="og:description" content="谨定于2027年1月26日(农历腊月十九) · 湖南省常德市桃源县沙坪镇张府 · 敬备喜宴,恭请光临">
 <meta property="og:image" content="https://wedding-invitation-35805.app.workbuddy.host/share.png">
 <meta property="og:image:secure_url" content="https://wedding-invitation-35805.app.workbuddy.host/share.png">
 <meta property="og:image:type" content="image/png">
@@ -165,6 +165,16 @@ section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,
 .scroll-cue{margin-top:46px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;letter-spacing:.35em;color:rgba(247,231,195,.8)}
 .scroll-cue i{width:1.5px;height:36px;background:linear-gradient(180deg,transparent,var(--gold-light));animation:cue 1.7s ease-in-out infinite}
 @keyframes cue{0%{transform:translateY(-8px);opacity:0}45%{opacity:1}100%{transform:translateY(10px);opacity:0}}
+
+/* ── 开启后 3 秒自动翻页倒计时 ───────── */
+.auto-next{margin-top:18px;display:flex;align-items:center;justify-content:center;gap:10px}
+.auto-next[hidden]{display:none}
+.auto-next .ring{position:relative;width:38px;height:38px;flex:none;display:flex;align-items:center;justify-content:center}
+.auto-next svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.auto-next circle{fill:none;stroke:var(--gold-bright);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:107;animation:cdDrain 3s linear forwards}
+@keyframes cdDrain{from{stroke-dashoffset:0}to{stroke-dashoffset:107}}
+.auto-next b{font-family:var(--font-display);font-weight:400;font-size:17px;color:var(--gold-bright)}
+.auto-next em{font-style:normal;font-size:11.5px;letter-spacing:.25em;color:rgba(247,231,195,.65)}
 
 /* ── 喜帖(竖排正文)────────────────── */
 .frame{border:1.5px solid rgba(217,164,65,.75);border-radius:6px;padding:34px 18px 30px;position:relative;background:rgba(0,0,0,.1)}
@@ -457,6 +467,10 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
     <div class="hero-sub an" style="transition-delay:.3s">于归之喜</div>
     <div class="hero-date an" style="transition-delay:.38s">2027 · 01 · 26</div>
     <div class="scroll-cue an" style="transition-delay:.5s"><i></i>上滑查看喜帖</div>
+    <div class="auto-next" id="autoNext" hidden>
+      <span class="ring"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17"/></svg><b id="autoNextNum">3</b></span>
+      <em>即将自动翻开喜帖</em>
+    </div>
   </section>
 
   <!-- ════════ 喜帖正文(竖排,从右往左读)════════ -->
@@ -524,12 +538,13 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
       <div class="info-row"><span class="k">农历</span><span class="v">丙午年腊月十九</span></div>
       <!-- 「恭候」一行可改成具体时刻,如:恭候 11:00 · 开席 11:58 -->
       <div class="info-row"><span class="k">恭候</span><span class="v">午间吉时(可补充具体时刻)</span></div>
-      <div class="info-row"><span class="k">席设</span><span class="v hl">思元鲜肉坊</span></div>
+      <div class="info-row"><span class="k">主婚</span><span class="v hl">张思元 · 刘评</span></div>
+      <div class="info-row"><span class="k">席设</span><span class="v hl">张府</span></div>
       <div class="info-row"><span class="k">地址</span><span class="v">湖南省常德市桃源县沙坪镇</span></div>
     </div>
     <div class="nav-btns an" style="transition-delay:.42s">
-      <a class="btn-nav" href="https://uri.amap.com/search?keyword=常德市桃源县沙坪镇思元鲜肉坊" target="_blank" rel="noopener">高德导航</a>
-      <a class="btn-nav" href="https://map.baidu.com/search/常德市桃源县沙坪镇思元鲜肉坊" target="_blank" rel="noopener">百度地图</a>
+      <a class="btn-nav" href="https://uri.amap.com/search?keyword=常德市桃源县沙坪镇" target="_blank" rel="noopener">高德导航</a>
+      <a class="btn-nav" href="https://map.baidu.com/search/常德市桃源县沙坪镇" target="_blank" rel="noopener">百度地图</a>
     </div>
   </section>
 
@@ -537,10 +552,10 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
   <section class="footer reveal" id="footer">
     <svg class="cloud tl"><use href="#xiangyun"/></svg>
     <div class="footer-fu an"><img src="xi.png" alt="囍"></div>
-    <!-- 落款:建议改成父亲姓名,如「张建国 暨全家 敬邀」 -->
-    <p class="sign-name an goldtext" style="transition-delay:.15s">张府 敬邀</p>
+    <!-- 落款:女方父母(父 张思元 · 母 刘评)敬邀 -->
+    <p class="sign-name an goldtext" style="transition-delay:.15s">张思元 · 刘评 敬邀</p>
     <p class="sign-sub an" style="transition-delay:.3s">恭候台驾 · 阖府光临</p>
-    <p class="foot-date an" style="transition-delay:.45s">二〇二七年一月二十六日 · 湖南省常德市桃源县沙坪镇思元鲜肉坊</p>
+    <p class="foot-date an" style="transition-delay:.45s">二〇二七年一月二十六日 · 张府</p>
   </section>
 
 </main>
@@ -558,7 +573,54 @@ function openInvite(){
   document.body.classList.remove('locked');
   tryPlayBgm();
   setTimeout(()=>{ document.getElementById('hero').classList.add('in'); }, 250);
+  setTimeout(startAutoNext, 1200);
 }
+
+/* 开启后 3 秒无操作,自动翻到喜帖页 */
+function startAutoNext(){
+  const wrap = document.getElementById('autoNext');
+  if (!wrap || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (scrollY > 40) return;                      /* 用户已在自行浏览 */
+  let n = 3, cancelled = false;
+  wrap.hidden = false;
+  const finish = () => {
+    if (cancelled) return; cancelled = true;
+    wrap.hidden = true;
+    acts.forEach(([ev, fn]) => removeEventListener(ev, fn));
+  };
+  const go = () => {
+    finish();
+    const t = document.getElementById('invite');
+    if (t) t.scrollIntoView({behavior:'smooth'});
+  };
+  const timer = setInterval(()=>{
+    n--;
+    if (n <= 0) go();
+    else document.getElementById('autoNextNum').textContent = n;
+  }, 1000);
+  const acts = [['touchstart', finish], ['mousedown', finish], ['wheel', finish], ['scroll', finish], ['keydown', finish]];
+  acts.forEach(([ev, fn]) => addEventListener(ev, fn, {passive:true}));
+}
+
+/* 滚动离场:滑过的章节淡出并轻微翻走(无实际分页) */
+const secEls = Array.from(document.querySelectorAll('main section'));
+function applyExit(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const vh = innerHeight;
+  secEls.forEach(s => {
+    const r = s.getBoundingClientRect();
+    let out = 0;
+    if (r.top < 0) out = Math.min(1, -r.top / (vh * 0.75));
+    if (out <= 0.02){
+      if (s.style.opacity){ s.style.opacity = ''; s.style.transform = ''; }
+      return;
+    }
+    s.style.opacity = (1 - out * 0.92).toFixed(3);
+    s.style.transform = 'perspective(1100px) rotateX(' + (-15 * out).toFixed(2) + 'deg) translateY(' + (-26 * out).toFixed(1) + 'px)';
+  });
+}
+addEventListener('scroll', applyExit, {passive:true});
+addEventListener('resize', applyExit);
 cover.addEventListener('click', openInvite);
 
 /* 滚动渐显(首屏由封面开启动作触发) */
