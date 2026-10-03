@@ -57,8 +57,10 @@
   --font-body:'Noto Serif SC','STSong','SimSun',serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-/* 锁定纵向浏览:禁用左右滑动与横向回弹(合成器层面拦截,不影响纵向滚动手感;接听滑块自带 touch-action:none,不受影响) */
-html{-webkit-text-size-adjust:100%;overflow-x:hidden;touch-action:pan-y pinch-zoom;overscroll-behavior-x:none}
+/* 恢复自由线性滑动:不锁定 touch-action;overflow-x 裁掉横向溢出,
+   overscroll-behavior 关掉横向回弹/拖尾光效,微信里左右滑不会露黑边
+   (手机端画布底色另铺与正文相同的红渐变,见下方媒体查询;接听滑块自带 touch-action:none,不受影响) */
+html{-webkit-text-size-adjust:100%;overflow-x:hidden;overscroll-behavior-x:none}
 body{
   font-family:var(--font-body);
   background:radial-gradient(ellipse at 50% 0%,#551010,#2F0709 70%);
@@ -67,6 +69,10 @@ body{
   overscroll-behavior-x:none;
 }
 body.locked{overflow:hidden}
+/* 手机/微信端:横滑回弹露出的画布底色铺成与正文一致的红色渐变,不露黑边 */
+@media (max-width:520px){
+  html{background:linear-gradient(180deg,#AC1D1F 0%,#9C1B1B 36%,#8A1518 68%,#671013 100%)}
+}
 .page{
   max-width:520px;margin:0 auto;
   box-shadow:0 0 70px rgba(0,0,0,.6);
@@ -814,9 +820,6 @@ mbtn.addEventListener('click', e=>{
 function syncMusicBtn(){ mbtn.classList.toggle('playing', !bgm.paused); }
 bgm.addEventListener('play', syncMusicBtn);
 bgm.addEventListener('pause', syncMusicBtn);
-/* 禁用左右滑动:完全交给 CSS touch-action:pan-y(合成器层面拦截横向手势,
-   不挂任何 touchmove 监听——非 passive 监听会让手机端纵向滚动变卡,
-   且 preventDefault 一旦触发会连纵向滚动手势一起杀死) */
 </script>
 </body>
 </html>
