@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="locked">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,18 +57,20 @@
   --font-body:'Noto Serif SC','STSong','SimSun',serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-/* 恢复自由线性滑动:不锁定 touch-action;overflow-x 裁掉横向溢出,
-   overscroll-behavior 关掉横向回弹/拖尾光效,微信里左右滑不会露黑边
-   (手机端画布底色另铺与正文相同的红渐变,见下方媒体查询;接听滑块自带 touch-action:none,不受影响) */
+/* 恢复自由线性滑动;html 是全页唯一的滚动容器。
+   关键:overflow-x:hidden 只能挂在 html 上——若 body 也设,
+   按 CSS 规范 body 的 overflow-y 会从 visible 计算成 auto,
+   body 就变成第二个竖向滚动容器,手势被内外两条滚动条轮流接管,
+   表现为"第一下拉不动、第二下才动"。body 保持 visible,横向溢出由 html 裁剪 */
 html{-webkit-text-size-adjust:100%;overflow-x:hidden;overscroll-behavior-x:none}
 body{
   font-family:var(--font-body);
   background:radial-gradient(ellipse at 50% 0%,#551010,#2F0709 70%);
   color:var(--cream);
-  overflow-x:hidden;
-  overscroll-behavior-x:none;
 }
+/* 开场锁定要同时落在 html(唯一滚动容器)与 body 上 */
 body.locked{overflow:hidden}
+html.locked{overflow:hidden}
 /* 手机/微信端:横滑回弹露出的画布底色铺成与正文一致的红色渐变,不露黑边 */
 @media (max-width:520px){
   html{background:linear-gradient(180deg,#AC1D1F 0%,#9C1B1B 36%,#8A1518 68%,#671013 100%)}
@@ -457,6 +459,7 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
   #cover,#callScreen,#music-btn,.scroll-cue,.spark,.petals,.share-fallback{display:none!important}
   body{background:#fff}
   body.locked{overflow:auto}
+  html.locked{overflow:auto}
   .page{max-width:100%;box-shadow:none}
   .js .reveal{opacity:1;transform:none}
   .js section.past{opacity:1;transform:none}
@@ -465,7 +468,7 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
   .hero{padding:60px 26px}
 }
 </style>
-<noscript><style>.reveal{opacity:1;transform:none}#cover,#callScreen{display:none}body.locked{overflow:auto}</style></noscript>
+<noscript><style>.reveal{opacity:1;transform:none}#cover,#callScreen{display:none}body.locked,html.locked{overflow:auto}</style></noscript>
 </head>
 <body class="locked">
 
@@ -678,6 +681,7 @@ function openInvite(){
   if (opened) return; opened = true;
   stopCoverCd();
   cover.classList.add('open');
+  document.documentElement.classList.remove('locked');
   document.body.classList.remove('locked');
   tryPlayBgm();
   setTimeout(()=>{ document.getElementById('hero').classList.add('in'); }, 250);
@@ -766,16 +770,17 @@ function stopCoverCd(){
   if (wrap) wrap.hidden = true;
 }
 
-/* 滚动离场:章节开始滑出视口(top<-10px)时打 .past 类,淡出/翻走由 CSS 过渡完成。
+/* 滚动离场:章节开始滑出视口(top<-12px)时打 .past 类,淡出/翻走由 CSS 过渡完成。
    滚动回调只读位置、仅在状态翻转瞬间改一次类——惯性滚动期间主线程零样式写入,
-   从根上杜绝"快速甩到末页后首次拖动被主线程拖住"的顿挫(±10px 迟滞防边界抖动) */
+   从根上杜绝"快速甩到末页后首次拖动被主线程拖住"的顿挫;
+   迟滞区 -12px ~ -8px 防边界抖动,且不覆盖 top=0(回顶时当前章节必须完全恢复) */
 const secEls = Array.from(document.querySelectorAll('main section'));
 function markPast(){
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   secEls.forEach(s => {
     const top = s.getBoundingClientRect().top;
-    if (top < -10) s.classList.add('past');
-    else if (top > 10) s.classList.remove('past');
+    if (top < -12) s.classList.add('past');
+    else if (top > -8) s.classList.remove('past');
   });
 }
 addEventListener('scroll', markPast, {passive:true});
