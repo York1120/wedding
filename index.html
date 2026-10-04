@@ -82,7 +82,7 @@ html.locked{overflow:hidden}
   background-size:22px 22px,100% 100%,100% 100%,56px 56px,100% 100%;
 }
 section{padding:58px 26px;position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;perspective:1200px;
-  transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.25,1);will-change:transform,opacity}
+  will-change:transform,opacity}
 section::before,section::after{content:'';position:absolute;width:26px;height:26px;pointer-events:none;z-index:2}
 section::before{top:22px;left:22px;border-top:1.5px solid rgba(217,164,65,.55);border-left:1.5px solid rgba(217,164,65,.55)}
 section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,.55);border-right:1.5px solid rgba(217,164,65,.55)}
@@ -199,9 +199,6 @@ section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,
 .reveal{transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.25,1);transform-origin:50% 0}
 .js .reveal{opacity:0;transform:rotateX(12deg) translateY(42px) scale(.985)}
 .js .reveal.in{opacity:1;transform:none}
-/* 已滑过的章节:整章淡出并轻微翻走(类驱动——滚动回调只在状态翻转时改一次类,
-   动画由 CSS 过渡在合成器上完成,惯性滚动期间主线程零样式写入) */
-.js section.past{opacity:.08;transform:perspective(1100px) rotateX(-15deg) translateY(-26px);transition-duration:.45s}
 .js .reveal .an{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .js .reveal.in .an{opacity:1;transform:none}
 
@@ -449,7 +446,6 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .js .reveal{opacity:1;transform:none}
-  .js section.past{opacity:1;transform:none}
   .js .reveal .an{opacity:1;transform:none}
   .js .reveal .frame{clip-path:inset(-14px -20px -4px -20px)!important}
   .js .reveal .roller{transform:none!important}
@@ -462,7 +458,6 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
   html.locked{overflow:auto}
   .page{max-width:100%;box-shadow:none}
   .js .reveal{opacity:1;transform:none}
-  .js section.past{opacity:1;transform:none}
   .js .reveal .an{opacity:1;transform:none}
   section{min-height:auto;page-break-inside:avoid}
   .hero{padding:60px 26px}
@@ -770,22 +765,36 @@ function stopCoverCd(){
   if (wrap) wrap.hidden = true;
 }
 
-/* 滚动离场:章节开始滑出视口(top<-12px)时打 .past 类,淡出/翻走由 CSS 过渡完成。
-   滚动回调只读位置、仅在状态翻转瞬间改一次类——惯性滚动期间主线程零样式写入,
-   从根上杜绝"快速甩到末页后首次拖动被主线程拖住"的顿挫;
-   迟滞区 -12px ~ -8px 防边界抖动,且不覆盖 top=0(回顶时当前章节必须完全恢复) */
+/* 滚动离场:渐出幅度跟随滚动位置——章节滑出视口多少,就淡出/翻走多少
+   (top 从 0 走到 -0.75vh,opacity 1 -> 0.08 并轻微翻走),回滚即恢复。
+   性能:先批量读取全部位置再统一写入(避免读写交替引发强制重排),
+   写前与上次结果比对,值未变则跳过;配合图层预提升(will-change),
+   手机端可全程保持跟手 */
 const secEls = Array.from(document.querySelectorAll('main section'));
-function markPast(){
+const secSig = new Map();
+function applyExit(){
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  secEls.forEach(s => {
-    const top = s.getBoundingClientRect().top;
-    if (top < -12) s.classList.add('past');
-    else if (top > -8) s.classList.remove('past');
+  const vh = innerHeight;
+  const outs = secEls.map(s => {
+    const r = s.getBoundingClientRect();
+    let out = 0;
+    if (r.top < 0) out = Math.min(1, -r.top / (vh * 0.75));
+    return out <= 0.02 ? 0 : out;
+  });
+  secEls.forEach((s, i) => {
+    const out = outs[i];
+    const o = out ? (1 - out * 0.92).toFixed(3) : '';
+    const t = out ? 'perspective(1100px) rotateX(' + (-15 * out).toFixed(2) + 'deg) translateY(' + (-26 * out).toFixed(1) + 'px)' : '';
+    const sig = o + '|' + t;
+    if (secSig.get(s) === sig) return;
+    secSig.set(s, sig);
+    if (out){ s.style.opacity = o; s.style.transform = t; }
+    else { s.style.opacity = ''; s.style.transform = ''; }
   });
 }
-addEventListener('scroll', markPast, {passive:true});
-addEventListener('resize', markPast);
-markPast();
+addEventListener('scroll', applyExit, {passive:true});
+addEventListener('resize', applyExit);
+applyExit();
 cover.addEventListener('click', openInvite);
 
 /* 滚动渐显(首屏由封面开启动作触发) */
