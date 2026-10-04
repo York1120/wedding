@@ -473,7 +473,7 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
 
 <!-- 背景音乐:自动播放;右上角按钮可暂停/继续 -->
 <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
-<audio id="ring" src="ring.wav" loop preload="auto" autoplay></audio>
+<audio id="ring" src="ring.wav" loop preload="auto"></audio>
 <button id="music-btn" hidden title="背景音乐" aria-label="背景音乐">
   <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
@@ -829,14 +829,16 @@ document.getElementById('cd').textContent = days;
 })();
 
 /* 音频流:来电页循环播放铃声;接听(跳到囍封面页)停铃、开始 BGM。
-   两个 play() 都自带浏览器自动播放策略兜底;用户手动暂停 BGM 仍被尊重 */
+   手机端自动播放策略:打开页无用户手势时 play() 会被拒——
+   微信用 getNetworkType 回调解锁;其余环境靠交互兜底 + 有限重试环。
+   用户手动暂停 BGM 仍被尊重(userPaused) */
 const mbtn = document.getElementById('music-btn');
 const ring = document.getElementById('ring');
 let userPaused = false;
 function tryPlayBgm(){
   if (!answered || userPaused || !bgm.paused) return;   /* 未接听不放 BGM */
   const p = bgm.play();
-  if (p && p.catch) p.catch(()=>{});  /* 被浏览器拦截时保持静默,等交互兜底 */
+  if (p && p.catch) p.catch(()=>{});  /* 被浏览器拦截时保持静默,等交互/重试 */
 }
 function tryPlayRing(){
   if (answered || !ring.paused) return;                 /* 已接听铃声即止 */
@@ -850,14 +852,37 @@ bgm.addEventListener('canplaythrough', ()=>{ mbtn.hidden = false; tryPlayBgm(); 
 bgm.addEventListener('error', ()=>{ mbtn.hidden = true; });
 if (bgm.readyState >= 3) mbtn.hidden = false;
 ring.addEventListener('error', ()=>{ try{ ring.remove(); }catch(e){} });
+
+/* 微信解锁:在 getNetworkType 回调里 play() 是微信内可靠的自动播放时刻 */
+function weixinUnlock(){
+  try{
+    if (window.WeixinJSBridge && window.WeixinJSBridge.invoke)
+      window.WeixinJSBridge.invoke('getNetworkType', {}, ()=>{ tryPlayRing(); tryPlayBgm(); });
+  }catch(e){}
+}
+document.addEventListener('WeixinJSBridgeReady', weixinUnlock, false);
+weixinUnlock();                                  /* bridge 可能已就绪 */
+
 tryPlayRing();                                  /* 打开即尝试响铃 */
 window.addEventListener('load', ()=>{ tryPlayRing(); tryPlayBgm(); });
-document.addEventListener('WeixinJSBridgeReady', ()=>{ tryPlayRing(); tryPlayBgm(); }, false);  /* 微信内置浏览器 */
 /* 首次任何交互都补播:touchstart 在部分安卓内核权限不足,touchend/pointerup 才算完整手势 */
 ['touchstart','touchend','mousedown','mouseup','keydown'].forEach(ev =>
   document.addEventListener(ev, ()=>{ tryPlayRing(); tryPlayBgm(); }, {passive:true})
 );
 document.addEventListener('visibilitychange', ()=>{ if (!document.hidden){ tryPlayRing(); tryPlayBgm(); } });
+
+/* 有限重试环:铃声(未接听期间)/BGM(接听之后)每 0.5s 补播一次,
+   捕捉"打开后第一次落到页面的手势激活"或微信解锁完成的时刻;
+   手动暂停由 userPaused 守卫,不会抢回暂停状态 */
+let ringTries = 0, bgmTries = 0;
+const ringTimer = setInterval(()=>{
+  if (answered || ++ringTries > 24){ clearInterval(ringTimer); return; }  /* 12s 或接听即止 */
+  if (ring.paused) tryPlayRing();
+}, 500);
+const bgmTimer = setInterval(()=>{
+  if (++bgmTries > 60){ clearInterval(bgmTimer); return; }                /* 30s 后放弃 */
+  if (answered && bgm.paused) tryPlayBgm();
+}, 500);
 mbtn.addEventListener('click', e=>{
   e.stopPropagation();
   if (bgm.paused){ userPaused = false; const p = bgm.play(); if (p && p.catch) p.catch(()=>{}); }
