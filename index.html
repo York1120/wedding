@@ -146,7 +146,7 @@ section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,
 .answer .knob svg{width:24px;height:24px;fill:#fff;transform:scaleX(-1) rotate(-100deg)}
 .answer .knob:active{cursor:grabbing}
 #callScreen .cover-cd{margin:3vh 0 3vh}
-#callScreen .cover-cd circle{animation-duration:5s}
+#callScreen .cover-cd circle{animation-duration:8s}
 .call-toast{position:fixed;left:50%;bottom:12vh;transform:translateX(-50%);z-index:75;padding:10px 22px;border-radius:999px;
   background:rgba(20,20,24,.92);border:1px solid rgba(255,255,255,.14);color:#F5F5F7;font-size:13.5px;letter-spacing:.08em;white-space:nowrap}
 .call-toast[hidden]{display:none}
@@ -215,12 +215,12 @@ section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,
 .scroll-cue i{width:1.5px;height:36px;background:linear-gradient(180deg,transparent,var(--gold-light));animation:cue 1.7s ease-in-out infinite}
 @keyframes cue{0%{transform:translateY(-8px);opacity:0}45%{opacity:1}100%{transform:translateY(10px);opacity:0}}
 
-/* ── 封面:3 秒未点击自动开启的倒计时 ── */
+/* ── 封面:5 秒未点击自动开启的倒计时 ── */
 .cover-cd{margin-top:26px;display:flex;align-items:center;justify-content:center;gap:9px}
 .cover-cd[hidden]{display:none}
 .cover-cd .ring{position:relative;width:30px;height:30px;flex:none;display:flex;align-items:center;justify-content:center}
 .cover-cd svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
-.cover-cd circle{fill:none;stroke:var(--gold-bright);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:82;animation:cdDrain 3s linear forwards}
+.cover-cd circle{fill:none;stroke:var(--gold-bright);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:82;animation:cdDrain 5s linear forwards}
 @keyframes cdDrain{from{stroke-dashoffset:0}to{stroke-dashoffset:82}}
 .cover-cd b{font-family:var(--font-display);font-weight:400;font-size:14px;color:var(--gold-bright)}
 .cover-cd em{font-style:normal;font-size:11px;letter-spacing:.3em;color:rgba(247,231,195,.6)}
@@ -522,7 +522,7 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
     </a>
   </div>
   <div class="cover-cd" id="callCd" hidden>
-    <span class="ring"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"/></svg><b id="callCdNum">7</b></span>
+    <span class="ring"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"/></svg><b id="callCdNum">8</b></span>
     <em>稍后自动接听</em>
   </div>
   <div class="answer" id="answerTrack">
@@ -734,10 +734,10 @@ function acceptCall(){
     t._h = setTimeout(()=>{ t.hidden = true; }, 2200);
   });
 
-  /* 7 秒未接听,自动接听进入请柬(约等于来电铃声时长) */
+  /* 8 秒未接听,自动接听进入请柬(约等于来电铃声时长) */
   const cd = document.getElementById('callCd');
   if (cd && !matchMedia('(prefers-reduced-motion: reduce)').matches){
-    let n = 7;
+    let n = 8;
     cd.hidden = false;
     const autoTimer = setInterval(()=>{
       if (answered){ clearInterval(autoTimer); return; }
