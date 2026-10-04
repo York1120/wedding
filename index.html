@@ -760,21 +760,31 @@ function stopCoverCd(){
   if (wrap) wrap.hidden = true;
 }
 
-/* 滚动离场:滑过的章节淡出并轻微翻走(无实际分页) */
+/* 滚动离场:滑过的章节淡出并轻微翻走(无实际分页)
+   性能关键:先把所有章节位置一次性读完,再统一写样式——
+   若逐个"读→写"交替,每次写完再读都会强制同步重排,快速甩屏时
+   一帧内最多重排 5 次,惯性滚动会失速(表现为冲到末页后首次拖动卡死);
+   写入前先比对上次结果,值未变化则跳过,静止时零样式写入 */
 const secEls = Array.from(document.querySelectorAll('main section'));
+const secSig = new Map();
 function applyExit(){
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const vh = innerHeight;
-  secEls.forEach(s => {
+  const outs = secEls.map(s => {
     const r = s.getBoundingClientRect();
     let out = 0;
     if (r.top < 0) out = Math.min(1, -r.top / (vh * 0.75));
-    if (out <= 0.02){
-      if (s.style.opacity){ s.style.opacity = ''; s.style.transform = ''; }
-      return;
-    }
-    s.style.opacity = (1 - out * 0.92).toFixed(3);
-    s.style.transform = 'perspective(1100px) rotateX(' + (-15 * out).toFixed(2) + 'deg) translateY(' + (-26 * out).toFixed(1) + 'px)';
+    return out <= 0.02 ? 0 : out;
+  });
+  secEls.forEach((s, i) => {
+    const out = outs[i];
+    const o = out ? (1 - out * 0.92).toFixed(3) : '';
+    const t = out ? 'perspective(1100px) rotateX(' + (-15 * out).toFixed(2) + 'deg) translateY(' + (-26 * out).toFixed(1) + 'px)' : '';
+    const sig = o + '|' + t;
+    if (secSig.get(s) === sig) return;
+    secSig.set(s, sig);
+    if (out){ s.style.opacity = o; s.style.transform = t; }
+    else { s.style.opacity = ''; s.style.transform = ''; }
   });
 }
 addEventListener('scroll', applyExit, {passive:true});
@@ -784,9 +794,11 @@ cover.addEventListener('click', openInvite);
 /* 滚动渐显(首屏由封面开启动作触发) */
 const targets = document.querySelectorAll('.reveal:not(#hero)');
 if ('IntersectionObserver' in window){
+  /* 提前一点触发入场:章节刚露头就开始播动画,等用户滑到时已基本收尾,
+     避免"冲到末页瞬间叠加四五段过渡动画"把首帧拖卡 */
   const io = new IntersectionObserver(es=>{
     es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-  },{threshold:.15});
+  },{threshold:.12, rootMargin:'0px 0px 12% 0px'});
   targets.forEach(el=>io.observe(el));
 }else{
   targets.forEach(el=>el.classList.add('in'));
