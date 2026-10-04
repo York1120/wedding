@@ -78,11 +78,12 @@ html.locked{overflow:hidden}
 .page{
   max-width:520px;margin:0 auto;
   box-shadow:0 0 70px rgba(0,0,0,.6);
+  overflow-x:clip;  /* 兜底:章节 3D 倾斜的投影不允许把文档撑宽(clip 不产生滚动容器,老内核自动忽略) */
   background-image:radial-gradient(rgba(242,209,139,.055) 1px,transparent 1.6px),radial-gradient(ellipse 130% 52% at 50% -6%,rgba(235,102,80,.32),rgba(235,102,80,0) 60%),radial-gradient(155% 105% at 50% 40%,rgba(0,0,0,0) 50%,rgba(43,4,5,.45) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpath d='M28 1 55 28 28 55 1 28Z' fill='none' stroke='%23D9A441' stroke-opacity='.13'/%3E%3Ccircle cx='28' cy='28' r='2.2' fill='%23D9A441' fill-opacity='.17'/%3E%3C/svg%3E"),linear-gradient(180deg,#AC1D1F 0%,#9C1B1B 36%,#8A1518 68%,#671013 100%);
   background-size:22px 22px,100% 100%,100% 100%,56px 56px,100% 100%;
 }
 section{padding:58px 26px;position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;perspective:1200px;
-  will-change:transform,opacity}
+  will-change:transform,opacity;transform-origin:50% 0}
 section::before,section::after{content:'';position:absolute;width:26px;height:26px;pointer-events:none;z-index:2}
 section::before{top:22px;left:22px;border-top:1.5px solid rgba(217,164,65,.55);border-left:1.5px solid rgba(217,164,65,.55)}
 section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,.55);border-right:1.5px solid rgba(217,164,65,.55)}
