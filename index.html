@@ -88,15 +88,22 @@ section::before,section::after{content:'';position:absolute;width:26px;height:26
 section::before{top:22px;left:22px;border-top:1.5px solid rgba(217,164,65,.55);border-left:1.5px solid rgba(217,164,65,.55)}
 section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,.55);border-right:1.5px solid rgba(217,164,65,.55)}
 
-/* ── 装饰:灯笼(高端宫灯 SVG:弧形经线骨+纱面高光+双层金口金脚+金珠弯穗)── */
-.lantern{position:absolute;top:0;z-index:3;pointer-events:none;transform-origin:top center;animation:sway 5s ease-in-out infinite alternate;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));width:100px}
+/* ── 装饰:灯笼(高端宫灯 SVG:弧形经线骨+纱面高光+双层金口金脚+金珠弯穗)──
+   绳子用 ::before 绘制(线段在 SVG 里无法用渐变描边,零宽 bbox),
+   左长右短 = 左低右高;灯体顶缘均让开右上角音符图标(底缘 62px) */
+.lantern{position:absolute;top:0;z-index:3;pointer-events:none;transform-origin:top center;animation:sway 5s ease-in-out infinite alternate;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));width:88px;display:flex;flex-direction:column;align-items:center}
+.lantern::before{content:'';width:1.5px;background:linear-gradient(180deg,rgba(217,164,65,.12),#D9A441 55%,#F6DC96)}
 .lantern svg{width:100%;height:auto;display:block}
-.lantern.small{width:88px}
+.lantern.small{width:76px}
 @keyframes sway{from{transform:rotate(3.5deg)}to{transform:rotate(-3.5deg)}}
 .c-l{left:6%}
 .c-r{right:11%;animation-duration:6s;animation-delay:.6s}
+.c-l::before{height:92px}
+.c-r::before{height:56px}
 .h-l{left:9%;animation-duration:5.4s}
 .h-r{right:13%;animation-duration:6.4s;animation-delay:.9s}
+.h-l::before{height:88px}
+.h-r::before{height:58px}
 
 /* ── 装饰:祥云 ─────────────────────── */
 .cloud{position:absolute;width:110px;color:var(--gold);opacity:.28;pointer-events:none}
@@ -532,8 +539,8 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
   <span class="spark" style="left:50%"></span>
   <span class="spark" style="left:70%"></span>
   <span class="spark" style="left:86%"></span>
-  <div class="lantern c-l"><svg viewBox="0 0 120 215" aria-hidden="true"><use href="#gonglantern"/></svg></div>
-  <div class="lantern c-r"><svg viewBox="0 0 120 215" aria-hidden="true"><use href="#gonglantern"/></svg></div>
+  <div class="lantern c-l"><svg viewBox="0 0 120 155" aria-hidden="true"><use href="#gonglantern"/></svg></div>
+  <div class="lantern c-r"><svg viewBox="0 0 120 155" aria-hidden="true"><use href="#gonglantern"/></svg></div>
   <div class="cover-inner">
     <div class="cover-tag">于 归 之 喜</div>
     <div class="seal" id="seal"><img src="xi.png" alt="囍"></div>
@@ -569,21 +576,20 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
     <path d="M8 38 C2 38 2 30 8 28 C6 20 16 14 24 18 C26 8 40 6 46 14 C52 6 66 8 68 18 C78 12 90 18 88 26 C98 24 104 32 96 38 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
     <path d="M30 28 a6 6 0 1 1 8 -6 a8 8 0 0 1 10 -2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
   </symbol>
-  <!-- 高端宫灯:弧形经线骨 + 纱面渐变高光 + 双层金口金脚 + 金珠弯穗 -->
-  <symbol id="gonglantern" viewBox="0 0 120 220">
-    <line x1="60" y1="0" x2="60" y2="80" stroke="url(#glGold)" stroke-width="1.8" opacity=".9"/>
-    <rect x="45" y="78" width="30" height="9" rx="3" fill="url(#glGold)"/>
-    <rect x="50" y="87" width="20" height="3" rx="1.5" fill="#B07E2C"/>
-    <ellipse cx="60" cy="131" rx="43" ry="40" fill="url(#glBody)" stroke="#D9A441" stroke-width="1.8"/>
-    <ellipse cx="60" cy="131" rx="43" ry="40" fill="url(#glGlow)"/>
-    <ellipse cx="60" cy="131" rx="29" ry="40" fill="none" stroke="#FFD98F" stroke-opacity=".3" stroke-width="1"/>
-    <ellipse cx="60" cy="131" rx="13" ry="40" fill="none" stroke="#FFD98F" stroke-opacity=".26" stroke-width=".9"/>
-    <line x1="60" y1="91" x2="60" y2="171" stroke="#FFD98F" stroke-opacity=".3" stroke-width=".9"/>
-    <ellipse cx="44" cy="108" rx="17" ry="12" fill="#FFE2B0" opacity=".3"/>
-    <rect x="50" y="168.5" width="20" height="3.5" rx="1.5" fill="#B07E2C"/>
-    <rect x="45" y="171.5" width="30" height="9" rx="3" fill="url(#glGold)"/>
-    <circle cx="60" cy="185" r="4.2" fill="url(#glGold)"/>
-    <path d="M52.5 190 q-3.5 15 .5 27 M60 190 q0 17 0 29 M67.5 190 q3.5 15 -.5 27" stroke="#E9C36B" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".95"/>
+  <!-- 高端宫灯:弧形经线骨 + 纱面渐变高光 + 双层金口金脚 + 金珠弯穗(绳子由 CSS 按侧绘制) -->
+  <symbol id="gonglantern" viewBox="0 0 120 155">
+    <rect x="45" y="0" width="30" height="9" rx="3" fill="url(#glGold)"/>
+    <rect x="50" y="9" width="20" height="3" rx="1.5" fill="#B07E2C"/>
+    <ellipse cx="60" cy="51" rx="43" ry="40" fill="url(#glBody)" stroke="#D9A441" stroke-width="1.8"/>
+    <ellipse cx="60" cy="51" rx="43" ry="40" fill="url(#glGlow)"/>
+    <ellipse cx="60" cy="51" rx="29" ry="40" fill="none" stroke="#FFD98F" stroke-opacity=".3" stroke-width="1"/>
+    <ellipse cx="60" cy="51" rx="13" ry="40" fill="none" stroke="#FFD98F" stroke-opacity=".26" stroke-width=".9"/>
+    <line x1="60" y1="11" x2="60" y2="91" stroke="#FFD98F" stroke-opacity=".3" stroke-width=".9"/>
+    <ellipse cx="44" cy="28" rx="17" ry="12" fill="#FFE2B0" opacity=".3"/>
+    <rect x="50" y="88.5" width="20" height="3.5" rx="1.5" fill="#B07E2C"/>
+    <rect x="45" y="91.5" width="30" height="9" rx="3" fill="url(#glGold)"/>
+    <circle cx="60" cy="105.5" r="4.2" fill="url(#glGold)"/>
+    <path d="M52.5 110 q-3.5 15 .5 27 M60 110 q0 17 0 29 M67.5 110 q3.5 15 -.5 27" stroke="#E9C36B" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".95"/>
   </symbol>
 </svg>
 
@@ -591,8 +597,8 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
 
   <!-- ════════ 首屏 ════════ -->
   <section class="hero" id="hero">
-    <div class="lantern h-l small"><svg viewBox="0 0 120 215" aria-hidden="true"><use href="#gonglantern"/></svg></div>
-    <div class="lantern h-r small"><svg viewBox="0 0 120 215" aria-hidden="true"><use href="#gonglantern"/></svg></div>
+    <div class="lantern h-l small"><svg viewBox="0 0 120 155" aria-hidden="true"><use href="#gonglantern"/></svg></div>
+    <div class="lantern h-r small"><svg viewBox="0 0 120 155" aria-hidden="true"><use href="#gonglantern"/></svg></div>
     <svg class="cloud tl"><use href="#xiangyun"/></svg>
     <svg class="cloud br"><use href="#xiangyun"/></svg>
     <div class="hero-fu an" style="transition-delay:.05s"><img src="xi.png" alt="囍"></div>
