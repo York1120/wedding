@@ -472,7 +472,7 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
 <img src="share.png" alt="" class="share-fallback" style="position:absolute;left:-9999px;top:0;width:300px;height:300px;">
 
 <!-- 背景音乐:自动播放;右上角按钮可暂停/继续 -->
-<audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
+<audio id="bgm" src="bgm.m4a" loop preload="auto" autoplay></audio>
 <button id="music-btn" hidden title="背景音乐" aria-label="背景音乐">
   <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
@@ -826,23 +826,25 @@ document.getElementById('cd').textContent = days;
   grid.innerHTML = html;
 })();
 
-/* 背景音乐:自动播放;右上角按钮可暂停/继续(文件不存在时按钮自动隐藏) */
+/* 背景音乐:每次打开默认自动播放;钮可暂停/继续(文件不存在时按钮自动隐藏) */
 const mbtn = document.getElementById('music-btn');
 let userPaused = false;
 function tryPlayBgm(){
   if (userPaused || !bgm.paused) return;
   const p = bgm.play();
-  if (p && p.catch) p.catch(()=>{});  /* 被浏览器拦截时保持静默,等首次触摸 */
+  if (p && p.catch) p.catch(()=>{});  /* 被浏览器拦截时保持静默,等交互兜底 */
 }
-bgm.addEventListener('canplaythrough', ()=>{ mbtn.hidden = false; }, {once:true});
+bgm.addEventListener('canplaythrough', ()=>{ mbtn.hidden = false; tryPlayBgm(); }, {once:true});
 bgm.addEventListener('error', ()=>{ mbtn.hidden = true; });
 if (bgm.readyState >= 3) mbtn.hidden = false;
 tryPlayBgm();                                   /* 加载后立即尝试 */
 window.addEventListener('load', tryPlayBgm);
 document.addEventListener('WeixinJSBridgeReady', tryPlayBgm, false);  /* 微信内置浏览器 */
-['touchstart','mousedown'].forEach(ev =>
-  document.addEventListener(ev, tryPlayBgm, {passive:true})           /* 自动播放被拦时的兜底 */
+/* 首次任何交互都补播:touchstart 在部分安卓内核权限不足,touchend/pointerup 才算完整手势 */
+['touchstart','touchend','mousedown','mouseup','keydown'].forEach(ev =>
+  document.addEventListener(ev, tryPlayBgm, {passive:true})
 );
+document.addEventListener('visibilitychange', ()=>{ if (!document.hidden) tryPlayBgm(); });
 mbtn.addEventListener('click', e=>{
   e.stopPropagation();
   if (bgm.paused){ userPaused = false; const p = bgm.play(); if (p && p.catch) p.catch(()=>{}); }
