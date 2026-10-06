@@ -12,8 +12,8 @@ Static hub for wedding micro-sites — single-file invitation pages and poster p
 
 Conventions: directories/files starting with `_` are local build artifacts and are not committed. Font subsets are rebuilt after copy changes; CI checks coverage on every push.
 
-## Deploy (Cloudflare Pages)
+## Deploy (Cloudflare)
 
-Git integration: connect this repo, framework preset **None**, build command **(empty)**, output dir `/` — or just accept `wrangler.toml` defaults.
+Git integration: every push to `main` auto-deploys as Workers static assets (config in `wrangler.toml`, no build step).
 
-Direct upload: `npx wrangler pages deploy .`
+Manual deploy: `npx wrangler deploy`

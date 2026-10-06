@@ -1,2 +1,8 @@
 name = "wedding"
-pages_build_output_dir = "."
+compatibility_date = "2026-10-07"
+
+# 纯静态站：整个仓库根目录作为资产目录部署（Workers static assets）
+# html_handling 默认 auto-trailing-slash，/inv-b/ 会自动命中 inv-b/index.html
+[assets]
+directory = "."
+not_found_handling = "404-page"
