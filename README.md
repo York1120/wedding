@@ -1,18 +1,19 @@
-# 婚礼项目合集
+# wedding
 
-周煜全 & 张令仪婚礼相关项目统一仓库，便于统一风格与维护。
+Static hub for wedding micro-sites — single-file invitation pages and poster pages. No build step, everything served as-is.
 
-## 目录结构
+## Structure
 
-| 目录 | 说明 |
+| Path | Content |
 | --- | --- |
-| `女方父母电子请柬/` | 女方父母版电子请柬（单页 HTML） |
-| `男方父母电子请柬/` | 男方父母版电子请柬（单页 HTML） |
-| `新郎新娘自用电子请柬/` | 新郎新娘自用版电子请柬（单页 HTML + CONFIG 配置块） |
-| `婚礼海报/` | 婚礼海报（中式 / 西式，含编辑器源码） |
+| `index.html` | Landing page linking to all sub-sites |
+| `inv-b/` `inv-g/` `inv-o/` | Single-file invitation pages (entry: `index.html`, self-hosted font subsets in `fonts/`) |
+| `poster/` | Chinese & western posters (`poster/chinese/poster.html`, `poster/western/poster-western.html`), render sources in `poster/src/` |
 
-## 约定
+Conventions: directories/files starting with `_` are local build artifacts and are not committed. Font subsets are rebuilt after copy changes; CI checks coverage on every push.
 
-- 各子目录相互独立，保留各自的 `.gitignore`、`fonts/` 与 `tools/`。
-- 下划线开头的目录/文件（如 `_poster_work/`、`_fontsrc/`）为开发中间产物，不入库；`tools/_check_font_coverage.py` 是唯一例外（供 CI 使用）。
-- 统一视觉风格：中式红金设计，字体为 Ma Shan Zheng（标题手写体）+ Noto Serif SC（正文宋体）。
+## Deploy (Cloudflare Pages)
+
+Git integration: connect this repo, framework preset **None**, build command **(empty)**, output dir `/` — or just accept `wrangler.toml` defaults.
+
+Direct upload: `npx wrangler pages deploy .`

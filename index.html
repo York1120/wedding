@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>囍 · 2027.01.26</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    font-family: "Kaiti SC", "STKaiti", "KaiTi", "Noto Serif SC", "Songti SC", serif;
+    background: radial-gradient(ellipse at 50% 0%, #8f1f1f 0%, #6d1212 55%, #4f0c0c 100%);
+    color: #f3e2c0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 20px 64px;
+  }
+
+  .xi {
+    font-size: 84px;
+    line-height: 1;
+    color: #e8c66a;
+    text-shadow: 0 2px 18px rgba(0,0,0,.35);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-size: 30px;
+    font-weight: normal;
+    letter-spacing: 6px;
+    color: #f7e7c3;
+  }
+
+  .date {
+    margin-top: 12px;
+    font-size: 15px;
+    letter-spacing: 4px;
+    color: #d9b36a;
+  }
+
+  .rule {
+    width: 220px;
+    height: 1px;
+    margin: 30px auto 8px;
+    background: linear-gradient(90deg, transparent, #c9a35c, transparent);
+  }
+
+  section { width: 100%; max-width: 760px; margin-top: 34px; }
+
+  .section-title {
+    text-align: center;
+    font-size: 15px;
+    letter-spacing: 8px;
+    color: #cfa95e;
+    margin-bottom: 18px;
+  }
+
+  .cards {
+    display: grid;
+    gap: 14px;
+  }
+  .cards.three { grid-template-columns: repeat(3, 1fr); }
+  .cards.two   { grid-template-columns: repeat(2, 1fr); }
+
+  a.card {
+    display: block;
+    text-decoration: none;
+    background: linear-gradient(160deg, #fbf6ea, #f3e9d2);
+    border: 1px solid #d9b36a;
+    border-radius: 8px;
+    padding: 22px 10px;
+    text-align: center;
+    color: #6d1212;
+    transition: transform .18s ease, box-shadow .18s ease;
+    box-shadow: 0 3px 14px rgba(0,0,0,.28);
+  }
+  a.card:hover, a.card:active {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0,0,0,.38);
+  }
+
+  .card .name { font-size: 21px; letter-spacing: 3px; }
+  .card .sub {
+    margin-top: 8px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #a4161a;
+    text-transform: uppercase;
+  }
+
+  footer {
+    margin-top: 56px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #b98f4e;
+  }
+
+  @media (max-width: 560px) {
+    .xi { font-size: 64px; }
+    h1 { font-size: 22px; letter-spacing: 4px; }
+    .cards.three, .cards.two { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="xi">囍</div>
+  <h1>周煜全 &amp; 张令仪</h1>
+  <div class="date">2027 · 01 · 26</div>
+  <div class="rule"></div>
+
+  <section>
+    <div class="section-title">请 柬</div>
+    <div class="cards three">
+      <a class="card" href="inv-b/"><div class="name">请柬 · N</div><div class="sub">Invitation</div></a>
+      <a class="card" href="inv-g/"><div class="name">请柬 · M</div><div class="sub">Invitation</div></a>
+      <a class="card" href="inv-o/"><div class="name">请柬 · X</div><div class="sub">Invitation</div></a>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">海 报</div>
+    <div class="cards two">
+      <a class="card" href="poster/chinese/poster.html"><div class="name">海报 · 中式</div><div class="sub">Red &amp; Gold</div></a>
+      <a class="card" href="poster/western/poster-western.html"><div class="name">海报 · 西式</div><div class="sub">Ivory White</div></a>
+    </div>
+  </section>
+
+  <footer>囍 · 囍 · 囍</footer>
+</body>
+</html>
