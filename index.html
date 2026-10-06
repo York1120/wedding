@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="张伟 & 李晓 诚邀您参加我们的婚礼，恭候光临。">
+<!-- 微信分享卡片：改成自己的婚礼后，同步修改下面 og:title / og:description / og:url / og:image -->
+<meta property="og:title" content="张伟 & 李晓 · 婚礼邀请函">
+<meta property="og:description" content="谨定于2026年10月18日，诚邀您见证我们的幸福时刻，恭候光临。">
+<meta property="og:url" content="https://example.com/">
+<meta property="og:image" content="share.png">
+<title>张伟 & 李晓 · 婚礼邀请函</title>
+<style>
+  :root{
+    --paper:#FBF9F3;      /* 米白纸色 */
+    --card:#FFFFFF;
+    --ink:#3B3831;        /* 暖炭墨 */
+    --muted:#8B857A;
+    --green:#71816B;      /* 青绿 */
+    --green-deep:#5C6B54;
+    --green-bg:#EFF1E8;
+    --gold:#C2A878;       /* 金线 */
+    --line:#E4DECF;
+    --seal:#B4543F;       /* 朱砂印 */
+    --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",Georgia,serif;
+    --kai:"Kaiti SC","STKaiti","KaiTi","STXingkai","Xingkai SC",var(--serif);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--serif);color:var(--ink);background:var(--paper);
+    line-height:1.7;letter-spacing:.02em;overflow-x:hidden;
+  }
+  body.locked{overflow:hidden;height:100%}
+  img{display:block;max-width:100%}
+  button{font-family:inherit;letter-spacing:inherit}
+
+  /* ============ 开屏封面（信封印章） ============ */
+  #cover{
+    position:fixed;inset:0;z-index:50;background:var(--paper);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;transition:opacity 1s ease,transform 1s ease,visibility 1s;
+  }
+  #cover::before,#cover::after{
+    content:"";position:absolute;pointer-events:none;
+  }
+  #cover::before{inset:12px;border:1px solid var(--gold);opacity:.75}
+  #cover::after{inset:17px;border:1px solid var(--gold);opacity:.35}
+  #cover.open{opacity:0;transform:translateY(-6%);visibility:hidden}
+  .cov-eyebrow{
+    font-size:11px;letter-spacing:.42em;text-indent:.42em;color:var(--muted);
+    text-transform:uppercase;margin-bottom:34px;
+  }
+  .cov-seal{
+    width:92px;height:92px;border-radius:50%;border:none;cursor:pointer;
+    background:var(--seal);color:#FDF6EC;font-family:var(--kai);font-size:44px;line-height:1;
+    box-shadow:0 6px 22px rgba(180,84,63,.35),inset 0 0 0 3px rgba(253,246,236,.55),inset 0 0 0 7px var(--seal),inset 0 0 0 8px rgba(253,246,236,.3);
+    transition:transform .9s cubic-bezier(.5,-0.3,.3,1.4),opacity .8s ease;
+  }
+  .cov-seal:active{transform:scale(.94)}
+  #cover.open .cov-seal{transform:scale(1.6) rotate(-14deg);opacity:0}
+  .cov-hint{
+    margin-top:26px;font-size:12px;color:var(--muted);letter-spacing:.2em;
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+  .cov-names{
+    margin-top:44px;font-size:32px;letter-spacing:.12em;font-weight:600;
+  }
+  .cov-names .amp{
+    font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;
+    color:var(--gold);margin:0 10px;font-size:28px;
+  }
+  .cov-date{
+    position:absolute;bottom:44px;left:0;right:0;padding:0 20px;
+    font-size:12px;color:var(--muted);letter-spacing:.16em;text-indent:.16em;
+    white-space:nowrap;overflow:hidden;
+  }
+  .cov-date b{color:var(--green-deep);font-weight:600}
+
+  /* ============ 页面主体 ============ */
+  .page{max-width:520px;margin:0 auto;min-height:100vh;background:var(--paper)}
+  @media (min-width:560px){
+    body{background:#F1EDE2}
+    .page{box-shadow:0 0 40px rgba(59,56,49,.08)}
+  }
+  section{padding:64px 28px}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* 囍 小徽标 */
+  .xi-badge{
+    width:54px;height:54px;margin:0 auto 18px;border-radius:50%;
+    border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;
+    color:var(--seal);font-family:var(--kai);font-size:26px;
+    position:relative;
+  }
+  .xi-badge::after{content:"";position:absolute;inset:3px;border:1px solid var(--gold);border-radius:50%;opacity:.4}
+
+  /* HERO */
+  .hero{text-align:center;padding-top:88px}
+  .hero-title{font-size:38px;font-weight:600;letter-spacing:.14em;text-indent:.14em;margin-bottom:6px}
+  .hero-sub{font-size:13px;color:var(--muted);letter-spacing:.32em;text-indent:.32em;margin-bottom:26px}
+  .hero-names{font-size:24px;letter-spacing:.08em;font-weight:600;display:flex;align-items:center;justify-content:center;gap:14px}
+  .hero-names .amp{font-family:Georgia,serif;font-style:italic;font-weight:400;color:var(--gold);font-size:22px}
+  .rings{color:var(--gold)}
+  .chips{display:flex;justify-content:center;gap:8px;margin-top:26px;flex-wrap:wrap}
+  .chip{
+    font-size:12px;color:var(--green-deep);border:1px solid var(--line);
+    background:var(--card);border-radius:999px;padding:5px 14px;letter-spacing:.1em;
+  }
+  .chip b{font-weight:600}
+
+  /* 邀请卡 */
+  .invite-card{
+    background:var(--card);border:1px solid var(--gold);
+    padding:34px 26px;text-align:center;position:relative;
+  }
+  .invite-card::before{
+    content:"";position:absolute;inset:6px;border:1px solid var(--line);pointer-events:none;
+  }
+  .invite-card p{font-size:15px;line-height:2.15;color:#54504a}
+  .invite-card .names{color:var(--green-deep);font-weight:600}
+  .invite-card .close{margin-top:10px;font-family:var(--kai);font-size:15px;color:var(--muted);letter-spacing:.2em}
+
+  /* 倒计时 */
+  .count-panel{
+    background:var(--green-bg);border-radius:16px;padding:26px 18px 22px;text-align:center;
+  }
+  .count-label{font-size:12px;letter-spacing:.34em;text-indent:.34em;color:var(--green-deep);margin-bottom:14px}
+  .count-grid{display:flex;justify-content:center;align-items:baseline;gap:4px}
+  .count-cell{min-width:58px}
+  .count-num{
+    font-family:Georgia,"Times New Roman",serif;font-size:38px;font-weight:400;
+    color:var(--green-deep);line-height:1;font-variant-numeric:tabular-nums;
+  }
+  .count-unit{display:block;font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:.2em}
+  .count-colon{color:var(--gold);font-size:22px;transform:translateY(-10px)}
+  .count-done{font-size:18px;color:var(--seal);letter-spacing:.1em}
+
+  /* 信息区 */
+  .info-row{
+    display:flex;align-items:flex-start;gap:16px;padding:17px 4px;
+    border-bottom:1px dashed var(--line);
+  }
+  .info-row:last-child{border-bottom:none}
+  .info-icon{
+    flex:0 0 40px;height:40px;border-radius:50%;border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;color:var(--green);
+    background:var(--card);
+  }
+  .info-label{font-size:11px;color:var(--muted);letter-spacing:.28em;margin-bottom:3px}
+  .info-value{font-size:16px;font-weight:600;letter-spacing:.04em}
+  .info-note{font-size:13px;color:var(--muted);font-weight:400}
+
+  /* 照片墙 */
+  .gallery-title{
+    text-align:center;font-size:13px;letter-spacing:.34em;text-indent:.34em;
+    color:var(--muted);margin-bottom:26px;
+  }
+  .photo-card{
+    background:var(--card);padding:10px 10px 14px;box-shadow:0 8px 24px rgba(59,56,49,.1);
+    width:min(82%,340px);margin:0 auto 30px;position:relative;
+  }
+  .photo-card:nth-child(odd){transform:rotate(-1.6deg)}
+  .photo-card:nth-child(even){transform:rotate(1.4deg)}
+  .photo-frame{aspect-ratio:4/3;overflow:hidden;background:var(--green-bg)}
+  .photo-frame img{width:100%;height:100%;object-fit:cover}
+  .photo-cap{
+    text-align:center;font-size:12px;color:var(--muted);
+    letter-spacing:.24em;text-indent:.24em;margin-top:10px;
+  }
+  .photo-empty{
+    aspect-ratio:4/3;background:var(--green-bg);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:8px;color:var(--muted);font-size:12px;
+    letter-spacing:.12em;text-align:center;padding:0 16px;
+  }
+  .photo-empty svg{color:var(--green)}
+
+  /* 操作按钮 */
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .act{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    border:1px solid var(--green);background:var(--card);color:var(--green-deep);
+    border-radius:999px;padding:12px 8px;font-size:14px;cursor:pointer;
+    text-decoration:none;transition:background .25s,color .25s;
+  }
+  .act:active{background:var(--green);color:#fff}
+  .act svg{flex:0 0 auto}
+
+  /* 尾页 */
+  .finale{text-align:center;padding-bottom:84px}
+  .finale-branch{color:var(--green);margin-bottom:20px}
+  .finale-big{font-family:var(--kai);font-size:34px;letter-spacing:.3em;text-indent:.3em;color:var(--green-deep)}
+  .finale-sub{font-size:13px;color:var(--muted);letter-spacing:.24em;text-indent:.24em;margin-top:12px}
+  .finale-sign{margin-top:34px;font-size:15px;letter-spacing:.1em}
+  .finale-sign .amp{font-family:Georgia,serif;font-style:italic;color:var(--gold)}
+  .finale-foot{
+    margin-top:52px;font-size:10px;color:var(--muted);letter-spacing:.3em;text-indent:.3em;opacity:.8;
+  }
+
+  /* 分枝装饰 */
+  .divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 0 40px;color:var(--gold)}
+  .divider::before,.divider::after{content:"";height:1px;width:56px;background:linear-gradient(to right,transparent,var(--gold))}
+  .divider::after{background:linear-gradient(to left,transparent,var(--gold))}
+
+  /* 音乐按钮 */
+  #musicBtn{
+    position:fixed;top:16px;right:16px;z-index:60;width:40px;height:40px;border-radius:50%;
+    border:1px solid var(--gold);background:rgba(251,249,243,.9);color:var(--green-deep);
+    display:none;align-items:center;justify-content:center;cursor:pointer;
+    box-shadow:0 2px 10px rgba(59,56,49,.12);
+  }
+  #musicBtn.show{display:flex}
+  #musicBtn .disc{animation:spin 6s linear infinite}
+  #musicBtn.paused .disc{animation-play-state:paused;opacity:.55}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Toast */
+  #toast{
+    position:fixed;left:50%;bottom:12%;transform:translateX(-50%) translateY(8px);z-index:70;
+    background:rgba(59,56,49,.88);color:#fff;font-size:13px;letter-spacing:.1em;
+    padding:9px 20px;border-radius:999px;opacity:0;pointer-events:none;
+    transition:opacity .3s,transform .3s;
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body class="locked">
+
+<!-- ====== 开屏封面：轻触朱砂印开启 ====== -->
+<div id="cover">
+  <div class="cov-eyebrow">Wedding Invitation</div>
+  <button class="cov-seal" id="sealBtn" aria-label="开启请柬">囍</button>
+  <div class="cov-hint">轻 触 印 章 · 开 启 请 柬</div>
+  <div class="cov-names">
+    <span data-cfg="groom"></span><span class="amp">&amp;</span><span data-cfg="bride"></span>
+  </div>
+  <div class="cov-date">WE ARE GETTING MARRIED · <b data-cfg="dateShort"></b></div>
+</div>
+
+<!-- 音乐按钮（把 music/bgm.mp3 放入即自动出现） -->
+<button id="musicBtn" aria-label="播放或暂停音乐">
+  <svg class="disc" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+    <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.6"/>
+    <path d="M12 3a9 9 0 0 1 9 9" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<div class="page">
+
+  <!-- ====== 开场 ====== -->
+  <section class="hero reveal">
+    <div class="xi-badge">囍</div>
+    <div class="hero-title">我们结婚啦</div>
+    <div class="hero-sub">诚挚邀请 · 见证幸福</div>
+    <div class="hero-names">
+      <span data-cfg="groom"></span>
+      <svg class="rings" width="30" height="20" viewBox="0 0 30 20" fill="none" stroke="currentColor" stroke-width="1.3">
+        <circle cx="11" cy="10" r="7"/><circle cx="19" cy="10" r="7"/>
+      </svg>
+      <span data-cfg="bride"></span>
+    </div>
+    <div class="chips">
+      <span class="chip">公历 <b data-cfg="dateText"></b></span>
+      <span class="chip"><b data-cfg="weekText"></b></span>
+      <span class="chip"><b data-cfg="lunarText"></b></span>
+    </div>
+  </section>
+
+  <!-- ====== 邀请词 ====== -->
+  <section class="reveal">
+    <div class="divider">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+        <path d="M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.4-7 10-7 10z"/>
+      </svg>
+    </div>
+    <div class="invite-card">
+      <p>谨定于公历 <span class="names" data-cfg="dateText"></span>（<span data-cfg="weekText"></span>）<br>
+      <span data-cfg="lunarText"></span>，为
+      <span class="names" data-cfg="groom"></span>、<span class="names" data-cfg="bride"></span>
+      举行结婚典礼。</p>
+      <p style="margin-top:14px">诚邀您拨冗光临，见证我们的幸福时刻，<br>分享这份喜悦与甜蜜。</p>
+      <div class="close" data-cfg="hostLine"></div>
+    </div>
+  </section>
+
+  <!-- ====== 倒计时 ====== -->
+  <section class="reveal">
+    <div class="count-panel">
+      <div class="count-label">距离婚礼还有</div>
+      <div class="count-grid" id="countGrid">
+        <div class="count-cell"><span class="count-num" id="cdD">--</span><span class="count-unit">天</span></div>
+        <span class="count-colon">:</span>
+        <div class="count-cell"><span class="count-num" id="cdH">--</span><span class="count-unit">时</span></div>
+        <span class="count-colon">:</span>
+        <div class="count-cell"><span class="count-num" id="cdM">--</span><span class="count-unit">分</span></div>
+        <span class="count-colon">:</span>
+        <div class="count-cell"><span class="count-num" id="cdS">--</span><span class="count-unit">秒</span></div>
+      </div>
+      <div class="count-done" id="countDone" style="display:none">今天是我们的大喜之日 🎉</div>
+    </div>
+  </section>
+
+  <!-- ====== 时间地点 ====== -->
+  <section class="reveal">
+    <div class="divider">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+        <circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 1.6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="info-row">
+      <div class="info-icon">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="info-label">婚 礼 时 间</div>
+        <div class="info-value"><span data-cfg="dateText"></span> · <span data-cfg="weekText"></span></div>
+        <div class="info-note" data-cfg="timeNote"></div>
+      </div>
+    </div>
+    <div class="info-row">
+      <div class="info-icon">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="info-label">婚 礼 地 点</div>
+        <div class="info-value" data-cfg="venue"></div>
+        <div class="info-note" data-cfg="address"></div>
+      </div>
+    </div>
+    <div class="info-row">
+      <div class="info-icon">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M5 4h4l2 5-2.4 1.6a12.5 12.5 0 0 0 4.8 4.8L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="info-label">婚 宴 联 系</div>
+        <div class="info-value"><span data-cfg="groom"></span> / <span data-cfg="bride"></span></div>
+        <div class="info-note">有任何问题，随时联系我们</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 照片墙（把照片放进 photos/ 即自动显示） ====== -->
+  <section class="reveal" id="photoSection" style="display:none">
+    <div class="divider">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+        <rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="1.6"/><path d="M3 17l5-4 4 3 3-2.5 6 4.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="gallery-title">定 格 · 我 们 的 时 光</div>
+    <div id="gallery"></div>
+  </section>
+
+  <!-- ====== 导航与联系 ====== -->
+  <section class="reveal">
+    <div class="actions">
+        <a class="act" id="btnMap" href="#" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/>
+          </svg>地图导航
+        </a>
+        <button class="act" id="btnCopy">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>
+          </svg>复制地址
+        </button>
+        <a class="act" id="btnCallGroom" href="#">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M5 4h4l2 5-2.4 1.6a12.5 12.5 0 0 0 4.8 4.8L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+          </svg>电话 · <span data-cfg="groom"></span>
+        </a>
+        <a class="act" id="btnCallBride" href="#">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M5 4h4l2 5-2.4 1.6a12.5 12.5 0 0 0 4.8 4.8L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+          </svg>电话 · <span data-cfg="bride"></span>
+        </a>
+      </div>
+  </section>
+
+  <!-- ====== 尾页 ====== -->
+  <section class="finale reveal">
+    <div class="finale-branch">
+      <svg width="150" height="46" viewBox="0 0 150 46" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M6 42 Q 50 32 144 6" stroke-linecap="round"/>
+        <circle cx="26" cy="37" r="3.4"/><circle cx="42" cy="33" r="4.2"/><circle cx="58" cy="28" r="4.6"/>
+        <circle cx="74" cy="23" r="5"/><circle cx="90" cy="18" r="4.6"/><circle cx="105" cy="14" r="4.2"/>
+        <circle cx="119" cy="10" r="3.6"/><circle cx="132" cy="8" r="2.8"/>
+      </svg>
+    </div>
+    <div class="finale-big">恭候光临</div>
+    <div class="finale-sub">敬备喜宴 · 静候佳音</div>
+    <div class="finale-sign">
+      <span data-cfg="groom"></span> <span class="amp">&amp;</span> <span data-cfg="bride"></span> 敬上
+    </div>
+    <div class="finale-foot">WITH LOVE · 期待与您相见</div>
+  </section>
+
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ================================================================
+ *  ★★ 把下面这段改成你们自己的信息，其余不用动 ★★
+ * ================================================================ */
+const CONFIG = {
+  groom:      "张伟",                      // 新郎姓名
+  bride:      "李晓",                      // 新娘姓名
+  dateISO:    "2026-10-18T11:58:00+08:00", // 婚礼开始时间（用于倒计时/日历）
+  dateText:   "2026年10月18日",
+  weekText:   "星期日",
+  lunarText:  "农历九月初八",
+  dateShort:  "2026.10.18",                // 封面日期
+  timeNote:   "中午 11:58 迎宾 · 12:08 开席",
+  venue:      "阳光国际大酒店 · 三楼宴会厅",  // 酒店名称
+  address:    "某某市某某区幸福路88号",       // 详细地址（复制/导航用）
+  mapKeyword: "阳光国际大酒店",              // 地图搜索关键词
+  phoneGroom: "13800000000",
+  phoneBride: "13900000000",
+  hostLine:   "张伟 · 李晓 全家 敬邀",       // 邀请卡落款
+  photos:     ["photos/1.jpg", "photos/2.jpg", "photos/3.jpg"], // 没有就留 []
+  photoCaps:  ["初见", "携手", "余生"],      // 与照片一一对应的小注
+  music:      "music/bgm.mp3",             // 没有就留 ""
+};
+/* ================================================================ */
+
+// ---- 文案填充 ----
+document.querySelectorAll("[data-cfg]").forEach(el => {
+  const v = CONFIG[el.dataset.cfg];
+  if (v != null) el.textContent = v;
+});
+
+// ---- 联系与导航 ----
+document.getElementById("btnMap").href =
+  "https://uri.amap.com/search?keyword=" + encodeURIComponent(CONFIG.mapKeyword || CONFIG.address);
+document.getElementById("btnCallGroom").href = "tel:" + CONFIG.phoneGroom;
+document.getElementById("btnCallBride").href = "tel:" + CONFIG.phoneBride;
+
+const toast = document.getElementById("toast");
+let toastTimer;
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+}
+document.getElementById("btnCopy").addEventListener("click", () => {
+  const text = CONFIG.venue + "（" + CONFIG.address + "）";
+  const done = () => showToast("地址已复制，快发给亲友吧");
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else fallbackCopy(text, done);
+});
+function fallbackCopy(text, done){
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); done(); } catch(e){ showToast("复制失败，请长按地址手动复制"); }
+  document.body.removeChild(ta);
+}
+
+// ---- 倒计时 ----
+const target = new Date(CONFIG.dateISO).getTime();
+const cdD = document.getElementById("cdD"), cdH = document.getElementById("cdH"),
+      cdM = document.getElementById("cdM"), cdS = document.getElementById("cdS"),
+      countGrid = document.getElementById("countGrid"),
+      countDone = document.getElementById("countDone");
+function tick(){
+  const diff = target - Date.now();
+  if (diff <= 0){
+    countGrid.style.display = "none";
+    countDone.style.display = "block";
+    return;
+  }
+  const s = Math.floor(diff / 1000);
+  cdD.textContent = Math.floor(s / 86400);
+  cdH.textContent = String(Math.floor(s % 86400 / 3600)).padStart(2, "0");
+  cdM.textContent = String(Math.floor(s % 3600 / 60)).padStart(2, "0");
+  cdS.textContent = String(s % 60).padStart(2, "0");
+  setTimeout(tick, 1000);
+}
+tick();
+
+// ---- 添加到日历（.ics 下载）----
+// 如需"添加到日历"按钮，可在操作区加一个 a#btnCal，这里已生成好链接
+(function buildICS(){
+  const start = new Date(CONFIG.dateISO);
+  if (isNaN(start)) return;
+  const end = new Date(start.getTime() + 4 * 3600 * 1000);
+  const fmt = d => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//wedding//CN","BEGIN:VEVENT",
+    "UID:" + Date.now() + "@wedding",
+    "DTSTART:" + fmt(start), "DTEND:" + fmt(end),
+    "SUMMARY:" + CONFIG.groom + " ♥ " + CONFIG.bride + " 婚礼",
+    "LOCATION:" + CONFIG.venue + " " + CONFIG.address,
+    "DESCRIPTION:诚邀您参加我们的婚礼，恭候光临。",
+    "END:VEVENT","END:VCALENDAR"].join("\r\n");
+  window.__icsURL = URL.createObjectURL(new Blob([ics], {type:"text/calendar"}));
+})();
+
+// ---- 照片墙 ----
+(function buildGallery(){
+  if (!CONFIG.photos || !CONFIG.photos.length) return;
+  const sec = document.getElementById("photoSection");
+  const gal = document.getElementById("gallery");
+  CONFIG.photos.forEach((src, i) => {
+    const card = document.createElement("div");
+    card.className = "photo-card";
+    const frame = document.createElement("div");
+    frame.className = "photo-frame";
+    const img = document.createElement("img");
+    img.alt = "婚礼照片" + (i + 1);
+    img.loading = "lazy";
+    img.src = src;
+    img.addEventListener("error", () => {
+      // 照片缺失：显示占位提示
+      frame.innerHTML = "";
+      const empty = document.createElement("div");
+      empty.className = "photo-empty";
+      empty.innerHTML =
+        '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">' +
+        '<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="1.6"/>' +
+        '<path d="M3 17l5-4 4 3 3-2.5 6 4.5"/></svg>' +
+        '<div>将照片命名为<br>' + src + ' 放入项目即可</div>';
+      frame.appendChild(empty);
+    });
+    frame.appendChild(img);
+    const cap = document.createElement("div");
+    cap.className = "photo-cap";
+    cap.textContent = (CONFIG.photoCaps && CONFIG.photoCaps[i]) || "我们的时光";
+    card.appendChild(frame);
+    card.appendChild(cap);
+    gal.appendChild(card);
+  });
+  sec.style.display = "";
+})();
+
+// ---- 音乐（可选：放入 music/bgm.mp3 即生效）----
+const musicBtn = document.getElementById("musicBtn");
+let bgm = null;
+if (CONFIG.music){
+  bgm = new Audio(CONFIG.music);
+  bgm.loop = true;
+  bgm.addEventListener("error", () => musicBtn.classList.remove("show"));
+}
+musicBtn.addEventListener("click", () => {
+  if (!bgm) return;
+  if (bgm.paused){ bgm.play(); musicBtn.classList.remove("paused"); }
+  else { bgm.pause(); musicBtn.classList.add("paused"); }
+});
+
+// ---- 开启请柬 ----
+const cover = document.getElementById("cover");
+function openCover(instant){
+  if (instant){ cover.style.transition = "none"; }
+  cover.classList.add("open");
+  document.body.classList.remove("locked");
+  if (bgm){
+    musicBtn.classList.add("show", "paused");
+    bgm.play().then(() => musicBtn.classList.remove("paused")).catch(() => {});
+  }
+  if (instant) setTimeout(() => cover.style.transition = "", 50);
+}
+document.getElementById("sealBtn").addEventListener("click", () => openCover(false));
+// 测试/预览用：地址带 ?open 直接跳过封面
+if (location.search.indexOf("open") > -1) openCover(true);
+
+// ---- 滚动渐显 ----
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+}, {threshold: .12});
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
