@@ -1,0 +1,51 @@
+# 婚礼请柬海报 · Wedding Posters
+
+张令仪 & 周煜全 的两套婚礼请柬海报，信息与 [York1120/wedding](https://github.com/York1120/wedding) 电子请柬一致：
+
+- **婚期**：公历 2027年1月26日（星期二）· 农历丙午年腊月十九
+- **地点**：湖南省常德市桃源县沙坪镇 · 张府
+- **主婚**：张思元 · 刘萍
+
+| 中式 · 红金 | 西式 · 象牙白 |
+|---|---|
+| ![中式](chinese/poster.png) | ![西式](western/poster-western.png) |
+| 吾家有喜 · 双联红金海报 | Lingyi & Yuquan · 拱门照片位海报 |
+
+## 文件结构
+
+```
+chinese/   中式红金海报  poster.png(2200×2000) / poster.html(自包含单文件) / poster-design.md
+western/   西式象牙白海报 poster-western.png(3000×4200) / poster-western.html / poster-design-western.md
+src/       渲染源码（HTML + 截图脚本 + 字体下载脚本）
+```
+
+两份 `.html` 都是**自包含单文件**：字体按用字裁剪为子集、图片 base64 内嵌，离线双击即可打开，浏览器窗口多大都会整张等比缩放显示。
+
+**可视化编辑**：页面右下角有「✏ 编辑」按钮，开启后可以——鼠标拖动任意元素（靠近中线自动吸附）、双击改文字、字号 ±、居中/隐藏、方向键微调（Shift×10）、Del 删除；改完可「导出 PNG」（2 倍高清）或「导出 HTML」（把改动保存成新文件，编辑器仍在，可继续改）。「恢复默认」一键还原。
+
+**照片裁剪**：选中照片后点「✂ 裁剪」进入裁剪模式——拖动平移取景、滚轮以光标为中心缩放（或用「放大/缩小」按钮）、「重置裁剪」还原；放大后可上下左右微调。裁剪状态保存在导出的 PNG/HTML 里，再次进入可继续微调。西式海报的拱门照片已放入（图4，源文件 `src/photo.jpg`）。
+
+> 注：`chinese/poster.png` 与 `src/photo1.jpg` 含新人照片，介意公开展示的话请将本仓库设为 private。
+
+## 修改后重新生成
+
+环境要求：Python 3 + fontTools/brotli、Node.js + 本机 Chrome。
+
+```bash
+cd src
+python fetch_fonts.py          # 1. 下载完整字体(约35MB, 字体不入库)
+npm i playwright               # 2. 安装渲染依赖(走系统 Chrome)
+node render.js                 # 3a. 重新渲染中式 PNG
+node render_western.js         # 3b. 重新渲染西式 PNG
+python build_html.py           # 4a. 重新生成中式自包含 HTML
+python build_western_html.py   # 4b. 重新生成西式自包含 HTML
+```
+
+改文字直接编辑 `src/poster.html` / `src/poster_western.html`（内部为 2200×2000 / 1500×2100 画布的绝对定位排版），生成脚本会自动按新文案重新裁剪字体子集。
+
+## 字体
+
+全部为 SIL Open Font License，可自由分发与内嵌：
+
+- 马善政毛笔楷书（Ma Shan Zheng）· 思源宋体（Noto Serif SC）
+- Great Vibes · Cormorant Garamond

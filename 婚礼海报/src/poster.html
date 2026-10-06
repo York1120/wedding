@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>吾家有喜 · 张令仪 & 周煜全</title>
+<style>
+  @font-face {
+    font-family: 'MaShanZheng';
+    src: url('MaShanZheng-400.ttf') format('truetype');
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'NotoSerifSC';
+    src: url('NotoSerifSC-400.ttf') format('truetype');
+    font-weight: 400;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'NotoSerifSC';
+    src: url('NotoSerifSC-700.ttf') format('truetype');
+    font-weight: 700;
+    font-display: block;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold-hi: #F3DFAE;
+    --gold: #E2BE7E;
+    --gold-deep: #C89B55;
+    --gold-dim: #C9A469;
+    --cream: #F6ECD6;
+    --cream-dim: #EDD9B4;
+  }
+
+  html, body { width: 2200px; height: 2000px; overflow: hidden; }
+
+  body {
+    font-family: 'NotoSerifSC', serif;
+    background: #8E2325;
+    position: relative;
+  }
+
+  /* ---------- shared background texture ---------- */
+  .texture {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170' viewBox='0 0 170 170'%3E%3Cg fill='none' stroke='rgba(240,214,150,0.05)' stroke-width='1.6'%3E%3Cg transform='translate(42,42)'%3E%3Cpath d='M0,-15 C7,-9 7,-3 0,0 C-7,-3 -7,-9 0,-15'/%3E%3Cpath d='M0,-15 C7,-9 7,-3 0,0 C-7,-3 -7,-9 0,-15' transform='rotate(90)'/%3E%3Cpath d='M0,-15 C7,-9 7,-3 0,0 C-7,-3 -7,-9 0,-15' transform='rotate(180)'/%3E%3Cpath d='M0,-15 C7,-9 7,-3 0,0 C-7,-3 -7,-9 0,-15' transform='rotate(270)'/%3E%3C/g%3E%3Cg transform='translate(127,127)'%3E%3Cpath d='M0,-15 C7,-9 7,-3 0,0 C-7,-3 -7,-9 0,-15'/%3E%3Cpath d='M0,-15 C7,-9 7,-3 0,0 C-7,-3 -7,-9 0,-15' transform='rotate(90)'/%3E%3Cpath d='M0,-15 C7,-9 7,-3 0,0 C-7,-3 -7,-9 0,-15' transform='rotate(180)'/%3E%3Cpath d='M0,-15 C7,-9 7,-3 0,0 C-7,-3 -7,-9 0,-15' transform='rotate(270)'/%3E%3C/g%3E%3Ccircle cx='127' cy='42' r='2.4'/%3E%3Ccircle cx='42' cy='127' r='2.4'/%3E%3C/g%3E%3C/svg%3E");
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .panel { position: absolute; top: 0; height: 2000px; overflow: hidden; }
+
+  /* ---------- left panel ---------- */
+  .panel-left {
+    left: 0; width: 1100px;
+    background: linear-gradient(180deg, #AC3632 0%, #9E2D2B 58%, #8B2422 100%);
+  }
+  .corner-xi-l1, .corner-xi-l2 {
+    position: absolute; font-family: 'MaShanZheng'; color: #F0D696; z-index: 2; line-height: 1;
+  }
+  .corner-xi-l1 { font-size: 300px; left: -85px; bottom: -105px; opacity: 0.055; }
+  .corner-xi-l2 { font-size: 190px; right: -30px; top: 620px; opacity: 0.05; }
+
+  .photo-wrap {
+    position: absolute; top: 0; left: 0; width: 1100px; height: 1240px;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .photo-wrap img {
+    width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%;
+  }
+  .photo-wrap .tint {
+    position: absolute; inset: 0;
+    background: rgba(146, 38, 36, 0.14);
+  }
+  .photo-wrap .fade {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      rgba(156, 44, 42, 0) 0%,
+      rgba(156, 44, 42, 0) 52%,
+      rgba(155, 43, 41, 0.55) 76%,
+      rgba(157, 44, 42, 0.92) 92%,
+      #9D2C2A 100%);
+  }
+
+  .calligraphy { position: absolute; z-index: 6; font-family: 'MaShanZheng'; line-height: 1;
+    background: linear-gradient(178deg, #F5E2B2 4%, #E3BF7C 62%, #CB9E58 98%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 8px 22px rgba(58, 8, 8, 0.42));
+  }
+  .zi-wu  { font-size: 330px; left: 138px;  top: 906px; }
+  .zi-jia { font-size: 330px; left: 614px;  top: 1030px; }
+  .zi-you { font-size: 330px; left: 158px;  top: 1408px; }
+  .zi-xi  { font-size: 330px; left: 636px;  top: 1520px; }
+
+  .blessing {
+    position: absolute; left: 104px; top: 1816px; z-index: 6;
+    color: var(--cream-dim); font-size: 31px; font-weight: 400;
+    letter-spacing: 0.34em; line-height: 1.9;
+  }
+  .blessing .dot {
+    display: inline-block; width: 9px; height: 9px; background: var(--gold-dim);
+    transform: rotate(45deg); margin-right: 22px; margin-bottom: 4px; opacity: 0.85;
+  }
+  /* ---------- right panel ---------- */
+  .panel-right {
+    left: 1100px; width: 1100px;
+    background: linear-gradient(180deg, #992A2C 0%, #8E2325 48%, #791C1F 100%);
+  }
+  .corner-xi-r1, .corner-xi-r2 {
+    position: absolute; font-family: 'MaShanZheng'; color: #F0D696; z-index: 2; line-height: 1;
+  }
+  .corner-xi-r1 { font-size: 300px; right: -70px; top: -70px; opacity: 0.06; }
+  .corner-xi-r2 { font-size: 300px; left: -115px; bottom: -125px; opacity: 0.055; }
+
+  .seam {
+    position: absolute; left: 1098px; top: 0; width: 4px; height: 2000px; z-index: 8;
+    background: linear-gradient(180deg,
+      rgba(232, 201, 138, 0) 0%,
+      rgba(232, 201, 138, 0.4) 12%,
+      rgba(232, 201, 138, 0.4) 88%,
+      rgba(232, 201, 138, 0) 100%);
+  }
+
+  .content { position: absolute; left: 1100px; width: 1100px; top: 0; z-index: 7; text-align: center; }
+
+  .xi-hero-wrap {
+    position: absolute; left: 0; top: 0; width: 1100px; height: 520px;
+    background: radial-gradient(ellipse 460px 300px at 50% 240px, rgba(243, 214, 140, 0.14) 0%, rgba(243, 214, 140, 0) 68%);
+  }
+  .xi-hero {
+    position: absolute; left: 50%; top: 78px; transform: translateX(-50%);
+    width: 400px;
+  }
+
+  .salute {
+    position: absolute; top: 546px; width: 100%;
+    color: var(--cream); font-size: 34px; font-weight: 400;
+    letter-spacing: 0.3em; padding-left: 0.3em;
+  }
+
+  .verse {
+    position: absolute; top: 636px; width: 100%;
+    color: var(--cream-dim); font-size: 37px; font-weight: 400;
+    letter-spacing: 0.18em; padding-left: 0.18em; line-height: 2.05;
+  }
+
+  /* names station */
+  .names { position: absolute; top: 872px; width: 100%; height: 190px; }
+  .role {
+    font-size: 27px; color: var(--gold-dim); letter-spacing: 0.5em; padding-left: 0.5em;
+    font-weight: 400;
+  }
+  .name {
+    margin-top: 20px; font-size: 62px; color: var(--cream); font-weight: 700;
+    letter-spacing: 0.14em; padding-left: 0.14em;
+  }
+  .name-l { position: absolute; left: 168px; top: 6px; }
+  .name-r { position: absolute; right: 168px; top: 6px; }
+  .seal-medal {
+    position: absolute; left: 50%; top: 4px; transform: translateX(-50%);
+    width: 158px;
+  }
+
+  /* dividers */
+  .divider {
+    position: absolute; width: 560px; left: 50%; transform: translateX(-50%);
+    height: 14px;
+  }
+  .divider::before, .divider::after {
+    content: ''; position: absolute; top: 50%; width: 250px; height: 1px;
+    background: linear-gradient(90deg, rgba(226, 190, 126, 0) 0%, rgba(226, 190, 126, 0.65) 100%);
+  }
+  .divider::before { left: 0; }
+  .divider::after { right: 0; transform: scaleX(-1); }
+  .divider .diamond {
+    position: absolute; left: 50%; top: 50%; width: 11px; height: 11px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: var(--gold); opacity: 0.9;
+  }
+  .div-1 { top: 1102px; }
+  .div-2 { top: 1622px; opacity: 0.75; }
+
+  /* section labels */
+  .sec-label {
+    position: absolute; width: 100%; text-align: center;
+    color: var(--gold); font-size: 33px; font-weight: 700; letter-spacing: 0.6em; padding-left: 0.6em;
+  }
+  .sec-label .bar {
+    display: inline-block; vertical-align: middle; width: 92px; height: 1px;
+    background: linear-gradient(90deg, rgba(226,190,126,0), rgba(226,190,126,0.75));
+    margin: 0 26px; position: relative; top: -6px;
+  }
+  .sec-label .bar.r { transform: scaleX(-1); }
+  .lab-time { top: 1160px; }
+  .lab-loc  { top: 1382px; }
+
+  .time-1 {
+    position: absolute; top: 1234px; width: 100%;
+    color: var(--cream); font-size: 38px; font-weight: 400; letter-spacing: 0.12em; padding-left: 0.12em;
+  }
+  .time-2 {
+    position: absolute; top: 1300px; width: 100%;
+    color: var(--cream-dim); font-size: 30px; font-weight: 400; letter-spacing: 0.22em; padding-left: 0.22em; opacity: 0.95;
+  }
+
+  .loc-1 {
+    position: absolute; top: 1454px; width: 100%;
+    color: var(--cream); font-size: 35px; font-weight: 400; letter-spacing: 0.16em; padding-left: 0.16em;
+  }
+  .loc-2 {
+    position: absolute; top: 1506px; width: 100%;
+    font-family: 'MaShanZheng'; font-size: 88px;
+    background: linear-gradient(178deg, #F5E2B2 4%, #E3BF7C 62%, #CB9E58 98%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 6px 16px rgba(58, 8, 8, 0.4));
+  }
+
+  .host {
+    position: absolute; top: 1688px; width: 100%;
+    color: var(--cream); font-size: 37px; font-weight: 400; letter-spacing: 0.24em; padding-left: 0.24em;
+  }
+  .host .yao { color: var(--gold-hi); }
+  .footline {
+    position: absolute; top: 1772px; width: 100%;
+    color: var(--cream-dim); font-size: 27px; font-weight: 400; letter-spacing: 0.24em; padding-left: 0.24em; opacity: 0.85;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===== left panel ===== -->
+  <div class="panel panel-left">
+    <div class="photo-wrap">
+      <img src="photo3.jpg" alt="">
+      <div class="tint"></div>
+      <div class="fade"></div>
+    </div>
+    <span class="corner-xi-l1">囍</span>
+    <span class="corner-xi-l2">囍</span>
+  </div>
+
+  <div class="texture"></div>
+
+  <!-- left calligraphy -->
+  <span class="calligraphy zi-wu">吾</span>
+  <span class="calligraphy zi-jia">家</span>
+  <span class="calligraphy zi-you">有</span>
+  <span class="calligraphy zi-xi">喜</span>
+
+  <div class="blessing">
+    <div><span class="dot"></span>佳偶天成</div>
+    <div style="margin-left: 62px;"><span class="dot"></span>百年好合</div>
+  </div>
+
+  <!-- ===== seam ===== -->
+  <div class="seam"></div>
+
+  <!-- ===== right panel ===== -->
+  <div class="panel panel-right">
+    <span class="corner-xi-r1">囍</span>
+    <span class="corner-xi-r2">囍</span>
+  </div>
+
+  <div class="content">
+    <div class="xi-hero-wrap"></div>
+    <img class="xi-hero" src="xi.png" alt="囍">
+
+    <div class="salute">尊敬的各位亲朋好友</div>
+
+    <div class="verse">
+      小女于归&emsp;良辰已定&emsp;吾有薄酒<br>
+      以谢良友&emsp;敬备喜宴&emsp;恭候台驾
+    </div>
+
+    <div class="names">
+      <div class="name-l">
+        <div class="role">新郎</div>
+        <div class="name">周煜全</div>
+      </div>
+      <img class="seal-medal" src="xi.png" alt="">
+      <div class="name-r">
+        <div class="role">新娘</div>
+        <div class="name">张令仪</div>
+      </div>
+    </div>
+
+    <div class="divider div-1"><span class="diamond"></span></div>
+
+    <div class="sec-label lab-time"><span class="bar"></span>时间<span class="bar r"></span></div>
+    <div class="time-1">公历 2027年1月26日（星期二）</div>
+    <div class="time-2">农历丙午年腊月十九</div>
+
+    <div class="sec-label lab-loc"><span class="bar"></span>地点<span class="bar r"></span></div>
+    <div class="loc-1">湖南省常德市桃源县沙坪镇</div>
+    <div class="loc-2">张府</div>
+
+    <div class="divider div-2"><span class="diamond"></span></div>
+
+    <div class="host">张思元 · 刘萍 <span class="yao">敬邀</span></div>
+    <div class="footline">二〇二七年一月二十六日 · 张府见</div>
+  </div>
+
+</body>
+</html>

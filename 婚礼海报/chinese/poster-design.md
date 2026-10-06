@@ -1,0 +1,15 @@
+# 朱金誓约 · Vermilion Vow
+
+A design philosophy for ceremonial announcement in the Chinese red-and-gold tradition.
+
+## The Movement
+
+**朱金誓约 (Vermilion Vow)** holds that joy, at its most formal, is expressed through two materials only: vermilion and gold. Vermilion is the field — the vast, warm red of lantern light and lacquered doors — and gold is the voice that moves across it. Everything else is silence. The philosophy rejects decoration for its own sake; every mark that survives must earn its place through ritual necessity, the way a master seal-carver leaves no stray stroke on a name stone. The finished work must read as if a court calligrapher spent weeks over a single sheet: brush texture visible, spacing meditated upon, balance invisible because it is total.
+
+Space in this philosophy is *ritual space*. Composition follows the vertical, ceremonial reading of classical Chinese typography — the eye enters from a dominant glyph and descends through ordered stations, each granted generous breathing room (留白). Negative space is not emptiness but respect: room granted to the guest, the way a host leaves the center seat open. Dense moments (a wall of brush ink, a photograph) are always answered by quiet zones; no edge is ever crowded, nothing touches the canvas boundary without a margin of red around it.
+
+Color is governed by restraint within warmth. The red field is not one red but a lived red — brighter crimson where life and faces appear, deepening toward maroon at the edges like lacquer shading into shadow. Gold is not metallic glitter but aged, warm gold — the tone of gilded ink on temple plaques — reserved for calligraphy, hairline rules, and seals. Cream, the softest register of gold, carries the informative text so that reading feels like reception, not signage. Ornament (cloud scrolls, meander strips, faint floral fields) exists only at whisper opacity, texture rather than pattern, never competing with words.
+
+Scale is the primary dramatic instrument. One glyph may tower — a single 囍 or a four-character burst of brush calligraphy — while surrounding text stays small and precisely letterspaced, the contrast doing the work that decoration would only undo. Rhythm comes from repetition with variation: paired lines of verse, symmetric name stations flanking a central seal, section markers repeating a single hairline-and-diamond motif down the panel. Alignment is strict, centers exact, baselines deliberate; asymmetry appears only where the brush would naturally stagger, never from carelessness.
+
+The human presence — a photograph — is treated as the emotional anchor and is never framed like a specimen. It emerges from the red field as if developing out of lantern light, its lower edge dissolving into the vermilion so that the couple and the celebration share one atmosphere. Above all: the work must feel *labored over* — meticulously crafted, the product of countless quiet hours, master-level execution in every kerning decision and every hairline — so that a guest holding it feels the weight of the occasion before reading a single word.

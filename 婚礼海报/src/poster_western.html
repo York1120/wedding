@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Lingyi & Yuquan · Wedding Invitation</title>
+<style>
+  @font-face { font-family: 'GreatVibes'; src: url('GreatVibes-400.ttf') format('truetype'); font-display: block; }
+  @font-face { font-family: 'Cormorant'; src: url('CormorantGaramond-400.ttf') format('truetype'); font-weight: 400; font-display: block; }
+  @font-face { font-family: 'Cormorant'; src: url('CormorantGaramond-500.ttf') format('truetype'); font-weight: 500; font-display: block; }
+  @font-face { font-family: 'Cormorant'; src: url('CormorantGaramond-600.ttf') format('truetype'); font-weight: 600; font-display: block; }
+  @font-face { font-family: 'NotoSerifSC'; src: url('NotoSerifSC-400.ttf') format('truetype'); font-display: block; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ivory: #F8F3E9;
+    --arch-fill: #F2EBDB;
+    --ink: #3E392F;
+    --ink-soft: #6E6552;
+    --gold: #B3924F;
+    --gold-line: #C2A566;
+    --gold-pale: #D8C69C;
+    --sage: #8A9B7C;
+  }
+
+  html, body { width: 1500px; height: 2100px; overflow: hidden; }
+  body {
+    font-family: 'Cormorant', serif;
+    background: var(--ivory);
+    position: relative;
+  }
+
+  .grain {
+    position: absolute; inset: 0; z-index: 30; pointer-events: none; opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.30 0 0 0 0 0.20 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- frames ---------- */
+  .frame-outer {
+    position: absolute; inset: 44px;
+    border: 1.5px solid var(--gold-line);
+    pointer-events: none;
+  }
+  .frame-inner {
+    position: absolute; inset: 58px;
+    border: 1px solid var(--gold-pale);
+    pointer-events: none;
+  }
+  .corner-dot {
+    position: absolute; width: 9px; height: 9px; background: var(--gold);
+    transform: rotate(45deg); z-index: 4;
+  }
+  .cd-tl { left: 53.5px; top: 53.5px; }
+  .cd-tr { right: 53.5px; top: 53.5px; }
+  .cd-bl { left: 53.5px; bottom: 53.5px; }
+  .cd-br { right: 53.5px; bottom: 53.5px; }
+
+  /* ---------- top sprig ---------- */
+  .sprig-top { position: absolute; top: 96px; left: 50%; transform: translateX(-50%); }
+
+  .eyebrow {
+    position: absolute; top: 182px; width: 100%; text-align: center;
+    font-family: 'Cormorant'; font-weight: 500; font-size: 25px;
+    letter-spacing: 0.45em; padding-left: 0.45em; color: var(--ink-soft);
+  }
+
+  /* ---------- names ---------- */
+  .script { font-family: 'GreatVibes'; color: var(--ink); line-height: 1; position: absolute; width: 100%; text-align: center; }
+  .name-1 { top: 230px; font-size: 150px; }
+  .amp { top: 382px; font-size: 62px; color: var(--gold); }
+  .name-2 { top: 444px; font-size: 150px; }
+
+  .cn-names {
+    position: absolute; top: 636px; width: 100%; text-align: center;
+    font-family: 'NotoSerifSC'; font-size: 25px; letter-spacing: 0.38em;
+    padding-left: 0.38em; color: var(--ink-soft);
+  }
+
+  /* ---------- arch photo slot ---------- */
+  .arch {
+    position: absolute; top: 694px; left: 470px; width: 560px; height: 640px;
+    background: var(--arch-fill);
+    border: 1px solid var(--gold-pale);
+    border-radius: 280px 280px 0 0;
+    overflow: hidden;
+  }
+  .arch::before {
+    content: ''; position: absolute; inset: 14px;
+    border: 1px solid #E2D4B2;
+    border-radius: 266px 266px 0 0;
+  }
+  .arch img {
+    position: absolute; inset: 15px; width: calc(100% - 30px); height: calc(100% - 30px);
+    object-fit: cover; object-position: 50% 22%;
+    border-radius: 265px 265px 0 0;
+  }
+
+  /* ---------- botanical stems ---------- */
+  .stem-l { position: absolute; left: 176px; top: 810px; }
+  .stem-r { position: absolute; right: 176px; top: 850px; }
+
+  /* ---------- formal lines ---------- */
+  .presence {
+    position: absolute; top: 1408px; width: 100%; text-align: center;
+    font-family: 'Cormorant'; font-weight: 600; font-size: 23px;
+    letter-spacing: 0.4em; padding-left: 0.4em; color: var(--ink);
+  }
+  .date-1 {
+    position: absolute; top: 1478px; width: 100%; text-align: center;
+    font-family: 'Cormorant'; font-weight: 500; font-size: 40px; color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .date-2 {
+    position: absolute; top: 1538px; width: 100%; text-align: center;
+    font-family: 'Cormorant'; font-weight: 400; font-style: italic; font-size: 33px;
+    color: var(--ink-soft); letter-spacing: 0.05em;
+  }
+  .date-cn {
+    position: absolute; top: 1600px; width: 100%; text-align: center;
+    font-family: 'NotoSerifSC'; font-size: 22px; letter-spacing: 0.3em;
+    padding-left: 0.3em; color: var(--ink-soft);
+  }
+
+  .div-sm {
+    position: absolute; top: 1668px; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 12px;
+  }
+  .div-sm::before, .div-sm::after {
+    content: ''; position: absolute; top: 50%; width: 78px; height: 1px;
+    background: linear-gradient(90deg, rgba(194,165,102,0), rgba(194,165,102,0.8));
+  }
+  .div-sm::before { left: 0; }
+  .div-sm::after { right: 0; transform: scaleX(-1); }
+  .div-sm .diamond {
+    position: absolute; left: 50%; top: 50%; width: 8px; height: 8px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border: 1px solid var(--gold); background: var(--ivory);
+  }
+
+  .venue-1 {
+    position: absolute; top: 1716px; width: 100%; text-align: center;
+    font-family: 'Cormorant'; font-weight: 600; font-size: 29px;
+    letter-spacing: 0.28em; padding-left: 0.28em; color: var(--ink);
+  }
+  .venue-2 {
+    position: absolute; top: 1768px; width: 100%; text-align: center;
+    font-family: 'Cormorant'; font-weight: 400; font-size: 25px;
+    letter-spacing: 0.08em; color: var(--ink-soft);
+  }
+  .venue-cn {
+    position: absolute; top: 1812px; width: 100%; text-align: center;
+    font-family: 'NotoSerifSC'; font-size: 24px; letter-spacing: 0.55em;
+    padding-left: 0.55em; color: var(--ink-soft);
+  }
+
+  .host-cn {
+    position: absolute; top: 1876px; width: 100%; text-align: center;
+    font-family: 'NotoSerifSC'; font-size: 21px; letter-spacing: 0.32em;
+    padding-left: 0.32em; color: var(--ink-soft);
+  }
+
+  /* ---------- wax-seal monogram ---------- */
+  .seal {
+    position: absolute; top: 1928px; left: 50%; transform: translateX(-50%);
+    width: 104px; height: 104px; border-radius: 50%;
+    background: #F5EDDC;
+    border: 1.5px solid var(--gold-line);
+    box-shadow: 0 0 0 5px var(--ivory), 0 0 0 6px var(--gold-pale), 0 10px 26px rgba(110, 92, 50, 0.16);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .seal span {
+    font-family: 'GreatVibes'; font-size: 44px; color: var(--gold);
+    padding-right: 5px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <span class="corner-dot cd-tl"></span>
+  <span class="corner-dot cd-tr"></span>
+  <span class="corner-dot cd-bl"></span>
+  <span class="corner-dot cd-br"></span>
+
+  <!-- top laurel sprig -->
+  <svg class="sprig-top" width="190" height="56" viewBox="0 0 190 56" fill="none">
+    <g stroke="#8A9B7C" stroke-width="1.6" stroke-linecap="round">
+      <path d="M92,44 C70,38 42,34 14,44"/>
+      <path d="M98,44 C120,38 148,34 176,44"/>
+    </g>
+    <g fill="#8A9B7C">
+      <ellipse cx="24" cy="40" rx="9" ry="3.4" transform="rotate(-28 24 40)"/>
+      <ellipse cx="40" cy="35" rx="9" ry="3.4" transform="rotate(-16 40 35)"/>
+      <ellipse cx="57" cy="33" rx="9" ry="3.4" transform="rotate(-7 57 33)"/>
+      <ellipse cx="74" cy="35" rx="9" ry="3.4" transform="rotate(3 74 35)"/>
+      <ellipse cx="32" cy="47" rx="9" ry="3.4" transform="rotate(-10 32 47)"/>
+      <ellipse cx="50" cy="44" rx="9" ry="3.4" transform="rotate(-2 50 44)"/>
+      <ellipse cx="68" cy="43" rx="9" ry="3.4" transform="rotate(6 68 43)"/>
+      <ellipse cx="166" cy="40" rx="9" ry="3.4" transform="rotate(28 166 40)"/>
+      <ellipse cx="150" cy="35" rx="9" ry="3.4" transform="rotate(16 150 35)"/>
+      <ellipse cx="133" cy="33" rx="9" ry="3.4" transform="rotate(7 133 33)"/>
+      <ellipse cx="116" cy="35" rx="9" ry="3.4" transform="rotate(-3 116 35)"/>
+      <ellipse cx="158" cy="47" rx="9" ry="3.4" transform="rotate(10 158 47)"/>
+      <ellipse cx="140" cy="44" rx="9" ry="3.4" transform="rotate(2 140 44)"/>
+      <ellipse cx="122" cy="43" rx="9" ry="3.4" transform="rotate(-6 122 43)"/>
+    </g>
+    <circle cx="95" cy="41" r="3.2" fill="#B3924F"/>
+  </svg>
+
+  <div class="eyebrow">THE WEDDING CELEBRATION OF</div>
+
+  <div class="script name-1">Lingyi</div>
+  <div class="script amp">&amp;</div>
+  <div class="script name-2">Yuquan</div>
+
+  <div class="cn-names">张令仪 · 周煜全</div>
+
+  <!-- arch photo -->
+  <div class="arch">
+    <img src="photo.jpg" alt="">
+  </div>
+
+  <!-- eucalyptus stems, leaves placed along the stem curve -->
+  <svg class="stem-l" width="250" height="520" viewBox="0 0 250 520" fill="none">
+    <path d="M232,508 C182,432 122,352 96,258 C76,186 78,116 108,42"
+          stroke="#8A9B7C" stroke-width="1.8" stroke-linecap="round"/>
+    <g fill="#93A383" opacity="0.92">
+      <ellipse cx="209" cy="473" rx="26" ry="10" transform="rotate(-77 209 473)"/>
+      <ellipse cx="186" cy="436" rx="26" ry="10" transform="rotate(13 186 436)"/>
+      <ellipse cx="162" cy="399" rx="25" ry="10" transform="rotate(-75 162 399)"/>
+      <ellipse cx="141" cy="361" rx="25" ry="10" transform="rotate(19 141 361)"/>
+      <ellipse cx="121" cy="321" rx="24" ry="10" transform="rotate(-71 121 321)"/>
+      <ellipse cx="105" cy="279" rx="24" ry="10" transform="rotate(30 105 279)"/>
+      <ellipse cx="91" cy="227" rx="23" ry="10" transform="rotate(-55 91 227)"/>
+      <ellipse cx="85" cy="193" rx="23" ry="10" transform="rotate(42 85 193)"/>
+      <ellipse cx="83" cy="158" rx="22" ry="9.5" transform="rotate(-48 83 158)"/>
+      <ellipse cx="84" cy="124" rx="22" ry="9.5" transform="rotate(52 84 124)"/>
+      <ellipse cx="88" cy="89" rx="21" ry="9" transform="rotate(-38 88 89)"/>
+      <ellipse cx="96" cy="54" rx="20" ry="9" transform="rotate(58 96 54)"/>
+    </g>
+    <g fill="#C2A566">
+      <circle cx="118" cy="38" r="5"/>
+      <circle cx="133" cy="52" r="4"/>
+      <circle cx="106" cy="26" r="3.4"/>
+    </g>
+  </svg>
+  <svg class="stem-r" width="250" height="480" viewBox="0 0 250 480" fill="none">
+    <path d="M232,468 C186,404 132,334 106,250 C86,186 88,124 116,56"
+          stroke="#8A9B7C" stroke-width="1.8" stroke-linecap="round"/>
+    <g fill="#93A383" opacity="0.92">
+      <ellipse cx="211" cy="437" rx="25" ry="10" transform="rotate(-77 211 437)"/>
+      <ellipse cx="189" cy="405" rx="25" ry="10" transform="rotate(13 189 405)"/>
+      <ellipse cx="168" cy="372" rx="24" ry="10" transform="rotate(-75 168 372)"/>
+      <ellipse cx="148" cy="337" rx="24" ry="10" transform="rotate(19 148 337)"/>
+      <ellipse cx="130" cy="302" rx="23" ry="10" transform="rotate(-71 130 302)"/>
+      <ellipse cx="115" cy="264" rx="23" ry="10" transform="rotate(30 115 264)"/>
+      <ellipse cx="101" cy="218" rx="22" ry="9.5" transform="rotate(-55 101 218)"/>
+      <ellipse cx="95" cy="187" rx="22" ry="9.5" transform="rotate(42 95 187)"/>
+      <ellipse cx="93" cy="157" rx="21" ry="9" transform="rotate(-48 93 157)"/>
+      <ellipse cx="94" cy="126" rx="21" ry="9" transform="rotate(52 94 126)"/>
+      <ellipse cx="98" cy="95" rx="20" ry="9" transform="rotate(-38 98 95)"/>
+      <ellipse cx="105" cy="64" rx="19" ry="8.5" transform="rotate(58 105 64)"/>
+    </g>
+    <g fill="#C2A566">
+      <circle cx="126" cy="50" r="4.6"/>
+      <circle cx="140" cy="64" r="3.6"/>
+    </g>
+  </svg>
+
+  <div class="presence">REQUEST THE HONOUR OF YOUR PRESENCE</div>
+
+  <div class="date-1">Tuesday, the twenty-sixth of January</div>
+  <div class="date-2">two thousand twenty-seven &nbsp;·&nbsp; at noon</div>
+  <div class="date-cn">农历丙午年腊月十九</div>
+
+  <div class="div-sm"><span class="diamond"></span></div>
+
+  <div class="venue-1">ZHANG FAMILY RESIDENCE</div>
+  <div class="venue-2">Shaping Town, Taoyuan County, Changde, Hunan</div>
+  <div class="venue-cn">张府</div>
+
+  <div class="host-cn">张思元 · 刘萍 敬邀</div>
+
+  <div class="seal"><span>L&amp;Y</span></div>
+
+  <div class="grain"></div>
+
+</body>
+</html>
