@@ -89,13 +89,11 @@
     border: 1px solid #E2D4B2;
     border-radius: 266px 266px 0 0;
   }
-  .arch .slot-label {
-    position: absolute; bottom: 40px; width: 100%; text-align: center;
-    font-family: 'Cormorant'; font-weight: 500; font-size: 15px;
-    letter-spacing: 0.5em; padding-left: 0.5em; color: #A5977B;
+  .arch img {
+    position: absolute; inset: 15px; width: calc(100% - 30px); height: calc(100% - 30px);
+    object-fit: cover; object-position: 50% 22%;
+    border-radius: 265px 265px 0 0;
   }
-  .arch .slot-label .cn { font-family: 'NotoSerifSC'; letter-spacing: 0.3em; }
-  .arch .slot-sprig { position: absolute; top: 64px; left: 50%; transform: translateX(-50%); opacity: 0.75; }
 
   /* ---------- botanical stems ---------- */
   .stem-l { position: absolute; left: 176px; top: 810px; }
@@ -218,26 +216,9 @@
 
   <div class="cn-names">张令仪 · 周煜全</div>
 
-  <!-- arch photo slot (photo intentionally left empty) -->
+  <!-- arch photo -->
   <div class="arch">
-    <svg class="slot-sprig" width="120" height="34" viewBox="0 0 120 34" fill="none">
-      <g stroke="#8A9B7C" stroke-width="1.3" stroke-linecap="round">
-        <path d="M57,26 C44,22 26,20 10,27"/>
-        <path d="M63,26 C76,22 94,20 110,27"/>
-      </g>
-      <g fill="#8A9B7C">
-        <ellipse cx="16" cy="25" rx="6.4" ry="2.5" transform="rotate(-24 16 25)"/>
-        <ellipse cx="29" cy="22" rx="6.4" ry="2.5" transform="rotate(-12 29 22)"/>
-        <ellipse cx="43" cy="21" rx="6.4" ry="2.5" transform="rotate(-4 43 21)"/>
-        <ellipse cx="35" cy="28" rx="6.4" ry="2.5" transform="rotate(-8 35 28)"/>
-        <ellipse cx="104" cy="25" rx="6.4" ry="2.5" transform="rotate(24 104 25)"/>
-        <ellipse cx="91" cy="22" rx="6.4" ry="2.5" transform="rotate(12 91 22)"/>
-        <ellipse cx="77" cy="21" rx="6.4" ry="2.5" transform="rotate(4 77 21)"/>
-        <ellipse cx="85" cy="28" rx="6.4" ry="2.5" transform="rotate(8 85 28)"/>
-      </g>
-      <circle cx="60" cy="24" r="2.4" fill="#B3924F"/>
-    </svg>
-    <div class="slot-label">PHOTO&nbsp;&nbsp;·&nbsp;&nbsp;<span class="cn">照片位</span></div>
+    <img src="photo.jpg" alt="">
   </div>
 
   <!-- eucalyptus stems, leaves placed along the stem curve -->

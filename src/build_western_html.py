@@ -44,14 +44,8 @@ for fn in ["GreatVibes-400.ttf", "CormorantGaramond-400.ttf",
     src = src.replace(f"url('{fn}') format('truetype')", f"url('{b64(data, 'font/woff2')}') format('woff2')")
     print(f"{fn}: {len(data)/1024:.0f} KB")
 
-# comment guiding photo replacement inside the empty arch slot
-src = src.replace(
-    '<!-- arch photo slot (photo intentionally left empty) -->\n  <div class="arch">',
-    '<!-- 照片位: 把下一行取消注释, 换成你的照片文件名(建议竖图) -->\n'
-    '  <!-- <img src="photo.jpg" style="position:absolute;inset:15px;width:calc(100% - 30px);'
-    'height:calc(100% - 30px);object-fit:cover;border-radius:265px 265px 0 0;"> -->\n'
-    '  <div class="arch">',
-)
+# embed the arch photo
+src = src.replace('src="photo.jpg"', 'src="' + b64(open("photo.jpg", "rb").read(), "image/jpeg") + '"')
 
 scaler_css = """
   html, body {
