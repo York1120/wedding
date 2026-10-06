@@ -60,7 +60,22 @@
     position: absolute; font-family: 'MaShanZheng'; color: #F0D696; z-index: 2; line-height: 1;
   }
   .corner-xi-l1 { font-size: 300px; left: -85px; bottom: -105px; opacity: 0.055; }
-  .corner-xi-l2 { font-size: 190px; right: -30px; top: 620px; opacity: 0.05; }
+  .corner-xi-l2 { font-size: 190px; right: -30px; bottom: -60px; opacity: 0.05; }
+
+  .photo3-wrap {
+    position: absolute; left: 40px; top: 770px; width: 540px; height: 810px;
+    z-index: 3; overflow: hidden;
+    border: 1px solid rgba(216, 198, 156, 0.55);
+    box-shadow: 0 12px 32px rgba(70, 10, 10, 0.35);
+    background: rgba(0, 0, 0, 0.08);
+  }
+  .photo3-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block; }
+
+  .zi-v1 { font-size: 260px; left: 712px; top: 776px; }
+  .zi-v2 { font-size: 260px; left: 718px; top: 1032px; }
+  .zi-v3 { font-size: 260px; left: 706px; top: 1288px; }
+  .zi-v4 { font-size: 260px; left: 714px; top: 1544px; }
+  .seal-v { position: absolute; left: 784px; top: 1824px; width: 112px; z-index: 6; }
 
   .photo-wrap {
     position: absolute; top: 0; left: 0; width: 1100px; height: 733px;
@@ -89,13 +104,9 @@
     -webkit-background-clip: text; background-clip: text; color: transparent;
     filter: drop-shadow(0 8px 22px rgba(58, 8, 8, 0.42));
   }
-  .zi-wu  { font-size: 330px; left: 138px;  top: 820px; }
-  .zi-jia { font-size: 330px; left: 614px;  top: 944px; }
-  .zi-you { font-size: 330px; left: 158px;  top: 1322px; }
-  .zi-xi  { font-size: 330px; left: 636px;  top: 1434px; }
 
   .blessing {
-    position: absolute; left: 104px; top: 1816px; z-index: 6;
+    position: absolute; left: 104px; top: 1638px; z-index: 6;
     color: var(--cream-dim); font-size: 31px; font-weight: 400;
     letter-spacing: 0.34em; line-height: 1.9;
   }
@@ -103,7 +114,6 @@
     display: inline-block; width: 9px; height: 9px; background: var(--gold-dim);
     transform: rotate(45deg); margin-right: 22px; margin-bottom: 4px; opacity: 0.85;
   }
-
   /* ---------- right panel ---------- */
   .panel-right {
     left: 1100px; width: 1100px;
@@ -238,17 +248,19 @@
       <div class="tint"></div>
       <div class="fade"></div>
     </div>
+    <div class="photo3-wrap"><img src="photo3.jpg" alt=""></div>
     <span class="corner-xi-l1">囍</span>
     <span class="corner-xi-l2">囍</span>
   </div>
 
   <div class="texture"></div>
 
-  <!-- left calligraphy -->
-  <span class="calligraphy zi-wu">吾</span>
-  <span class="calligraphy zi-jia">家</span>
-  <span class="calligraphy zi-you">有</span>
-  <span class="calligraphy zi-xi">喜</span>
+  <!-- left calligraphy: vertical column -->
+  <span class="calligraphy zi-v1">吾</span>
+  <span class="calligraphy zi-v2">家</span>
+  <span class="calligraphy zi-v3">有</span>
+  <span class="calligraphy zi-v4">喜</span>
+  <img class="seal-v" src="xi.png" alt="囍">
 
   <div class="blessing">
     <div><span class="dot"></span>佳偶天成</div>

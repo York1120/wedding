@@ -50,6 +50,7 @@ for fn, (mime, _) in fonts.items():
     print(f"{fn}: {len(data)/1024:.0f} KB subset")
 
 src = src.replace("photo1.jpg", b64(open("photo1.jpg", "rb").read(), "image/jpeg"))
+src = src.replace("photo3.jpg", b64(open("photo3.jpg", "rb").read(), "image/jpeg"))
 src = src.replace('src="xi.png"', 'src="' + b64(open("xi.png", "rb").read(), "image/png") + '"')
 
 scaler_css = """

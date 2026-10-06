@@ -9,10 +9,10 @@
   var W = stage.offsetWidth, H = stage.offsetHeight;
 
   /* 两套海报可拖动元素的并集（各自不存在的类名不会命中） */
-  var MOVABLE = ['.photo-wrap', '.arch', '.calligraphy', '.blessing', '.corner-xi-l1', '.corner-xi-l2',
+  var MOVABLE = ['.photo-wrap', '.photo3-wrap', '.arch', '.calligraphy', '.blessing', '.corner-xi-l1', '.corner-xi-l2',
     '.xi-hero', '.salute', '.verse', '.name-l', '.name-r', '.seal-medal', '.divider',
     '.sec-label', '.time-1', '.time-2', '.loc-1', '.loc-2', '.host', '.footline',
-    '.corner-xi-r1', '.corner-xi-r2',
+    '.corner-xi-r1', '.corner-xi-r2', '.seal-v',
     '.sprig-top', '.eyebrow', '.name-1', '.amp', '.name-2', '.cn-names',
     '.stem-l', '.stem-r', '.slot-label', '.presence',
     '.date-1', '.date-2', '.date-cn', '.div-sm',
@@ -76,7 +76,7 @@
   var editMode = false, selected = null;
 
   /* ---------- 照片裁剪 ---------- */
-  var CROP_SEL = '.photo-wrap img, .arch img';
+  var CROP_SEL = '.photo-wrap img, .photo3-wrap img, .arch img';
   var cropMode = false;
   var crop = { img: null, z: 1, tx: 0, ty: 0, sw: 0, sh: 0, cw: 0, ch: 0 };
 
