@@ -36,7 +36,9 @@
     '[contenteditable="true"]{outline:2px solid #e8c87c!important;cursor:text!important;user-select:text}',
     '#ed-selbox{position:absolute;border:1.5px dashed #e8c87c;pointer-events:none;z-index:9990;display:none}',
     '#ed-guide{position:absolute;top:0;width:1px;height:100%;background:rgba(232,200,124,.8);',
-    'pointer-events:none;z-index:9989;display:none}'
+    'pointer-events:none;z-index:9989;display:none}',
+    '.ed-crop :is(.photo-wrap,.arch){cursor:grab}',
+    '.ed-crop :is(.photo-wrap,.arch):active{cursor:grabbing}'
   ].join('');
   document.head.appendChild(style);
 
@@ -48,6 +50,12 @@
     '<span id="ed-tools" hidden>' +
     '<button data-act="minus">字号 −</button>' +
     '<button data-act="plus">字号 ＋</button>' +
+    '<button data-act="crop" id="ed-cropbtn" hidden>✂ 裁剪</button>' +
+    '<span id="crop-tools" hidden>' +
+    '<button data-act="zoomout">缩小 −</button>' +
+    '<button data-act="zoomin">放大 ＋</button>' +
+    '<button data-act="cropreset">重置裁剪</button>' +
+    '</span>' +
     '<button data-act="center">居中</button>' +
     '<button data-act="hide">隐藏</button>' +
     '<button data-act="png">导出 PNG</button>' +
@@ -66,6 +74,97 @@
 
   var snapshot = stage.innerHTML;
   var editMode = false, selected = null;
+
+  /* ---------- 照片裁剪 ---------- */
+  var CROP_SEL = '.photo-wrap img, .arch img';
+  var cropMode = false;
+  var crop = { img: null, z: 1, tx: 0, ty: 0, sw: 0, sh: 0, cw: 0, ch: 0 };
+
+  function findCropImg(el) {
+    if (!el) return null;
+    if (el.tagName === 'IMG' && el.matches(CROP_SEL)) return el;
+    return el.querySelector ? el.querySelector(CROP_SEL) : null;
+  }
+
+  function applyCrop() {
+    crop.img.dataset.cropZ = crop.z;
+    crop.img.dataset.cropTx = crop.tx;
+    crop.img.dataset.cropTy = crop.ty;
+    crop.img.style.objectPosition = '50% 50%';
+    crop.img.style.transform = 'translate(' + crop.tx + 'px,' + crop.ty + 'px) scale(' + crop.z + ')';
+  }
+
+  function clampCrop() {
+    var mx = (crop.sw * crop.z - crop.cw) / 2;
+    var my = (crop.sh * crop.z - crop.ch) / 2;
+    crop.tx = Math.min(mx, Math.max(-mx, crop.tx));
+    crop.ty = Math.min(my, Math.max(-my, crop.ty));
+  }
+
+  function enterCrop() {
+    var img = findCropImg(selected);
+    if (!img || !img.naturalWidth) return;
+    crop.img = img;
+    var box = img.parentElement;
+    box.style.overflow = 'hidden'; /* 防止缩放后图片溢出容器 */
+    crop.cw = box.clientWidth; crop.ch = box.clientHeight;
+    var cover = Math.max(crop.cw / img.naturalWidth, crop.ch / img.naturalHeight);
+    crop.sw = img.naturalWidth * cover;
+    crop.sh = img.naturalHeight * cover;
+    if (img.dataset.cropZ) {
+      crop.z = +img.dataset.cropZ; crop.tx = +img.dataset.cropTx; crop.ty = +img.dataset.cropTy;
+    } else {
+      /* 把 CSS object-position 的初始裁剪折算成平移量，再统一接管 */
+      var op = getComputedStyle(img).objectPosition.split(/\s+/);
+      var px = parseFloat(op[0]) / 100;
+      var py = op.length > 1 ? parseFloat(op[1]) / 100 : px;
+      crop.z = 1;
+      crop.tx = (crop.sw - crop.cw) * (0.5 - px);
+      crop.ty = (crop.sh - crop.ch) * (0.5 - py);
+    }
+    cropMode = true;
+    stage.classList.add('ed-crop');
+    clampCrop(); applyCrop(); updateCropUI();
+  }
+
+  function exitCrop() {
+    if (!cropMode) return;
+    cropMode = false;
+    stage.classList.remove('ed-crop');
+    updateCropUI();
+  }
+
+  function updateCropUI() {
+    var btn = bar.querySelector('#ed-cropbtn');
+    var tools = bar.querySelector('#crop-tools');
+    var hint = bar.querySelector('.ed-hint');
+    if (cropMode) {
+      btn.hidden = false; btn.textContent = '✓ 完成裁剪';
+      tools.hidden = false;
+      hint.textContent = '裁剪中：拖动平移 · 滚轮以光标为中心缩放';
+    } else {
+      var has = findCropImg(selected);
+      btn.hidden = !has; btn.textContent = '✂ 裁剪';
+      tools.hidden = true;
+      hint.textContent = '拖动移动 · 双击改字 · 方向键微调(Shift×10) · Del 隐藏';
+    }
+  }
+
+  function zoomCrop(f, vx, vy) {
+    var nz = Math.min(5, Math.max(1, crop.z * f));
+    if (nz === crop.z) return;
+    if (vx === undefined) { crop.tx *= nz / crop.z; crop.ty *= nz / crop.z; }
+    else {
+      var s = fitScale();
+      var r = crop.img.getBoundingClientRect();
+      var vcx = (vx - (r.left + r.width / 2)) / s;
+      var vcy = (vy - (r.top + r.height / 2)) / s;
+      crop.tx = vcx - (vcx - crop.tx) / crop.z * nz;
+      crop.ty = vcy - (vcy - crop.ty) / crop.z * nz;
+    }
+    crop.z = nz;
+    clampCrop(); applyCrop();
+  }
 
   function fitScale() { return stage.getBoundingClientRect().width / stage.offsetWidth; }
   function stageOrigin() { return stage.getBoundingClientRect(); }
@@ -98,8 +197,11 @@
     selbox.style.height = (r.height / s + 8) + 'px';
   }
 
-  function select(el) { selected = el; syncSelbox(); }
-  function deselect() { selected = null; selbox.style.display = 'none'; }
+  function select(el) { selected = el; syncSelbox(); updateCropUI(); }
+  function deselect() {
+    exitCrop();
+    selected = null; selbox.style.display = 'none'; updateCropUI();
+  }
 
   function setEditMode(on) {
     editMode = on;
@@ -128,6 +230,8 @@
     var active = document.activeElement;
     if (active && active.isContentEditable && active !== el) active.blur();
     if (active === el && el.isContentEditable) return; /* 编辑中：让光标正常落点 */
+    if (cropMode && el === selected) { ev.preventDefault(); startPan(ev); return; }
+    if (cropMode) exitCrop();
     var now = Date.now();
     if (lastTap.el === el && now - lastTap.t < 450) {
       lastTap = { t: 0, el: null };
@@ -165,6 +269,30 @@
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', onUp);
   });
+  /* ---------- 裁剪平移 ---------- */
+  function startPan(ev) {
+    var s = fitScale();
+    var sx = ev.clientX, sy = ev.clientY, tx0 = crop.tx, ty0 = crop.ty;
+    function onMove(e) {
+      crop.tx = tx0 + (e.clientX - sx) / s;
+      crop.ty = ty0 + (e.clientY - sy) / s;
+      clampCrop(); applyCrop();
+    }
+    function onUp() {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+    }
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  }
+
+  stage.addEventListener('wheel', function (ev) {
+    if (!cropMode) return;
+    if (!ev.target.closest(MOVABLE) || ev.target.closest(MOVABLE) !== selected) return;
+    ev.preventDefault();
+    zoomCrop(ev.deltaY < 0 ? 1.08 : 1 / 1.08, ev.clientX, ev.clientY);
+  }, { passive: false });
+
   stage.addEventListener('dragstart', function (e) { if (editMode) e.preventDefault(); });
 
   /* ---------- 双击改字（保留触摸板等无鼠标场景的原生事件兜底） ---------- */
@@ -214,7 +342,12 @@
     if (!act) return;
     if (act === 'png') return exportPNG();
     if (act === 'html') return exportHTML();
+    if (act === 'crop') { cropMode ? exitCrop() : enterCrop(); return; }
+    if (act === 'zoomin') return zoomCrop(1.08);
+    if (act === 'zoomout') return zoomCrop(1 / 1.08);
+    if (act === 'cropreset') { crop.z = 1; crop.tx = 0; crop.ty = 0; clampCrop(); applyCrop(); return; }
     if (act === 'reset') {
+      exitCrop();
       stage.innerHTML = snapshot;
       stage.appendChild(selbox); stage.appendChild(guide);
       deselect(); return;
