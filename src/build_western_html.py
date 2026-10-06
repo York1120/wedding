@@ -101,3 +101,9 @@ src = src.replace(
 
 open("../poster-western.html", "w", encoding="utf-8").write(src)
 print(f"../poster-western.html: {len(src.encode())/1024:.0f} KB")
+
+# inject the drag-and-drop editor (marked data-noexport, keeps exports clean)
+editor = open("editor.js", encoding="utf-8").read()
+src = src.replace("</body>", "<script data-noexport>\n" + editor + "\n</script>\n</body>")
+open("../poster-western.html", "w", encoding="utf-8").write(src)
+print(f"../poster-western.html (+editor): {len(src.encode())/1024:.0f} KB")
