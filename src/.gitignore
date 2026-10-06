@@ -1,0 +1,11 @@
+# 渲染用完整字体由 fetch_fonts.py 下载, 不入库
+*.ttf
+
+# playwright 本地安装
+node_modules/
+package.json
+package-lock.json
+
+# 渲染产物(成品在 chinese/ 与 western/)
+poster.png
+poster-western.png
