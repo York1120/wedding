@@ -6,3 +6,6 @@ desktop.ini
 # 工具目录
 .zcode/
 .workbuddy/
+
+# wrangler 本地开发缓存
+.wrangler/
