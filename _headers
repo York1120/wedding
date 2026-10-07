@@ -1,0 +1,62 @@
+# 静态资产缓存策略（Workers static assets 原生支持 _headers）
+# 字体子集会用同名文件重建，max-age 控制在 1 小时内，避免改字后访客命中旧子集缺字；
+# 图片/音频一般原地替换，1 天窗口可接受。
+# 主页 / 与 /index.html 由 Worker 动态返回，不走这里，保持默认 etag 协商缓存。
+
+/inv-b/fonts/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
+/inv-g/fonts/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
+/inv-o/fonts/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
+
+/inv-b/bgm.m4a
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-b/bell.m4a
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-b/xi.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-b/share.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-b/call-icon.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-b/图片1.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-b/图片2.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-b/图片3.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/inv-g/bgm.m4a
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-g/bell.m4a
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-g/xi.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-g/share.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-g/call-icon.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-g/图片1.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-g/图片2.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-g/图片3.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/inv-o/bgm.m4a
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-o/bell.m4a
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-o/xi.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-o/share.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-o/call-icon.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-o/图片1.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-o/图片2.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/inv-o/图片3.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

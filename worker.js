@@ -88,8 +88,13 @@ export default {
     if (pathname !== "/" && pathname !== "/index.html") return env.ASSETS.fetch(request);
 
     if (request.method === "POST") {
-      const form = await request.formData();
-      if ((form.get("password") || "").trim() === PASSWORD) {
+      let password = "";
+      try {
+        password = (await request.formData()).get("password") || "";
+      } catch {
+        // 非表单格式的 POST 一律按密码错误处理，避免抛 500
+      }
+      if (String(password).trim() === PASSWORD) {
         return new Response(null, {
           status: 302,
           headers: {
