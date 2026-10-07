@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: [inv-b, inv-g, inv-o]
+        project: [inv-b, inv-g, inv-o, inv-w]
     steps:
       - uses: actions/checkout@v4
 

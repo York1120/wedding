@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="locked">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F3ECDC">
+<title>Yuquan &amp; Lingyi · Wedding Invitation</title>
+<!-- ══════════ 微信 / 社交分享卡片 ══════════
+     这些标签必须在 HTML 首次响应里就存在 —— 微信爬虫不执行 JS,
+     所以靠 JS 动态改 document.title 是无效的。
+     注意: 名字里的 & 必须写成 &amp;, 裸 & 会让解析器截断标题。
+     换域名时同步改下面 og:url / og:image(含 secure_url) 三行。
+     改完微信仍会缓存旧卡片, 测试时给链接加 ?v=2 可拿到全新卡片。
+     ═════════════════════════════════════════ -->
+<meta name="description" content="Yuquan &amp; Lingyi are getting married — 谨定于二〇二七年一月二十六日,在湖南省常德市桃源县沙坪镇张府举行婚礼,敬备喜宴,恭请光临。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="Yuquan &amp; Lingyi · Wedding Invitation">
+<meta property="og:title" content="Yuquan &amp; Lingyi · Wedding Invitation">
+<meta property="og:description" content="January 26, 2027 · 湖南省常德市桃源县沙坪镇张府 · 敬备喜宴,恭请光临">
+<meta property="og:image" content="https://wedding.mynameisyork.workers.dev/inv-w/share.png">
+<meta property="og:image:secure_url" content="https://wedding.mynameisyork.workers.dev/inv-w/share.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="500">
+<meta property="og:image:height" content="500">
+<meta property="og:image:alt" content="Yuquan &amp; Lingyi · Wedding Invitation">
+<meta itemprop="name" content="Yuquan &amp; Lingyi · Wedding Invitation">
+<meta itemprop="description" content="January 26, 2027 · 湖南省常德市桃源县沙坪镇张府 · 敬备喜宴,恭请光临">
+<meta itemprop="image" content="https://wedding.mynameisyork.workers.dev/inv-w/share.png">
+<meta property="og:url" content="https://wedding.mynameisyork.workers.dev/inv-w/">
+<link rel="icon" type="image/png" href="/logo.png">
+<!-- 字体自托管:Great Vibes(铜版手写)/ Cormorant(雕版衬线)/ Noto Serif SC(中文),
+     均已按本页用字裁剪,由 tools/_build_fonts.py 生成,无需联网加载 -->
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="preload" href="fonts/GreatVibes-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Cormorant-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/NotoSerifSC-400.woff2" as="font" type="font/woff2" crossorigin>
+<!--
+  ════════════════ 使 用 说 明 ════════════════
+  1. 放照片:把照片命名为「图片1.jpg」「图片2.jpg」「图片3.jpg」,
+     与本网页放在同一文件夹,刷新即可自动显示(占位框会消失,比例按原图)。
+     照片多于三张?复制一个 .slot 区块、改文件名即可。
+  2. 宾客称呼:搜索「宾客称呼」四个字,改成实际称呼,如「王伯父」。
+  3. 落款:本版为新人自己邀请,搜索「敬邀」可改邀请人。
+  4. 宴会时间:搜索「午间吉时」,补充具体时刻(如 恭候 11:00 · 开席 11:58)。
+  5. 背景音乐:放一个「bgm.m4a」(AAC)在本文件夹即可在开启请柬后播放;
+     右上角按钮可暂停/继续。若浏览器拦截自动播放,点一下页面任意处就会响起。
+  6. 微信分享卡片:部署后把 head 中「https://wedding.mynameisyork.workers.dev/inv-w/」
+     换成实际网址;卡片标题 = <title>,简介 = og:description,缩略图 = share.png(500x500)。
+  ═══════════════════════════════════════════
+-->
+<style>
+:root{
+  --paper:#FBF7EC;          /* 页面底 — 细棉纸 */
+  --ivory:#F2E9D6;          /* 信封纸 */
+  --panel:#FFFDF6;          /* 卡片内芯 */
+  --ink:#423C31;            /* 暖墨 */
+  --ink-2:#6E6556;          /* 次级暖墨 */
+  --ink-3:#9A9180;          /* 淡墨 */
+  --sage:#8C9B85;           /* 鼠尾草绿 */
+  --sage-2:#75856F;
+  --gold:#AE8A4D;           /* 古金 */
+  --gold-2:#C6A670;
+  --gold-3:#E7D3A2;         /* 亮金 */
+  --hair:rgba(174,138,77,.45);
+  --hair-soft:rgba(174,138,77,.24);
+  --font-script:'Great Vibes',cursive;
+  --font-en:'Cormorant','Times New Roman',serif;
+  --font-cn:'Noto Serif SC','Songti SC','SimSun',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+/* 恢复自由线性滑动;html 是全页唯一的滚动容器。
+   overflow-x:hidden 只挂 html——若 body 也设,body 会变成第二个竖向滚动容器,
+   手势被内外两条滚动条轮流接管。body 保持 visible */
+html{-webkit-text-size-adjust:100%;overflow-x:hidden;overscroll-behavior-x:none}
+body{
+  font-family:var(--font-cn);
+  background:linear-gradient(180deg,#F7F1E3,#EFE7D3 60%,#E9DFC8);
+  color:var(--ink);
+}
+/* 开场锁定要同时落在 html(唯一滚动容器)与 body 上 */
+body.locked{overflow:hidden}
+html.locked{overflow:hidden}
+/* 手机/微信端:横滑回弹露出的画布底色铺成与正文一致的象牙渐变,不露黑边 */
+@media (max-width:520px){
+  html{background:linear-gradient(180deg,#F7F1E3,#EFE7D3 60%,#E9DFC8)}
+}
+.page{
+  max-width:520px;margin:0 auto;position:relative;
+  box-shadow:0 0 70px rgba(94,79,48,.28);
+  overflow-x:clip;
+  background-image:
+    radial-gradient(ellipse 130% 46% at 50% -4%,rgba(255,252,242,.9),rgba(255,252,242,0) 62%),
+    radial-gradient(160% 110% at 50% 108%,rgba(151,127,80,.12),rgba(151,127,80,0) 55%),
+    linear-gradient(180deg,#FBF7EC 0%,#F6EFDE 46%,#F0E7D1 100%);
+}
+
+/* ── 纸张肌理(整页覆盖,细噪点,不用混合模式以保滚动性能)── */
+.grain{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .34 0 0 0 0 .29 0 0 0 0 .19 0 0 0 .055 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:140px 140px}
+
+/* ── 金箔光尘:全页缓缓上浮 ─────────── */
+.dust{position:fixed;inset:0;z-index:40;pointer-events:none;overflow:hidden}
+.dust i{position:absolute;bottom:-3vh;display:block;border-radius:50%;opacity:0;
+  background:radial-gradient(circle at 38% 32%,#FBF0CE,#DCC084 55%,rgba(174,138,77,0) 74%);
+  filter:blur(.4px);animation:dustUp linear infinite}
+@keyframes dustUp{
+  0%{transform:translate3d(0,0,0) scale(.8);opacity:0}
+  8%{opacity:.75}
+  48%{transform:translate3d(3.5vw,-52vh,0) scale(1.08);opacity:.55}
+  100%{transform:translate3d(-2.5vw,-108vh,0) scale(.72);opacity:0}
+}
+.dust i:nth-child(1){left:6%;width:4px;height:4px;animation-duration:13s;animation-delay:.2s}
+.dust i:nth-child(2){left:13%;width:2.5px;height:2.5px;animation-duration:16.5s;animation-delay:3.4s}
+.dust i:nth-child(3){left:21%;width:3.5px;height:3.5px;animation-duration:14.2s;animation-delay:6.8s}
+.dust i:nth-child(4){left:29%;width:2.5px;height:2.5px;animation-duration:17.6s;animation-delay:1.7s}
+.dust i:nth-child(5){left:38%;width:4px;height:4px;animation-duration:13.6s;animation-delay:8.3s}
+.dust i:nth-child(6){left:47%;width:3px;height:3px;animation-duration:15.4s;animation-delay:4.6s}
+.dust i:nth-child(7){left:55%;width:2.5px;height:2.5px;animation-duration:18.2s;animation-delay:10.1s}
+.dust i:nth-child(8){left:63%;width:4px;height:4px;animation-duration:13.9s;animation-delay:2.9s}
+.dust i:nth-child(9){left:71%;width:3px;height:3px;animation-duration:16.8s;animation-delay:7.5s}
+.dust i:nth-child(10){left:79%;width:2.5px;height:2.5px;animation-duration:14.7s;animation-delay:5.8s}
+.dust i:nth-child(11){left:87%;width:3.5px;height:3.5px;animation-duration:17.1s;animation-delay:.9s}
+.dust i:nth-child(12){left:94%;width:2.5px;height:2.5px;animation-duration:15.8s;animation-delay:9.4s}
+.dust i:nth-child(13){left:33%;width:2px;height:2px;animation-duration:19s;animation-delay:12s}
+.dust i:nth-child(14){left:68%;width:2px;height:2px;animation-duration:18.4s;animation-delay:11s}
+
+/* ── 通用:小标题 / 花饰分隔 ─────────── */
+.sec-head{margin-bottom:40px;text-align:center}
+.sec-title{display:flex;align-items:center;justify-content:center;gap:16px;
+  font-family:var(--font-en);font-weight:600;font-size:19px;color:var(--ink);letter-spacing:.5em;text-indent:.5em}
+.sec-title::before,.sec-title::after{content:'';width:44px;height:1px;flex:none;background:linear-gradient(90deg,transparent,var(--hair))}
+.sec-title::after{background:linear-gradient(270deg,transparent,var(--hair))}
+.sec-sub{margin-top:12px;font-size:12.5px;letter-spacing:.6em;text-indent:.6em;color:var(--gold)}
+.orna{display:flex;align-items:center;justify-content:center;gap:12px;margin:26px 0}
+.orna::before,.orna::after{content:'';width:64px;height:1px;background:linear-gradient(90deg,transparent,var(--hair))}
+.orna::after{background:linear-gradient(270deg,transparent,var(--hair))}
+.orna i{width:5px;height:5px;flex:none;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 0 2.5px rgba(174,138,77,.14)}
+
+/* 滚动渐显 */
+.reveal{transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.25,1);transform-origin:50% 0}
+.js .reveal{opacity:0;transform:translateY(38px)}
+.js .reveal.in{opacity:1;transform:none}
+
+/* ── 封面:火漆信封 ─────────────────── */
+#cover{position:fixed;inset:0;z-index:50;cursor:pointer;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:
+    radial-gradient(ellipse 120% 82% at 50% 18%,rgba(255,253,246,.95),rgba(255,253,246,0) 58%),
+    radial-gradient(ellipse 90% 60% at 50% 96%,rgba(174,138,77,.14),rgba(174,138,77,0) 60%),
+    linear-gradient(180deg,#FAF5E9 0%,#F3EBD8 52%,#ECDFC5 100%);
+  transition:opacity .62s ease 2.18s,visibility 0s linear 2.9s}
+#cover.open{opacity:0;visibility:hidden;pointer-events:none}
+.cover-glow{position:absolute;left:50%;top:44%;width:82vmin;height:82vmin;max-width:560px;max-height:560px;
+  transform:translate(-50%,-50%);pointer-events:none;z-index:1;
+  background:radial-gradient(circle,rgba(214,182,120,.2),rgba(214,182,120,0) 62%);animation:halo 5.6s ease-in-out infinite}
+.cover-sheen{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.cover-sheen::before{content:'';position:absolute;top:-60%;left:0;width:56%;height:220%;transform:translateX(-130%) rotate(13deg);
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5) 50%,transparent);animation:sheen 9s ease-in-out infinite}
+.cover-tag{font-family:var(--font-en);font-weight:600;font-size:12px;letter-spacing:.62em;text-indent:.62em;
+  color:var(--gold);animation:fadeDown 1s .15s ease both}
+.env-scene{margin:34px 0 30px;perspective:1100px}
+.env{position:relative;width:min(76vw,312px);aspect-ratio:17/11.4;transform-style:preserve-3d;
+  animation:envIn 1.15s .3s cubic-bezier(.22,.75,.25,1) both;
+  filter:drop-shadow(0 22px 34px rgba(94,79,48,.3))}
+#cover.open .env{animation:envOut .72s 1.72s ease forwards}
+.env-back{position:absolute;inset:0;border-radius:7px;
+  background:linear-gradient(175deg,#F3EADA,#EAE0C9 78%,#E2D5B8);
+  box-shadow:inset 0 0 0 1px rgba(174,138,77,.4),inset 0 -30px 40px rgba(151,127,80,.12)}
+.env-card{position:absolute;left:6%;right:6%;top:6.5%;bottom:6.5%;border-radius:4px;z-index:2;
+  background:var(--panel);box-shadow:0 2px 10px rgba(94,79,48,.16);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center}
+.env-card::before{content:'';position:absolute;inset:6px;border:1px solid var(--hair-soft);border-radius:2px}
+.env-card .mc-mono{font-family:var(--font-script);font-size:30px;line-height:1;color:var(--gold)}
+.env-card .mc-names{font-family:var(--font-cn);font-size:10.5px;letter-spacing:.34em;text-indent:.34em;color:var(--ink-2)}
+.env-card .mc-date{font-family:var(--font-en);font-weight:600;font-size:8.5px;letter-spacing:.3em;color:var(--ink-3)}
+#cover.open .env-card{animation:cardUp .92s 1.02s cubic-bezier(.26,.8,.28,1) forwards}
+.env-front{position:absolute;inset:0;z-index:3;border-radius:7px;
+  background:linear-gradient(178deg,#F6EEDC 0%,#EFE5CE 52%,#E7DAC0 100%)}
+.env-front::before{content:'';position:absolute;inset:0;border-radius:7px;padding:1px;
+  background:linear-gradient(180deg,rgba(174,138,77,.55),rgba(174,138,77,.28));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude}
+.env-front{clip-path:polygon(0 0,50% 44%,100% 0,100% 100%,0 100%)}
+.env-front::after{content:'';position:absolute;inset:0;clip-path:polygon(0 0,50% 44%,100% 0,100% 100%,0 100%);
+  background:radial-gradient(ellipse 70% 40% at 50% 108%,rgba(151,127,80,.14),rgba(151,127,80,0) 62%)}
+.env-flap{position:absolute;left:0;right:0;top:0;height:56%;z-index:7;transform-origin:top center;
+  clip-path:polygon(0 0,100% 0,50% 97%);
+  background:linear-gradient(180deg,#F5EDDB,#ECDFC6 82%);backface-visibility:hidden}
+.env-flap::after{content:'';position:absolute;inset:0;clip-path:polygon(0 0,100% 0,50% 97%);
+  background:linear-gradient(180deg,#94A48D,#6F7F69);
+  transform:rotateX(180deg);backface-visibility:hidden}
+.env-flap::before{content:'';position:absolute;inset:0;clip-path:polygon(0 0,100% 0,50% 97%);z-index:1;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0) 46%)}
+#cover.open .env-flap{animation:flapOpen .82s .52s cubic-bezier(.55,.05,.3,1) forwards}
+/* 火漆印:断裂的两半 + 金屑迸溅 */
+.seal{position:absolute;left:50%;top:53.8%;width:66px;height:66px;z-index:8;
+  transform:translate(-50%,-50%);
+  animation:sealStamp .68s 1.2s cubic-bezier(.2,.85,.3,1.18) both}
+.seal-h{position:absolute;inset:0;border-radius:47% 53% 51% 49%/52% 48% 54% 46%;
+  background:
+    radial-gradient(circle at 34% 28%,#EAD3A0 0%,#C6A670 38%,#A37F3F 72%,#8A682E 100%);
+  box-shadow:inset 0 2px 5px rgba(255,244,214,.65),inset 0 -4px 8px rgba(90,64,22,.5),0 3px 9px rgba(94,79,48,.35)}
+.seal-h.l{clip-path:polygon(0 0,52% 0,48% 100%,0 100%)}
+.seal-h.r{clip-path:polygon(52% 0,100% 0,100% 100%,48% 100%)}
+.seal-mono{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-script);font-size:24px;color:#FBF3DC;
+  text-shadow:0 1px 2px rgba(90,64,22,.55);z-index:2}
+.seal i.shard{position:absolute;left:50%;top:50%;width:4px;height:4px;border-radius:50%;z-index:9;opacity:0;
+  background:radial-gradient(circle at 38% 32%,#FBF0CE,#C6A670 68%)}
+#cover.open .seal{animation:none}
+#cover.open .seal-h{animation:crack .6s .06s cubic-bezier(.5,0,.85,.42) forwards}
+#cover.open .seal-h.r{animation-delay:.12s}
+#cover.open .seal-mono{animation:monoFade .18s .05s ease forwards}
+#cover.open .seal i.shard{animation:shard .72s .1s ease-out forwards}
+.cover-names{margin-top:6px;font-family:var(--font-script);font-size:42px;line-height:1.15;color:var(--ink);
+  animation:fadeUp 1s .55s ease both}
+.cover-names .amp{color:var(--gold);font-size:.72em;padding:0 .12em}
+.cover-date{margin-top:10px;font-family:var(--font-en);font-weight:600;font-size:12.5px;letter-spacing:.42em;text-indent:.42em;color:var(--ink-2);
+  animation:fadeUp 1s .68s ease both}
+.cover-hint{margin-top:40px;font-size:12.5px;letter-spacing:.4em;text-indent:.4em;color:var(--ink-2);
+  animation:fadeUp 1s 1.5s ease both,blink 2.4s 2.4s ease-in-out infinite}
+@keyframes envIn{from{opacity:0;transform:translateY(46px) rotate(-2deg) scale(.94)}}
+@keyframes envOut{to{opacity:0;transform:translateY(30px) scale(.95)}}
+@keyframes cardUp{to{transform:translateY(-92%)}}
+@keyframes flapOpen{
+  0%{transform:rotateX(0);z-index:7}
+  49.9%{z-index:7}
+  50%{z-index:1}
+  100%{transform:rotateX(-178deg);z-index:1}
+}
+@keyframes sealStamp{from{opacity:0;transform:translate(-50%,-50%) scale(1.9) rotate(9deg)}
+  to{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}}
+@keyframes crackL{to{transform:translate(-15px,88px) rotate(-23deg);opacity:0}}
+@keyframes crackR{to{transform:translate(15px,96px) rotate(21deg);opacity:0}}
+#cover.open .seal-h.l{animation-name:crackL}
+#cover.open .seal-h.r{animation-name:crackR}
+@keyframes monoFade{to{opacity:0}}
+@keyframes shard{0%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) rotate(var(--r)) scale(.5)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}}
+@keyframes halo{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(.9)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes sheen{0%{transform:translateX(-130%) rotate(13deg)}55%,100%{transform:translateX(340%) rotate(13deg)}}
+@keyframes blink{0%,100%{opacity:.5}50%{opacity:1}}
+/* 封面自动开启倒计时 */
+.cover-cd{margin-top:22px;display:flex;align-items:center;justify-content:center;gap:9px;animation:fadeUp 1s 1.7s ease both}
+.cover-cd[hidden]{display:none}
+.cover-cd .ring{position:relative;width:30px;height:30px;flex:none;display:flex;align-items:center;justify-content:center}
+.cover-cd svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.cover-cd circle{fill:none;stroke:var(--gold-2);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:82;animation:cdDrain 9s linear forwards}
+@keyframes cdDrain{from{stroke-dashoffset:0}to{stroke-dashoffset:82}}
+.cover-cd b{font-family:var(--font-en);font-weight:600;font-size:14px;color:var(--gold)}
+.cover-cd em{font-style:normal;font-size:11px;letter-spacing:.3em;color:var(--ink-3)}
+
+/* ── 首屏 ─────────────────────────── */
+section{padding:74px 30px;position:relative;display:flex;flex-direction:column;justify-content:center;
+  min-height:100vh;min-height:100svh}
+.hero{align-items:center;text-align:center;padding-top:88px}
+.crest{position:relative;width:118px;height:118px}
+.crest svg{width:100%;height:100%;display:block}
+.crest .ring-out{animation:spinSlow 40s linear infinite;transform-origin:50% 50%}
+.hero-tag{margin-top:30px;font-family:var(--font-en);font-weight:600;font-size:12px;letter-spacing:.58em;text-indent:.58em;color:var(--gold)}
+.hero-names{margin-top:14px;font-family:var(--font-script);font-size:55px;line-height:1.12;color:var(--ink)}
+.hero-names .amp{color:var(--gold);font-size:.72em;padding:0 .1em}
+.hero-cn{margin-top:14px;font-size:16px;letter-spacing:.4em;text-indent:.4em;color:var(--ink-2)}
+.hero-date{margin-top:26px;font-family:var(--font-en);font-weight:600;font-size:14.5px;letter-spacing:.34em;text-indent:.34em;color:var(--ink)}
+.hero-venue{margin-top:12px;font-size:12.5px;letter-spacing:.22em;text-indent:.22em;color:var(--ink-3)}
+.scroll-cue{margin-top:46px;display:flex;flex-direction:column;align-items:center;gap:9px;
+  font-family:var(--font-en);font-weight:600;font-size:10.5px;letter-spacing:.42em;text-indent:.42em;color:var(--ink-3)}
+.scroll-cue .cn{font-family:var(--font-cn);font-weight:400;font-size:11px;letter-spacing:.3em;text-indent:.3em}
+.scroll-cue i{width:1px;height:38px;background:linear-gradient(180deg,transparent,var(--gold));animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{transform:translateY(-8px);opacity:0}45%{opacity:1}100%{transform:translateY(10px);opacity:0}}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+/* 首屏元素随封面开启依次入场(body.opened 后 CSS 动画才开始计时) */
+body.opened .hero [data-hero]{animation:heroIn .95s var(--d,0s) cubic-bezier(.22,.7,.3,1) backwards}
+@keyframes heroIn{from{opacity:0;transform:translateY(24px)}}
+
+/* ── 鎏金流光文字 ─────────────────── */
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .foil{
+    background-image:linear-gradient(105deg,#8F7134 0%,#B08A48 18%,#CFAF6E 30%,#E6D19C 37%,#F4E8C4 41%,#E6D19C 45%,#C9A55C 56%,#A8853F 72%,#8F7134 100%);
+    background-size:240% 100%;background-repeat:no-repeat;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+    animation:goldSweep 7s ease-in-out infinite;
+  }
+}
+@keyframes goldSweep{0%,100%{background-position:10% 0}55%{background-position:90% 0}}
+
+/* ── 请柬卡 ───────────────────────── */
+.card{position:relative;background:var(--panel);border:1px solid var(--hair);border-radius:6px;
+  padding:46px 24px 42px;box-shadow:0 14px 34px rgba(94,79,48,.14)}
+.card::before{content:'';position:absolute;inset:8px;border:1px solid var(--hair-soft);border-radius:3px;pointer-events:none}
+.card .corner{position:absolute;width:17px;height:17px;pointer-events:none;z-index:2}
+.card .corner.tl{top:14px;left:14px;border-top:1.5px solid var(--gold);border-left:1.5px solid var(--gold)}
+.card .corner.tr{top:14px;right:14px;border-top:1.5px solid var(--gold);border-right:1.5px solid var(--gold)}
+.card .corner.bl{bottom:14px;left:14px;border-bottom:1.5px solid var(--gold);border-left:1.5px solid var(--gold)}
+.card .corner.br{bottom:14px;right:14px;border-bottom:1.5px solid var(--gold);border-right:1.5px solid var(--gold)}
+.card-inner{text-align:center}
+.card-guest{font-size:12px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-3)}
+.card-tag{margin-top:26px;font-family:var(--font-en);font-weight:600;font-size:11px;letter-spacing:.55em;text-indent:.55em;color:var(--gold)}
+.card-names{margin-top:12px;font-family:var(--font-script);font-size:46px;line-height:1.15;color:var(--ink)}
+.card-names .amp{color:var(--gold);font-size:.72em;padding:0 .1em}
+.card-cn{margin-top:10px;font-size:15px;letter-spacing:.32em;text-indent:.32em;color:var(--ink-2)}
+.card .orna{margin:24px 0}
+.card-req{font-family:var(--font-en);font-weight:400;font-size:19px;line-height:1.6;color:var(--ink)}
+.card-req .l{display:block}
+.card-cn-body{margin-top:22px;font-size:15px;line-height:2.15;color:var(--ink-2)}
+.card-cn-body .em{color:var(--ink);font-weight:700}
+.card-date{margin-top:30px}
+.card-date .dow{font-family:var(--font-en);font-weight:600;font-size:11.5px;letter-spacing:.5em;text-indent:.5em;color:var(--gold)}
+.card-date .big{margin-top:8px;font-family:var(--font-en);font-weight:600;font-size:31px;letter-spacing:.14em;text-indent:.14em;color:var(--ink)}
+.card-date .time{margin-top:9px;font-size:12.5px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-2)}
+/* 卡内行错峰入场 */
+.js .reveal .ln{opacity:0;transform:translateY(15px);transition:opacity .65s ease,transform .65s cubic-bezier(.25,.75,.3,1);transition-delay:calc(var(--i,0)*.095s + .12s)}
+.js .reveal.in .ln{opacity:1;transform:none}
+
+/* ── 尤加利枝:单笔画线 + 叶片错峰生长 ── */
+.stem{position:absolute;pointer-events:none;z-index:4;color:var(--sage)}
+.stem path{stroke-dasharray:340;stroke-dashoffset:340}
+.js .reveal .stem path{transition:stroke-dashoffset 1.5s cubic-bezier(.3,.6,.3,1) .15s}
+.js .reveal.in .stem path{stroke-dashoffset:0}
+.stem ellipse,.stem circle{opacity:0;transform:scale(.5);transform-box:fill-box;transform-origin:center;
+  transition:opacity .5s ease,transform .55s cubic-bezier(.3,.8,.4,1);transition-delay:calc(.3s + var(--i,0)*.075s)}
+.js .reveal.in .stem ellipse,.js .reveal.in .stem circle{opacity:1;transform:scale(1)}
+
+/* ── 照片:罗马拱壁龛 ───────────────── */
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:end}
+.slot{position:relative}
+.slot-grand{grid-column:1/-1}
+.arch{position:relative;overflow:hidden;background:var(--panel);
+  border-radius:50% 50% 7px 7px / 34% 34% 5px 5px;
+  box-shadow:0 12px 30px rgba(94,79,48,.18)}
+.slot-grand .arch{aspect-ratio:5/6}
+.slot-half .arch{aspect-ratio:3/4}
+/* 双层鎏金拱缘 */
+.arch::before,.arch::after{content:'';position:absolute;pointer-events:none;z-index:3;border-radius:inherit}
+.arch::before{inset:-7px;border:1px solid var(--hair)}
+.arch::after{inset:-13px;border:1px solid var(--hair-soft)}
+.arch .ph{position:absolute;inset:0;border-radius:inherit;overflow:hidden}
+.arch.has-img .ph-empty{display:none}
+.arch img{width:100%;height:100%;object-fit:cover;display:block;
+  transform:scale(1.12);animation:kenburns 18s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1.1) translate(1.2%,-1%)}to{transform:scale(1.02) translate(-1%,1.2%)}}
+.arch .ph-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  background:radial-gradient(ellipse at 50% 30%,#FDFAF1,#F2EAD5);border-radius:inherit;color:var(--ink-3)}
+.arch .ph-empty .mono{font-family:var(--font-script);font-size:44px;color:var(--gold-2);opacity:.4}
+.arch .ph-empty b{font-family:var(--font-cn);font-weight:400;font-size:14px;letter-spacing:.3em;text-indent:.3em}
+.arch .ph-empty small{font-size:10.5px;letter-spacing:.18em;line-height:1.7;opacity:.85}
+.arch-cap{margin-top:16px;text-align:center}
+.arch-cap .en{font-family:var(--font-script);font-size:21px;color:var(--gold);display:block}
+.arch-cap .cn{display:block;margin-top:5px;font-size:11.5px;letter-spacing:.34em;text-indent:.34em;color:var(--ink-2)}
+.slot .arch{transition:opacity .8s ease,transform .8s cubic-bezier(.25,.75,.3,1)}
+.js .reveal .slot .arch{opacity:0;transform:translateY(26px) scale(.97)}
+.js .reveal.in .slot .arch{opacity:1;transform:none}
+.js .reveal .slot:nth-child(2) .arch{transition-delay:.12s}
+.js .reveal .slot:nth-child(3) .arch{transition-delay:.24s}
+.stem.pl{left:-4px;top:9%;width:76px;transform:rotate(9deg);filter:drop-shadow(0 0 3px rgba(251,247,236,.75))}
+.stem.pr{right:-4px;top:6%;width:76px;transform:scaleX(-1) rotate(7deg);filter:drop-shadow(0 0 3px rgba(251,247,236,.75))}
+
+/* ── 婚礼信息 ─────────────────────── */
+.count{display:flex;justify-content:center;gap:8px;margin-bottom:38px}
+.cd-unit{width:76px;padding:15px 0 12px;text-align:center;background:var(--panel);
+  border:1px solid var(--hair-soft);border-radius:5px;box-shadow:0 6px 16px rgba(94,79,48,.09)}
+.cd-num{display:block;font-family:var(--font-en);font-weight:600;font-size:30px;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.cd-num.tick{animation:tickPop .42s ease}
+@keyframes tickPop{0%{transform:translateY(-7px);opacity:.15}100%{transform:translateY(0);opacity:1}}
+.cd-lab{display:block;margin-top:7px;font-family:var(--font-en);font-weight:600;font-size:9px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-3)}
+.info-list{max-width:400px;margin:0 auto}
+.info-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14.5px 4px;border-bottom:1px solid rgba(174,138,77,.18)}
+.info-row:last-child{border-bottom:none}
+.info-row .k{font-family:var(--font-en);font-weight:600;font-size:11px;letter-spacing:.3em;color:var(--gold);flex:none}
+.info-row .k .cn{display:block;margin-top:3px;font-family:var(--font-cn);font-weight:400;font-size:10.5px;letter-spacing:.34em;color:var(--ink-3)}
+.info-row .v{font-size:14.5px;color:var(--ink);text-align:right;line-height:1.7}
+.info-row .v .en{font-family:var(--font-en);font-weight:600;font-size:16px;letter-spacing:.06em;display:block}
+.info-row .v.hl{font-size:15.5px}
+.js .reveal .info-row{transition:opacity .55s ease,transform .55s cubic-bezier(.25,.75,.3,1)}
+.js .reveal:not(.in) .info-row{opacity:0;transform:translateX(20px)}
+.js .reveal .info-row:nth-child(1){transition-delay:.05s}
+.js .reveal .info-row:nth-child(2){transition-delay:.12s}
+.js .reveal .info-row:nth-child(3){transition-delay:.19s}
+.js .reveal .info-row:nth-child(4){transition-delay:.26s}
+.js .reveal .info-row:nth-child(5){transition-delay:.33s}
+.js .reveal .info-row:nth-child(6){transition-delay:.4s}
+.js .reveal .info-row:nth-child(7){transition-delay:.47s}
+.nav-btns{display:flex;gap:16px;justify-content:center;margin-top:34px}
+.btn-map{position:relative;padding:12px 30px;border:1px solid var(--hair);border-radius:999px;
+  color:var(--ink-2);text-decoration:none;font-size:13.5px;letter-spacing:.2em;text-indent:.2em;background:transparent;
+  transition:background .25s,color .25s}
+.btn-map:active{background:var(--gold);color:#FDFAF1}
+.btn-map::before{content:'';position:absolute;inset:0;border-radius:999px;border:1px solid rgba(198,166,112,.75);pointer-events:none;animation:ripple 3.4s ease-out infinite}
+.nav-btns .btn-map:nth-child(2)::before{animation-delay:1.7s}
+@keyframes ripple{0%{opacity:.75;transform:scale(1)}70%,100%{opacity:0;transform:scale(1.14)}}
+
+/* ── 落款 ─────────────────────────── */
+.footer{text-align:center;overflow:hidden}
+.stem.fl{left:2%;bottom:11%;width:64px;transform:rotate(-8deg)}
+.stem.fr{right:2%;bottom:11%;width:64px;transform:scaleX(-1) rotate(-6deg)}
+.foot-with{font-family:var(--font-script);font-size:24px;color:var(--ink-2)}
+.foot-names{margin-top:8px;font-family:var(--font-script);font-size:44px;line-height:1.15;color:var(--ink)}
+.foot-names .amp{color:var(--gold);font-size:.72em;padding:0 .1em}
+.foot-cn{margin-top:14px;font-size:14px;letter-spacing:.3em;text-indent:.3em;color:var(--ink-2)}
+.footseal-wrap{position:relative;display:flex;justify-content:center;margin-top:36px;height:112px;align-items:center}
+.footseal{position:relative;width:96px;height:96px;border-radius:47% 53% 51% 49%/52% 48% 54% 46%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  background:radial-gradient(circle at 34% 28%,#EAD3A0 0%,#C6A670 38%,#A37F3F 72%,#8A682E 100%);
+  box-shadow:inset 0 2px 6px rgba(255,244,214,.65),inset 0 -5px 10px rgba(90,64,22,.5),0 10px 24px rgba(94,79,48,.3);
+  transform:rotate(-5deg)}
+.footseal::before{content:'';position:absolute;inset:7px;border-radius:inherit;border:1px solid rgba(251,243,220,.5)}
+.footseal .fs-mono{font-family:var(--font-script);font-size:31px;color:#FBF3DC;text-shadow:0 1px 2px rgba(90,64,22,.55);line-height:1}
+.footseal .fs-date{font-family:var(--font-en);font-weight:600;font-size:8px;letter-spacing:.22em;text-indent:.22em;color:rgba(251,243,220,.85)}
+.js .reveal .footseal{opacity:0;transform:rotate(8deg) scale(2.1)}
+.js .reveal.in .footseal{opacity:1;transform:rotate(-5deg) scale(1);
+  transition:opacity .5s ease .35s,transform .68s .35s cubic-bezier(.2,.85,.3,1.16)}
+.footseal-ripple{position:absolute;left:50%;top:50%;width:96px;height:96px;border-radius:50%;
+  border:1.5px solid rgba(174,138,77,.6);transform:translate(-50%,-50%);opacity:0;pointer-events:none}
+.js .reveal.in .footseal-ripple{animation:sealRipple 1s .42s ease-out 2}
+@keyframes sealRipple{0%{opacity:.8;transform:translate(-50%,-50%) scale(.72)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
+.foot-wish{margin-top:30px;font-family:var(--font-en);font-weight:600;font-size:11px;letter-spacing:.44em;text-indent:.44em;color:var(--gold)}
+.foot-cn2{margin-top:11px;font-size:12.5px;letter-spacing:.4em;text-indent:.4em;color:var(--ink-2)}
+.foot-date{margin-top:30px;font-family:var(--font-en);font-weight:600;font-size:10.5px;letter-spacing:.28em;text-indent:.28em;color:var(--ink-3)}
+
+/* ── 音乐按钮:细金线圆环 + 音符 ─────── */
+#music-btn{position:fixed;top:18px;right:16px;z-index:60;width:42px;height:42px;border-radius:50%;cursor:pointer;padding:0;
+  border:1px solid var(--hair);background:rgba(255,253,246,.66);backdrop-filter:blur(3px);
+  display:flex;align-items:center;justify-content:center;opacity:.5;transition:opacity .3s,transform .3s}
+#music-btn[hidden]{display:none}
+#music-btn svg{width:19px;height:19px;display:block}
+#music-btn.playing{opacity:.92}
+#music-btn.playing svg{animation:noteSway 2.6s ease-in-out infinite}
+@keyframes noteSway{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
+
+/* ── 小屏 / 弱动效 / 打印 ───────────── */
+@media (max-width:400px){
+  section{padding:62px 20px}
+  .hero-names{font-size:47px}
+  .card-names{font-size:40px}
+  .card{padding:40px 16px 36px}
+  .cd-unit{width:66px}
+  .stem.pl,.stem.pr{width:58px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .reveal{opacity:1;transform:none}
+  .js .reveal .ln{opacity:1;transform:none}
+  .js .reveal .slot .arch{opacity:1;transform:none}
+  .js .reveal .info-row{opacity:1;transform:none}
+  .js .reveal .stem path{stroke-dashoffset:0}
+  .js .reveal .stem ellipse,.js .reveal .stem circle{opacity:1;transform:none}
+  .js .reveal .footseal{opacity:1;transform:rotate(-5deg)}
+  .stem path{stroke-dashoffset:0}
+  .stem ellipse,.stem circle{opacity:1;transform:none}
+  .arch img{transform:none}
+  .dust{display:none}
+  /* 弱动效下封面直接呈现终态 */
+  #cover.open{opacity:0;visibility:hidden;pointer-events:none}
+  #cover.open .env-flap{transform:rotateX(-178deg);z-index:1}
+  #cover.open .env-card{transform:translateY(-92%)}
+  #cover.open .seal-h{opacity:0}
+  #cover.open .seal-mono{opacity:0}
+}
+@media print{
+  #cover,#music-btn,.scroll-cue,.dust,.grain{display:none!important}
+  body{background:#fff}
+  body.locked{overflow:auto}
+  html.locked{overflow:auto}
+  .page{max-width:100%;box-shadow:none}
+  .js .reveal{opacity:1;transform:none}
+  .js .reveal .ln{opacity:1;transform:none}
+  .js .reveal .slot .arch{opacity:1;transform:none}
+  .js .reveal .info-row{opacity:1;transform:none}
+  .js .reveal .footseal{opacity:1;transform:rotate(-5deg)}
+  .js .reveal .stem path{stroke-dashoffset:0}
+  .js .reveal .stem ellipse,.js .reveal .stem circle{opacity:1;transform:none}
+  section{min-height:auto;page-break-inside:avoid;padding:44px 26px}
+}
+</style>
+<noscript><style>.reveal{opacity:1;transform:none}#cover{display:none}body.locked,html.locked{overflow:auto}
+.stem path{stroke-dashoffset:0}.stem ellipse,.stem circle{opacity:1;transform:none}
+.reveal .ln,.reveal .slot .arch,.reveal .info-row,.reveal .footseal{opacity:1;transform:none}</style></noscript>
+<script>try{var __w=JSON.parse(localStorage.getItem("wedit.v1")||"{}")["inv-w"];if(__w)window.__wedit=__w}catch(e){}</script>
+</head>
+<body class="locked">
+
+<!-- 微信缩略图兜底:部分微信版本从页面首图抓取(勿改成 display:none) -->
+<img src="share.png" alt="" style="position:absolute;left:-9999px;top:0;width:300px;height:300px;">
+
+<!-- 背景音乐:开启请柬后自动播放;右上角按钮可暂停/继续 -->
+<audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
+<button id="music-btn" hidden title="背景音乐" aria-label="背景音乐">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#AE8A4D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M9 18V5.5L20 3v12.5"/>
+    <circle cx="6.2" cy="18" r="2.8"/>
+    <circle cx="17.2" cy="15.5" r="2.8"/>
+  </svg>
+</button>
+
+<!-- 金箔光尘(纯装饰) -->
+<div class="dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<!-- 纸张肌理 -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ════════ 封面:火漆信封 ════════ -->
+<div id="cover" title="点击开启请柬" role="button" aria-label="点击开启请柬">
+  <div class="cover-glow"></div>
+  <div class="cover-sheen"></div>
+  <div class="cover-tag">YOU ARE CORDIALLY INVITED</div>
+  <div class="env-scene">
+    <div class="env">
+      <div class="env-back"></div>
+      <div class="env-card">
+        <span class="mc-mono">Y<span style="font-size:.62em">&amp;</span>L</span>
+        <span class="mc-names">周煜全 · 张令仪</span>
+        <span class="mc-date">JANUARY 26, 2027</span>
+      </div>
+      <div class="env-front"></div>
+      <div class="env-flap"></div>
+      <div class="seal">
+        <span class="seal-h l"></span>
+        <span class="seal-h r"></span>
+        <span class="seal-mono">Y&amp;L</span>
+        <i class="shard" style="--dx:-42px;--dy:-38px;--r:-160deg"></i>
+        <i class="shard" style="--dx:40px;--dy:-44px;--r:150deg"></i>
+        <i class="shard" style="--dx:-52px;--dy:8px;--r:-120deg"></i>
+        <i class="shard" style="--dx:52px;--dy:12px;--r:120deg"></i>
+        <i class="shard" style="--dx:-30px;--dy:52px;--r:-90deg"></i>
+        <i class="shard" style="--dx:34px;--dy:56px;--r:100deg"></i>
+        <i class="shard" style="--dx:-8px;--dy:-56px;--r:40deg"></i>
+        <i class="shard" style="--dx:10px;--dy:-60px;--r:-40deg"></i>
+      </div>
+    </div>
+  </div>
+  <div class="cover-names">Yuquan <span class="amp">&amp;</span> Lingyi</div>
+  <div class="cover-date">TUESDAY · JANUARY 26 · 2027</div>
+  <div class="cover-hint">— 轻触火漆印 · 开启请柬 —</div>
+  <div class="cover-cd" id="coverCd" hidden>
+    <span class="ring"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"/></svg><b id="coverCdNum">9</b></span>
+    <em>稍后自动开启</em>
+  </div>
+</div>
+
+<main class="page">
+
+  <!-- ════════ 首屏 ════════ -->
+  <section class="hero" id="hero">
+    <div class="crest" data-hero style="--d:.1s">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle class="ring-out" cx="60" cy="60" r="55" fill="none" stroke="#C6A670" stroke-width="1" stroke-dasharray="3 6" opacity=".8"/>
+        <circle cx="60" cy="60" r="47" fill="none" stroke="#AE8A4D" stroke-width="1.2"/>
+        <text x="60" y="72" text-anchor="middle" font-family="Great Vibes" font-size="34" fill="#423C31">Y&amp;L</text>
+        <path d="M20 84 Q36 76 44 60" fill="none" stroke="#8C9B85" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M100 84 Q84 76 76 60" fill="none" stroke="#8C9B85" stroke-width="1.3" stroke-linecap="round"/>
+        <ellipse cx="27" cy="80" rx="2.6" ry="5.4" transform="rotate(-40 27 80)" fill="#8C9B85" opacity=".85"/>
+        <ellipse cx="93" cy="80" rx="2.6" ry="5.4" transform="rotate(40 93 80)" fill="#8C9B85" opacity=".85"/>
+        <ellipse cx="34" cy="72" rx="2.4" ry="5" transform="rotate(-52 34 72)" fill="#8C9B85" opacity=".75"/>
+        <ellipse cx="86" cy="72" rx="2.4" ry="5" transform="rotate(52 86 72)" fill="#8C9B85" opacity=".75"/>
+        <circle cx="44" cy="58" r="1.8" fill="#C6A670"/>
+        <circle cx="76" cy="58" r="1.8" fill="#C6A670"/>
+      </svg>
+    </div>
+    <div class="hero-tag" data-hero style="--d:.22s">THE WEDDING OF</div>
+    <h1 class="hero-names foil" data-hero style="--d:.34s">Yuquan <span class="amp">&amp;</span> Lingyi</h1>
+    <div class="hero-cn" data-hero style="--d:.46s">周煜全 · 张令仪</div>
+    <div class="orna" data-hero style="--d:.56s"><i></i></div>
+    <div class="hero-date" data-hero style="--d:.64s">TUESDAY, JANUARY 26, 2027</div>
+    <div class="hero-venue" data-hero style="--d:.74s">湖南省常德市桃源县沙坪镇 · 张府</div>
+    <div class="scroll-cue" data-hero style="--d:.9s"><i></i>GENTLY SCROLL<span class="cn">请下滑启阅</span></div>
+  </section>
+
+  <!-- ════════ 请柬卡 ════════ -->
+  <section class="invite reveal" id="invite">
+    <div class="sec-head">
+      <h2 class="sec-title">INVITATION</h2>
+      <div class="sec-sub">谨 订</div>
+    </div>
+    <div class="card">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div class="card-inner">
+        <!-- 「宾客称呼」改成实际称呼,如:王伯父 -->
+        <p class="card-guest ln" style="--i:0">敬呈〔宾客称呼〕</p>
+        <p class="card-tag ln" style="--i:1">TOGETHER WITH JOYFUL HEARTS</p>
+        <p class="card-names ln foil" style="--i:2">Yuquan <span class="amp">&amp;</span> Lingyi</p>
+        <p class="card-cn ln" style="--i:3">周煜全 · 张令仪</p>
+        <div class="orna ln" style="--i:4"><i></i></div>
+        <p class="card-req ln" style="--i:5">
+          <span class="l">request the pleasure of your company</span>
+          <span class="l">at the celebration of their marriage</span>
+        </p>
+        <p class="card-cn-body ln" style="--i:6">
+          谨定于二〇二七年一月二十六日<br>
+          星期二 · 农历丙午年腊月十九<br>
+          为 <span class="em">周煜全</span> 与 <span class="em">张令仪</span> 举行结婚典礼<br>
+          敬备喜宴 · 恭请光临
+        </p>
+        <div class="card-date ln" style="--i:7">
+          <div class="dow">TUESDAY</div>
+          <div class="big">JAN · 26 · 2027</div>
+          <div class="time">NOON · 午间吉时</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 照片:罗马拱壁龛 ════════ -->
+  <section class="photos reveal" id="photos">
+    <div class="sec-head">
+      <h2 class="sec-title">MOMENTS</h2>
+      <div class="sec-sub">幸 福 时 光</div>
+    </div>
+    <div class="photo-grid">
+      <div class="slot slot-grand">
+        <div class="arch">
+          <div class="ph">
+            <img src="图片1.jpg" alt="Our moment" decoding="async" onload="this.closest('.arch').classList.add('has-img')" onerror="this.remove()">
+          </div>
+          <div class="ph-empty">
+            <span class="mono">Y&amp;L</span>
+            <b>照片位</b>
+            <small>将照片命名为「图片1.jpg」<br>放在本文件夹即可显示</small>
+          </div>
+        </div>
+        <div class="arch-cap">
+          <span class="en">The Beginning of Forever</span>
+          <span class="cn">佳偶天成</span>
+        </div>
+        <!-- 尤加利枝:左 -->
+        <svg class="stem pl" viewBox="0 0 80 240" aria-hidden="true">
+          <path d="M42 236 C40 196 46 160 42 122 C39 92 44 60 46 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <ellipse style="--i:0" cx="30" cy="216" rx="4.6" ry="10" transform="rotate(-38 30 216)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:1" cx="55" cy="198" rx="4.4" ry="9.4" transform="rotate(36 55 198)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:2" cx="28" cy="178" rx="4.4" ry="9.6" transform="rotate(-40 28 178)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:3" cx="56" cy="158" rx="4.2" ry="9" transform="rotate(34 56 158)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:4" cx="29" cy="138" rx="4.2" ry="9" transform="rotate(-42 29 138)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:5" cx="55" cy="118" rx="4" ry="8.6" transform="rotate(36 55 118)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:6" cx="32" cy="98" rx="3.9" ry="8.4" transform="rotate(-40 32 98)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:7" cx="53" cy="78" rx="3.7" ry="8" transform="rotate(32 53 78)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:8" cx="42" cy="56" rx="3.6" ry="7.8" transform="rotate(-18 42 56)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:9" cx="47" cy="36" rx="3.3" ry="7.2" transform="rotate(14 47 36)" fill="currentColor" fill-opacity=".5"/>
+          <circle style="--i:10" cx="46" cy="16" r="2.4" fill="#C6A670"/>
+          <circle style="--i:11" cx="52" cy="24" r="1.8" fill="#C6A670"/>
+        </svg>
+        <!-- 尤加利枝:右 -->
+        <svg class="stem pr" viewBox="0 0 80 240" aria-hidden="true">
+          <path d="M42 236 C40 196 46 160 42 122 C39 92 44 60 46 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <ellipse style="--i:0" cx="30" cy="216" rx="4.6" ry="10" transform="rotate(-38 30 216)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:1" cx="55" cy="198" rx="4.4" ry="9.4" transform="rotate(36 55 198)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:2" cx="28" cy="178" rx="4.4" ry="9.6" transform="rotate(-40 28 178)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:3" cx="56" cy="158" rx="4.2" ry="9" transform="rotate(34 56 158)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:4" cx="29" cy="138" rx="4.2" ry="9" transform="rotate(-42 29 138)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:5" cx="55" cy="118" rx="4" ry="8.6" transform="rotate(36 55 118)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:6" cx="32" cy="98" rx="3.9" ry="8.4" transform="rotate(-40 32 98)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:7" cx="53" cy="78" rx="3.7" ry="8" transform="rotate(32 53 78)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:8" cx="42" cy="56" rx="3.6" ry="7.8" transform="rotate(-18 42 56)" fill="currentColor" fill-opacity=".5"/>
+          <ellipse style="--i:9" cx="47" cy="36" rx="3.3" ry="7.2" transform="rotate(14 47 36)" fill="currentColor" fill-opacity=".5"/>
+          <circle style="--i:10" cx="46" cy="16" r="2.4" fill="#C6A670"/>
+          <circle style="--i:11" cx="52" cy="24" r="1.8" fill="#C6A670"/>
+        </svg>
+      </div>
+      <div class="slot slot-half">
+        <div class="arch">
+          <div class="ph">
+            <img src="图片2.jpg" alt="Our moment" decoding="async" onload="this.closest('.arch').classList.add('has-img')" onerror="this.remove()">
+          </div>
+          <div class="ph-empty">
+            <span class="mono">Y&amp;L</span>
+            <b>照片位</b>
+            <small>「图片2.jpg」</small>
+          </div>
+        </div>
+        <div class="arch-cap"><span class="en">Hand in Hand</span><span class="cn">执子之手</span></div>
+      </div>
+      <div class="slot slot-half">
+        <div class="arch">
+          <div class="ph">
+            <img src="图片3.jpg" alt="Our moment" decoding="async" onload="this.closest('.arch').classList.add('has-img')" onerror="this.remove()">
+          </div>
+          <div class="ph-empty">
+            <span class="mono">Y&amp;L</span>
+            <b>照片位</b>
+            <small>「图片3.jpg」</small>
+          </div>
+        </div>
+        <div class="arch-cap"><span class="en">Grow Old Along With Me</span><span class="cn">与子偕老</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 婚礼信息 ════════ -->
+  <section class="details reveal" id="details">
+    <div class="sec-head">
+      <h2 class="sec-title">CEREMONY</h2>
+      <div class="sec-sub">婚 礼 信 息</div>
+    </div>
+    <div class="count" id="count">
+      <div class="cd-unit"><span class="cd-num" id="cd-d">—</span><span class="cd-lab">DAYS</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-h">—</span><span class="cd-lab">HOURS</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-m">—</span><span class="cd-lab">MINUTES</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-s">—</span><span class="cd-lab">SECONDS</span></div>
+    </div>
+    <div class="info-list">
+      <div class="info-row"><span class="k">DATE<span class="cn">婚期</span></span><span class="v"><span class="en">Tuesday, January 26, 2027</span>2027年1月26日 · 星期二</span></div>
+      <div class="info-row"><span class="k">LUNAR<span class="cn">农历</span></span><span class="v">丙午年腊月十九</span></div>
+      <div class="info-row"><span class="k">TIME<span class="cn">恭候</span></span><span class="v"><span class="en">At Noon</span>午间吉时</span></div>
+      <div class="info-row"><span class="k">VENUE<span class="cn">席设</span></span><span class="v"><span class="en">Zhang Mansion</span>张府</span></div>
+      <div class="info-row"><span class="k">ADDRESS<span class="cn">地址</span></span><span class="v">湖南省常德市桃源县沙坪镇</span></div>
+      <div class="info-row"><span class="k">DRESS CODE<span class="cn">着装</span></span><span class="v"><span class="en">Formal</span>敬请盛装出席</span></div>
+      <div class="info-row"><span class="k">RSVP<span class="cn">赐复</span></span><span class="v"><span class="en">Before Jan 10, 2027</span>敬请一月十日前示下</span></div>
+    </div>
+    <div class="nav-btns">
+      <a class="btn-map" href="https://uri.amap.com/search?keyword=常德市桃源县沙坪镇" target="_blank" rel="noopener">高德导航</a>
+      <a class="btn-map" href="https://map.baidu.com/search/常德市桃源县沙坪镇" target="_blank" rel="noopener">百度地图</a>
+    </div>
+  </section>
+
+  <!-- ════════ 落款 ════════ -->
+  <section class="footer reveal" id="footer">
+    <!-- 尤加利枝:左 -->
+    <svg class="stem fl" viewBox="0 0 80 240" aria-hidden="true">
+      <path d="M42 236 C40 196 46 160 42 122 C39 92 44 60 46 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <ellipse style="--i:0" cx="30" cy="216" rx="4.6" ry="10" transform="rotate(-38 30 216)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:1" cx="55" cy="198" rx="4.4" ry="9.4" transform="rotate(36 55 198)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:2" cx="28" cy="178" rx="4.4" ry="9.6" transform="rotate(-40 28 178)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:3" cx="56" cy="158" rx="4.2" ry="9" transform="rotate(34 56 158)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:4" cx="29" cy="138" rx="4.2" ry="9" transform="rotate(-42 29 138)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:5" cx="55" cy="118" rx="4" ry="8.6" transform="rotate(36 55 118)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:6" cx="32" cy="98" rx="3.9" ry="8.4" transform="rotate(-40 32 98)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:7" cx="53" cy="78" rx="3.7" ry="8" transform="rotate(32 53 78)" fill="currentColor" fill-opacity=".5"/>
+      <circle style="--i:8" cx="46" cy="16" r="2.4" fill="#C6A670"/>
+    </svg>
+    <!-- 尤加利枝:右 -->
+    <svg class="stem fr" viewBox="0 0 80 240" aria-hidden="true">
+      <path d="M42 236 C40 196 46 160 42 122 C39 92 44 60 46 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <ellipse style="--i:0" cx="30" cy="216" rx="4.6" ry="10" transform="rotate(-38 30 216)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:1" cx="55" cy="198" rx="4.4" ry="9.4" transform="rotate(36 55 198)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:2" cx="28" cy="178" rx="4.4" ry="9.6" transform="rotate(-40 28 178)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:3" cx="56" cy="158" rx="4.2" ry="9" transform="rotate(34 56 158)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:4" cx="29" cy="138" rx="4.2" ry="9" transform="rotate(-42 29 138)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:5" cx="55" cy="118" rx="4" ry="8.6" transform="rotate(36 55 118)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:6" cx="32" cy="98" rx="3.9" ry="8.4" transform="rotate(-40 32 98)" fill="currentColor" fill-opacity=".5"/>
+      <ellipse style="--i:7" cx="53" cy="78" rx="3.7" ry="8" transform="rotate(32 53 78)" fill="currentColor" fill-opacity=".5"/>
+      <circle style="--i:8" cx="46" cy="16" r="2.4" fill="#C6A670"/>
+    </svg>
+    <p class="foot-with ln" style="--i:0">With love,</p>
+    <p class="foot-names ln foil" style="--i:1">Yuquan <span class="amp">&amp;</span> Lingyi</p>
+    <p class="foot-cn ln" style="--i:2">周煜全 · 张令仪 敬邀</p>
+    <div class="footseal-wrap ln" style="--i:3">
+      <span class="footseal-ripple"></span>
+      <div class="footseal">
+        <span class="fs-mono">Y&amp;L</span>
+        <span class="fs-date">01 · 26 · 2027</span>
+      </div>
+    </div>
+    <p class="foot-wish ln" style="--i:4">WE LOOK FORWARD TO CELEBRATING WITH YOU</p>
+    <p class="foot-cn2 ln" style="--i:5">恭候台驾 · 阖府光临</p>
+    <p class="foot-date ln" style="--i:6">01 · 26 · 2027 · ZHANG MANSION</p>
+  </section>
+
+</main>
+
+<script>
+document.documentElement.classList.add('js');
+
+/* ════════ 封面:火漆信封开启 ════════ */
+const cover = document.getElementById('cover');
+const bgm = document.getElementById('bgm');
+let opened = false;
+function openInvite(){
+  if (opened) return; opened = true;
+  stopCoverCd();
+  cover.classList.add('open');
+  /* 与 CSS 时间轴对齐:火漆碎裂(.06s)→ 掀盖(.52s)→ 卡片抽出(1.02s)→ 信封退场(1.72s) */
+  setTimeout(()=>{                                   /* 卡片抽出完成,解锁滚动 */
+    document.documentElement.classList.remove('locked');
+    document.body.classList.remove('locked');
+  }, 1750);
+  setTimeout(()=>{
+    document.body.classList.add('opened');           /* 首屏元素开始依次入场 */
+  }, 1950);
+  tryPlayBgm();
+}
+cover.addEventListener('click', openInvite);
+cover.addEventListener('keydown', e=>{ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openInvite(); } });
+
+/* 9 秒未点击,自动开启(环与计时同时启动,保证走满一圈) */
+let coverCdTimer = null;
+(function(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const wrap = document.getElementById('coverCd');
+  setTimeout(()=>{
+    if (opened) return;
+    wrap.hidden = false;
+    let n = 9;
+    coverCdTimer = setInterval(()=>{
+      n--;
+      if (n <= 0){ stopCoverCd(); openInvite(); }
+      else document.getElementById('coverCdNum').textContent = n;
+    }, 1000);
+  }, 1900);
+})();
+function stopCoverCd(){
+  if (coverCdTimer){ clearInterval(coverCdTimer); coverCdTimer = null; }
+  const wrap = document.getElementById('coverCd');
+  if (wrap) wrap.hidden = true;
+}
+
+/* ════════ 滚动渐显 ════════ */
+const targets = document.querySelectorAll('.reveal');
+if ('IntersectionObserver' in window){
+  /* 提前一点触发入场:章节刚露头就开始播动画,等用户滑到时已基本收尾 */
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.12, rootMargin:'0px 0px 12% 0px'});
+  targets.forEach(el=>io.observe(el));
+}else{
+  targets.forEach(el=>el.classList.add('in'));
+}
+
+/* ════════ 婚礼倒计时(天/时/分/秒,数字翻动微动效)════════ */
+(function(){
+  const target = (function(){try{var dd=window.__wedit&&window.__wedit.date;if(dd){var p=dd.split("-");return new Date(+p[0],+p[1]-1,+p[2])}}catch(e){}return new Date(2027, 0, 26)})();
+  const els = {d:document.getElementById('cd-d'), h:document.getElementById('cd-h'),
+               m:document.getElementById('cd-m'), s:document.getElementById('cd-s')};
+  function set(el, v){
+    v = String(v);
+    if (el.textContent === v) return;
+    el.textContent = v;
+    el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick');
+  }
+  function tick(){
+    let diff = Math.max(0, target - new Date());
+    const d = Math.floor(diff / 864e5); diff -= d * 864e5;
+    const h = Math.floor(diff / 36e5);  diff -= h * 36e5;
+    const m = Math.floor(diff / 6e4);   diff -= m * 6e4;
+    const s = Math.floor(diff / 1e3);
+    set(els.d, d); set(els.h, h); set(els.m, m); set(els.s, s);
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+/* ════════ 章节滑出视口时的离场渐隐(回滚即恢复)════════
+   渐出幅度跟随滚动位置;先批量读位置再统一写入(避免读写交替强制重排) */
+const secEls = Array.from(document.querySelectorAll('main section'));
+const secSig = new Map();
+function applyExit(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const vh = innerHeight;
+  const outs = secEls.map(s => {
+    const r = s.getBoundingClientRect();
+    let out = 0;
+    if (r.top < 0) out = Math.min(1, -r.top / (vh * 0.75));
+    return out <= 0.02 ? 0 : out;
+  });
+  secEls.forEach((s, i) => {
+    const out = outs[i];
+    const o = out ? (1 - out * 0.92).toFixed(3) : '';
+    const t = out ? 'perspective(1100px) rotateX(' + (-13 * out).toFixed(2) + 'deg) translateY(' + (-22 * out).toFixed(1) + 'px)' : '';
+    const sig = o + '|' + t;
+    if (secSig.get(s) === sig) return;
+    secSig.set(s, sig);
+    if (out){ s.style.opacity = o; s.style.transform = t; }
+    else { s.style.opacity = ''; s.style.transform = ''; }
+  });
+}
+addEventListener('scroll', applyExit, {passive:true});
+addEventListener('resize', applyExit);
+applyExit();
+
+/* ════════ 背景音乐:开启请柬后自动播放,按钮可暂停/继续 ════════
+   手机端自动播放策略:无用户手势时 play() 会被拒——
+   开启封面本身就是一次点击;微信内用 getNetworkType 回调解锁;其余靠交互兜底 */
+const mbtn = document.getElementById('music-btn');
+let userPaused = false;
+function tryPlayBgm(){
+  if (!opened || userPaused || !bgm.paused) return;
+  const p = bgm.play();
+  if (p && p.catch) p.catch(()=>{});
+}
+bgm.addEventListener('canplaythrough', ()=>{ mbtn.hidden = false; tryPlayBgm(); }, {once:true});
+bgm.addEventListener('error', ()=>{ mbtn.hidden = true; });
+if (bgm.readyState >= 3) mbtn.hidden = false;
+function weixinUnlock(){
+  try{
+    if (window.WeixinJSBridge && window.WeixinJSBridge.invoke)
+      window.WeixinJSBridge.invoke('getNetworkType', {}, ()=>{ tryPlayBgm(); });
+  }catch(e){}
+}
+document.addEventListener('WeixinJSBridgeReady', weixinUnlock, false);
+weixinUnlock();
+['touchend','pointerup','keydown'].forEach(ev =>
+  document.addEventListener(ev, ()=>{ tryPlayBgm(); }, {passive:true})
+);
+document.addEventListener('visibilitychange', ()=>{ if (!document.hidden) tryPlayBgm(); });
+mbtn.addEventListener('click', e=>{
+  e.stopPropagation();
+  if (bgm.paused){ userPaused = false; const p = bgm.play(); if (p && p.catch) p.catch(()=>{}); }
+  else { userPaused = true; bgm.pause(); }
+});
+function syncMusicBtn(){ mbtn.classList.toggle('playing', !bgm.paused); }
+bgm.addEventListener('play', syncMusicBtn);
+bgm.addEventListener('pause', syncMusicBtn);
+</script>
+<script>
+(function(){try{
+var d=window.__wedit;if(!d)return;var S=window.__WEDIT_MAP=[["周煜全","groom"],["张令仪","bride"],["周煜全&张令仪","caller"],["JANUARY 26, 2027","enLong"],["TUESDAY · JANUARY 26 · 2027","enUpSp"],["TUESDAY, JANUARY 26, 2027","enUpCom"],["JAN · 26 · 2027","enDot"],["Tuesday, January 26, 2027","enTitle"],["01 · 26 · 2027","enFs"],["2027年1月26日","cnNum"],["农历丙午年腊月十九","lunar"],["星期二","wdCn"],["湖南省常德市桃源县沙坪镇","venue"],["张府","venueShort"],["Zhang Mansion","venueShortEn"]];if(!S)return;
+var dp=(d.date||"").split("-"),Y=0,Mo=0,Da=0,hasDate=dp.length===3&&dp[0]&&dp[1]&&dp[2];
+if(hasDate){Y=+dp[0];Mo=+dp[1];Da=+dp[2]}
+var DI="〇一二三四五六七八九";
+function h2(n){return n===10?"十":n<10?DI[n]:n<20?"十"+DI[n-10]:DI[(n/10)|0]+"十"+(n%10?DI[n%10]:"")}
+if(hasDate){
+var WD="日一二三四五六".charAt(new Date(Y,Mo-1,Da).getDay());
+var ENWD=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][new Date(Y,Mo-1,Da).getDay()];
+var ENMU=ENWD.toUpperCase(),ENWT=ENWD.charAt(0).toUpperCase()+ENWD.slice(1);
+var ENMO=["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"][Mo-1];
+var z=function(n){return (n<10?"0":"")+n};
+}
+var V={groom:d.groom,bride:d.bride,caller:d.caller,lunar:d.lunar||"",lunarShort:(d.lunar||"").replace(/^农历/,""),venue:d.venue,venueShort:d.venueShort,venueShortEn:d.venueShortEn,groomEn:d.groomEn,brideEn:d.brideEn};
+if(hasDate){
+V.cnNum=Y+"年"+Mo+"月"+Da+"日";
+V.cnHan=String(Y).split("").map(function(c){return DI[+c]}).join("")+"年"+(Mo===10?"十":Mo<10?DI[Mo]:"十"+DI[Mo-10])+"月"+h2(Da)+"日";
+V.dot=Y+"."+z(Mo)+"."+z(Da);V.spaced=Y+" · "+z(Mo)+" · "+z(Da);V.wdCn="星期"+WD;
+V.enLong=ENMO+" "+Da+", "+Y;V.enTitle=ENWT+", "+ENMO.charAt(0)+ENMO.slice(1).toLowerCase()+" "+Da+", "+Y;V.enUpSp=ENMU+" · "+ENMO+" "+Da+" · "+Y;
+V.enUpCom=ENMU+", "+ENMO+" "+Da+", "+Y;V.enDot=ENMO.slice(0,3)+" · "+Da+" · "+Y;V.enFs=z(Mo)+" · "+Da+" · "+Y;
+}
+var pairs=[];S.forEach(function(p){var v=V[p[1]];if(v)pairs.push([p[0],String(v)])});
+if(!pairs.length)return;
+function rep(t){var out="",i=0;
+  while(i<t.length){
+    var hit=-1,bl=0,bv=null;
+    for(var k=0;k<pairs.length;k++){
+      var h=t.indexOf(pairs[k][0],i);
+      if(h>-1&&(hit<0||h<hit||(h===hit&&pairs[k][0].length>bl))){hit=h;bl=pairs[k][0].length;bv=pairs[k][1]}
+    }
+    if(bv===null){out+=t.slice(i);break}
+    out+=t.slice(i,hit)+bv;i=hit+bl;
+  }
+  return out;
+}
+function walk(n){if(n.nodeType===3){var t=n.nodeValue;if(t)n.nodeValue=rep(t)}else if(n.nodeType===1){var tag=n.tagName;if(tag==="SCRIPT"||tag==="STYLE")return;var c=n.firstChild;while(c){var nx=c.nextSibling;walk(c);c=nx}}}
+walk(document.body);
+}catch(e){}})();
+</script>
+</body>
+</html>
