@@ -15,7 +15,19 @@ function gatePage(error = "") {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>囍 · 访问验证</title>
+<title>囍 · 周煜全 &amp; 张令仪 · 婚礼请柬</title>
+<meta property="og:site_name" content="周煜全 &amp; 张令仪 · 婚礼请柬">
+<meta property="og:title" content="周煜全 &amp; 张令仪 · 婚礼请柬">
+<meta property="og:description" content="谨定于2027年1月26日（农历丙午年腊月十九），湖南桃源沙坪张府，敬备喜宴，恭候光临。">
+<meta property="og:image" content="https://wedding.mynameisyork.workers.dev/share.png">
+<meta property="og:image:secure_url" content="https://wedding.mynameisyork.workers.dev/share.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="500">
+<meta property="og:image:height" content="500">
+<meta property="og:image:alt" content="囍 · 周煜全与张令仪婚礼请柬">
+<meta itemprop="name" content="周煜全 &amp; 张令仪 · 婚礼请柬">
+<meta itemprop="description" content="谨定于2027年1月26日（农历丙午年腊月十九），湖南桃源沙坪张府，敬备喜宴，恭候光临。">
+<meta itemprop="image" content="https://wedding.mynameisyork.workers.dev/share.png">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {

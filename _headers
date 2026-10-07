@@ -60,3 +60,8 @@
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 /inv-o/%E5%9B%BE%E7%89%873.jpg
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/share.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/logo.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
