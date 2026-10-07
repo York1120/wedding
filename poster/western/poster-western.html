@@ -794,7 +794,7 @@
           download(b, 'poster.png');
         }
       }
-      /* 导出画布质检:黑块(布局崩坏) 或 照片区失真(html2canvas 大图解码失败成色块) 都判失败 */
+      /* 导出画布质检: 黑块(布局崩坏)、纯色块(图片未画出)、内部一致性(文字层丢失) 都判失败 */
       function looksBroken(cv) {
         try {
           var ctx = cv.getContext('2d');
@@ -803,21 +803,29 @@
           var black = 0, total = 0;
           for (var i = 0; i < d.length; i += 4 * 97) { total++; if (d[i] < 24 && d[i+1] < 24 && d[i+2] < 24) black++; }
           if (total > 0 && black / total > 0.25) return true;
-          /* 照片区保真度: 取页面照片中心的实际像素与画布同位置比对 */
+          /* 照片区多点采样: 真实照片相邻点颜色差异丰富;
+             html2canvas 大图解码失败时该区域是纯渐变块, 邻点色差极小 */
           var probe = document.querySelector('.photo-wrap img, .arch img');
           if (probe && probe.naturalWidth) {
             var pr = probe.getBoundingClientRect(), sr = stage.getBoundingClientRect();
-            var scale = w / sr.width;
-            var px = Math.round((pr.left - sr.left + pr.width / 2) * scale);
-            var py = Math.round((pr.top - sr.top + pr.height / 2) * scale);
-            if (px > 2 && px < w - 2 && py > 2 && py < h - 2) {
-              var pc = ctx.getImageData(px - 1, py - 1, 3, 3).data;
-              var pcv = document.createElement('canvas'); pcv.width = 1; pcv.height = 1;
-              var pctx = pcv.getContext('2d');
-              pctx.drawImage(probe, (probe.naturalWidth - 2) / probe.naturalWidth * probe.naturalWidth, probe.naturalHeight / 2 - 1, 2, 2, 0, 0, 1, 1);
-              var pv = pctx.getImageData(0, 0, 1, 1).data;
-              var rr = Math.abs(pc[0] - pv[0]) + Math.abs(pc[4] - pv[4]) + Math.abs(pc[8] - pv[8]);
-              if (rr > 180) return true;
+            var sc = w / sr.width;
+            var L = Math.round((pr.left - sr.left) * sc), T = Math.round((pr.top - sr.top) * sc);
+            var PW = Math.round(pr.width * sc), PH = Math.round(pr.height * sc);
+            if (PW > 20 && PH > 20) {
+              var bands = 0, prev = null;
+              for (var yy = T + PH * 0.15; yy < T + PH * 0.85; yy += PH * 0.14) {
+                for (var xx = L + PW * 0.12; xx < L + PW * 0.88; xx += PW * 0.19) {
+                  var pc = ctx.getImageData(Math.round(xx), Math.round(yy), 1, 1).data;
+                  var v = [pc[0], pc[1], pc[2]];
+                  if (prev) {
+                    var dxyz = Math.abs(v[0] - prev[0]) + Math.abs(v[1] - prev[1]) + Math.abs(v[2] - prev[2]);
+                    if (dxyz > 60) bands++;
+                  }
+                  prev = v;
+                }
+              }
+              /* 真实照片应有大量色彩层次; 纯色/渐变块 bands 极少 */
+              if (bands < 3) return true;
             }
           }
           return false;
@@ -880,14 +888,15 @@
         img.onerror = function () { done(null, null); };
         img.src = url;
       }
-      /* 截图优先, 失败/崩坏逐级降级: h2c@scale → FO@scale → h2c@1 → FO@1 */
-      renderH2C(s, function (b, cv) {
+      /* FO 优先(画质最佳且桌面已验证), 失败/崩坏逐级降级: FO@scale → h2c@scale → FO@1 → h2c@1
+         (安卓微信 X5 的 foreignObject 会崩坏 → 走 h2c; html2canvas 照片色块缺陷 → 质检拦截后回退) */
+      renderFO(s, function (b, cv) {
         if (b && !looksBroken(cv)) return finish(b, cv);
-        renderFO(s, function (b2, cv2) {
-          if (b2) return finish(b2, cv2);
-          renderH2C(1, function (b3, cv3) {
-            if (b3) return finish(b3, cv3);
-            renderFO(1, function (b4, cv4) { finish(b4, cv4); });
+        renderH2C(s, function (b2, cv2) {
+          if (b2 && !looksBroken(cv2)) return finish(b2, cv2);
+          renderFO(1, function (b3, cv3) {
+            if (b3 && !looksBroken(cv3)) return finish(b3, cv3);
+            renderH2C(1, function (b4, cv4) { finish(b4, cv4); });
           });
         });
       });
