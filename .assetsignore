@@ -1,3 +1,26 @@
 # worker.js 是脚本不是静态资产，禁止被当作文件直接下载
 worker.js
 .assetsignore
+.wrangler/
+.gitignore
+.github/
+README.md
+_originals/
+
+# 开发源文件（_fontsrc 是重建字体子集必需的本地源，不上传）
+inv-w/_fontsrc/
+inv-w/_charset.txt
+inv-w/_shots/
+inv-w/README.md
+
+# 海报构建源码与文档
+poster/src/
+poster/chinese/poster-design.md
+poster/western/poster-design-western.md
+poster/README.md
+
+# 各请柬设计说明
+inv-b/README.md
+inv-g/README.md
+inv-o/README.md
+inv-w/README.md

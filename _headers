@@ -22,3 +22,11 @@
   Cache-Control: public, max-age=0, must-revalidate
 /poster/western/poster-western.html
   Cache-Control: public, max-age=0, must-revalidate
+/poster/chinese/poster-bride.html
+  Cache-Control: public, max-age=0, must-revalidate
+/poster/western/poster-western-bride.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# html2canvas-pro 是不变的工具库（211KB），长缓存 + immutable
+/poster/html2canvas-pro.min.js
+  Cache-Control: public, max-age=31536000, immutable

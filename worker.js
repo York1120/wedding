@@ -137,6 +137,8 @@ export default {
 
     if ((request.headers.get("Cookie") || "").includes(`${COOKIE}=${TOKEN}`)) {
       const res = await env.ASSETS.fetch(request);
+      /* 304 Not Modified: 浏览器缓存命中, 不可改写 body */
+      if (res.status === 304) return res;
       if ((res.headers.get("content-type") || "").includes("text/html")) {
         let html = await res.text();
         html = html.replace("<body>", "<body>" + HINT_HTML, 1);
