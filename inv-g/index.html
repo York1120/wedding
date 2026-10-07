@@ -135,8 +135,9 @@ section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,
 .avatar i{position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(242,209,139,.5);animation:ringPulse 2.1s ease-out infinite}
 .avatar i:nth-child(2){animation-delay:1.05s}
 @keyframes ringPulse{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.34);opacity:0}}
-.cname{margin-top:26px;font-size:32px;font-weight:600;color:#F7E7C3;letter-spacing:.08em;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.cname{margin-top:26px;font-family:var(--font-display);font-size:38px;font-weight:400;color:#F7E7C3;letter-spacing:.08em;text-shadow:0 2px 14px rgba(0,0,0,.35);animation:cnameIn .9s .3s cubic-bezier(.2,.8,.3,1.1) backwards}
 .csub{margin-top:10px;font-size:14.5px;letter-spacing:.28em;color:rgba(247,231,195,.68)}
+@keyframes cnameIn{from{transform:translateY(20px);opacity:0}}
 .call-actions{margin-top:auto;display:flex;gap:11vw;margin-bottom:3.2vh}
 .cbtn{width:66px;border:none;background:none;padding:0;cursor:pointer;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:9px}
 .cbtn .cico{width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.24);display:flex;align-items:center;justify-content:center}
@@ -257,7 +258,7 @@ section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,
 
 /* ── 鎏金流光文字 ─────────────────── */
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
-  .goldtext,.hero-names span:not(.amp){
+  .goldtext,.hero-names span:not(.amp),.cname{
     background-image:linear-gradient(105deg,#B8822B 0%,#E2BC63 20%,#F9E9A8 33%,#FFF6D8 39%,#F9E9A8 45%,#D9A441 58%,#B8822B 74%,#96691F 100%);
     background-size:230% 100%;background-repeat:no-repeat;
     -webkit-background-clip:text;background-clip:text;
@@ -265,6 +266,7 @@ section::after{bottom:22px;right:22px;border-bottom:1.5px solid rgba(217,164,65,
     animation:goldSweep 6.5s ease-in-out infinite;
   }
   .goldtext{text-shadow:none;filter:drop-shadow(0 0 8px rgba(247,224,139,.25))}
+  .cname{text-shadow:none;filter:drop-shadow(0 0 10px rgba(247,224,139,.3));animation:cnameIn .9s .3s cubic-bezier(.2,.8,.3,1.1) backwards,goldSweep 6.5s ease-in-out infinite}
   .countdown b{text-shadow:none}
 }
 @keyframes goldSweep{0%,100%{background-position:12% 0}55%{background-position:88% 0}}
