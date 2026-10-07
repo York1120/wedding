@@ -348,7 +348,7 @@
 
   /* 两套海报可拖动元素的并集（各自不存在的类名不会命中） */
   var MOVABLE = ['.photo-wrap', '.photo3-wrap', '.arch', '.calligraphy', '.blessing', '.corner-xi-l1', '.corner-xi-l2',
-    '.xi-hero', '.salute', '.verse', '.name-l', '.name-r', '.seal-medal', '.divider',
+    '.xi-hero', '.salute', '.verse', '.name-l', '.name-r', '.role', '.name', '.seal-medal', '.divider',
     '.sec-label', '.time-1', '.time-2', '.loc-1', '.loc-2', '.host', '.footline',
     '.corner-xi-r1', '.corner-xi-r2', '.seal-v',
     '.sprig-top', '.eyebrow', '.name-1', '.amp', '.name-2', '.cn-names',
@@ -832,14 +832,19 @@
         sc.onerror = function () { cb(false); };
         document.body.appendChild(sc);
       }
+      function canvasToBlob(cv) {
+        return new Promise(function (res) { cv.toBlob(function (b) { res(b); }, 'image/png'); });
+      }
       function renderH2C(scale, done) {
         loadH2C(function (ok) {
           if (!ok || !window.html2canvas) return done(null, null);
           var prevT = stage.style.transform;
-          var prevOvX = document.documentElement.style.overflowX;
           stage.style.transform = 'none';
           window.html2canvas(stage, { scale: scale, useCORS: true, logging: false, imageTimeout: 15000 }).then(
-            function (cv) { stage.style.transform = prevT; done(cv, cv); },
+            function (cv) {
+              stage.style.transform = prevT;
+              canvasToBlob(cv).then(function (b) { done(b, cv); }, function () { done(null, cv); });
+            },
             function () { stage.style.transform = prevT; done(null, null); }
           );
         });
@@ -870,7 +875,7 @@
           cv.width = Math.round(W * scale); cv.height = Math.round(H * scale);
           cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
           URL.revokeObjectURL(url);
-          done(cv, cv);
+          canvasToBlob(cv).then(function (b) { done(b, cv); }, function () { done(null, cv); });
         };
         img.onerror = function () { done(null, null); };
         img.src = url;
