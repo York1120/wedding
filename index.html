@@ -199,7 +199,7 @@
     "inv-o":{label:"请柬 · X",order:["groom","bride","date","lunar","venue","venueShort","caller"]},
     "inv-w":{label:"请柬 · W",order:["groom","bride","date","lunar","venue","venueShort","venueShortEn","caller"]},
     "pcn":{label:"海报 · 中式",order:["groom","bride","date","lunar","venue","venueShort"]},
-    "pwe":{label:"海报 · 西式",order:["groomEn","brideEn","groom","bride","date","lunar","venueShort"]}
+    "pwe":{label:"海报 · 西式",order:["groomEn","brideEn","groom","bride","date","lunar","venueShort"],labels:{venueShort:"地点"}}
   };
   var DEF={groom:"周煜全",bride:"张令仪",date:"2027-01-26",lunar:"农历丙午年腊月十九",
     venueShort:"张府",venueShortEn:"Zhang Mansion",venue:{},
@@ -217,7 +217,7 @@
     b.onclick=function(){active=k;renderTabs();renderForm()};w.appendChild(b)})}
   function renderForm(){var f=document.getElementById("ewForm");f.innerHTML="";ITEMS[active].order.forEach(function(fd){
     var w=document.createElement("div");w.className="ew-f";
-    var l=document.createElement("label");l.textContent=FIELDS[fd]||fd;w.appendChild(l);
+    var l=document.createElement("label");l.textContent=(ITEMS[active].labels&&ITEMS[active].labels[fd])||FIELDS[fd]||fd;w.appendChild(l);
     var i=document.createElement("input");i.type=(fd==="date")?"date":"text";i.value=cur(active,fd);i.setAttribute("data-f",fd);
     if(!defv(active,fd))i.placeholder="留空保持页面现状";
     w.appendChild(i);f.appendChild(w)})}
