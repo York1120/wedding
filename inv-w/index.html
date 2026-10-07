@@ -440,8 +440,49 @@ body.opened .hero [data-hero]{animation:heroIn .95s var(--d,0s) cubic-bezier(.22
   .cd-unit{width:66px}
   .stem.pl,.stem.pr{width:58px}
 }
+
+/* ---------- 冬日飘雪(整屏,含信封首屏) ---------- */
+.snow{position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden}
+.snow i{position:absolute;top:-5vh;display:block;border-radius:50%;opacity:0;
+  background:radial-gradient(circle at 35% 30%,#FFFFFF,rgba(255,255,255,.9) 52%,rgba(255,255,255,0) 78%);
+  filter:blur(.4px);animation:snowFall linear infinite}
+.snow i:nth-child(7n){background:radial-gradient(circle at 35% 30%,#F6E7B8,#E2C377 55%,rgba(214,178,106,0) 78%)}
+.snow i:nth-child(3n){filter:blur(1px)}
+@keyframes snowFall{
+  0%{transform:translate3d(0,-5vh,0) scale(.9);opacity:0}
+  8%{opacity:var(--o,.75)}
+  50%{transform:translate3d(1.6vw,50vh,0) scale(1.05);opacity:var(--o,.75)}
+  90%{opacity:calc(var(--o,.75)*.7)}
+  100%{transform:translate3d(-1.4vw,106vh,0) scale(.85);opacity:0}
+}
+.snow i:nth-child(1){left:2.8%;width:5px;height:5px;animation-duration:17.8s;animation-delay:-16.3s;--o:0.84}
+.snow i:nth-child(2){left:5.0%;width:2px;height:2px;animation-duration:14.5s;animation-delay:-1.1s;--o:0.59}
+.snow i:nth-child(3){left:8.7%;width:2px;height:2px;animation-duration:10.9s;animation-delay:-3.9s;--o:0.77}
+.snow i:nth-child(4){left:13.2%;width:2px;height:2px;animation-duration:12.1s;animation-delay:-6.2s;--o:0.76}
+.snow i:nth-child(5){left:19.3%;width:4px;height:4px;animation-duration:11.0s;animation-delay:-7.1s;--o:0.74}
+.snow i:nth-child(6){left:22.0%;width:2.5px;height:2.5px;animation-duration:9.9s;animation-delay:-2.9s;--o:0.65}
+.snow i:nth-child(7){left:27.2%;width:3.5px;height:3.5px;animation-duration:16.0s;animation-delay:-2.1s;--o:0.82}
+.snow i:nth-child(8){left:30.6%;width:3.5px;height:3.5px;animation-duration:18.5s;animation-delay:-8.2s;--o:0.5}
+.snow i:nth-child(9){left:36.4%;width:2px;height:2px;animation-duration:18.7s;animation-delay:-16.4s;--o:0.54}
+.snow i:nth-child(10){left:38.0%;width:5px;height:5px;animation-duration:15.3s;animation-delay:-18.8s;--o:0.76}
+.snow i:nth-child(11){left:45.6%;width:4.5px;height:4.5px;animation-duration:16.4s;animation-delay:-17.3s;--o:0.76}
+.snow i:nth-child(12){left:48.8%;width:4px;height:4px;animation-duration:12.2s;animation-delay:-8.6s;--o:0.66}
+.snow i:nth-child(13){left:53.1%;width:4px;height:4px;animation-duration:11.5s;animation-delay:-18.7s;--o:0.84}
+.snow i:nth-child(14){left:56.3%;width:5px;height:5px;animation-duration:11.1s;animation-delay:-6.1s;--o:0.88}
+.snow i:nth-child(15){left:58.4%;width:2.5px;height:2.5px;animation-duration:16.6s;animation-delay:-15.8s;--o:0.77}
+.snow i:nth-child(16){left:64.6%;width:4.5px;height:4.5px;animation-duration:10.6s;animation-delay:-15.0s;--o:0.64}
+.snow i:nth-child(17){left:66.8%;width:3px;height:3px;animation-duration:13.0s;animation-delay:-18.9s;--o:0.59}
+.snow i:nth-child(18){left:72.6%;width:2px;height:2px;animation-duration:13.3s;animation-delay:-3.5s;--o:0.54}
+.snow i:nth-child(19){left:77.1%;width:2px;height:2px;animation-duration:16.3s;animation-delay:-10.7s;--o:0.74}
+.snow i:nth-child(20){left:82.5%;width:4px;height:4px;animation-duration:13.2s;animation-delay:-10.9s;--o:0.62}
+.snow i:nth-child(21){left:83.8%;width:2px;height:2px;animation-duration:17.1s;animation-delay:-17.0s;--o:0.58}
+.snow i:nth-child(22){left:87.7%;width:3.5px;height:3.5px;animation-duration:10.5s;animation-delay:-11.5s;--o:0.78}
+.snow i:nth-child(23){left:94.9%;width:3.5px;height:3.5px;animation-duration:11.9s;animation-delay:-10.2s;--o:0.47}
+.snow i:nth-child(24){left:98.7%;width:3px;height:3px;animation-duration:9.4s;animation-delay:-0.1s;--o:0.82}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
+  .snow{display:none}
   .js .reveal{opacity:1;transform:none}
   .js .reveal .ln{opacity:1;transform:none}
   .js .reveal .slot .arch{opacity:1;transform:none}
@@ -484,6 +525,7 @@ body.opened .hero [data-hero]{animation:heroIn .95s var(--d,0s) cubic-bezier(.22
 
 <!-- 微信缩略图兜底:部分微信版本从页面首图抓取(勿改成 display:none) -->
 <img src="../images/share-w.png" alt="" style="position:absolute;left:-9999px;top:0;width:300px;height:300px;">
+<div class="snow" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
 <!-- 背景音乐:开启请柬后自动播放;右上角按钮可暂停/继续 -->
 <audio id="bgm" src="../audio/bgm.m4a" loop preload="auto"></audio>
