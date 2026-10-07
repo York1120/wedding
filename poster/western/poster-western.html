@@ -398,7 +398,7 @@
     '</span>' +
     '<button data-act="center">居中</button>' +
     '<button data-act="hide">隐藏</button>' +
-    '<button data-act="png">导出 PNG</button>' +
+    '<button data-act="png">💾 保存图片</button>' +
     '<button data-act="html">导出 HTML</button>' +
     '<button data-act="reset">恢复默认</button>' +
     '<span class="ed-hint">拖动移动 · 双击改字 · 方向键微调(Shift×10) · Del 隐藏</span>' +
@@ -898,82 +898,5 @@
 })();
 
 </script>
-<button id="savePng" aria-label="保存为图片">⬇ 保存图片</button>
-<style data-noexport>
-  #savePng{position:fixed;right:14px;bottom:14px;z-index:80;padding:9px 18px;border-radius:999px;border:none;cursor:pointer;
-    font-family:inherit;font-size:13px;letter-spacing:2px;background:rgba(20,14,8,.74);color:#F7E7C3;
-    box-shadow:0 3px 10px rgba(0,0,0,.28)}
-  #savePng:active{transform:translateY(1px)}
-  #ed-bar #savePng{position:static;box-shadow:none;padding:4px 11px;border-radius:6px;font-size:13px}
-</style>
-<script>
-(function(){
-  var btn = document.getElementById('savePng');
-  try { document.getElementById('ed-bar').appendChild(btn); } catch (e) {}
-  var busy = false;
-  btn.onclick = function(){
-    if (busy) return; busy = true;
-    document.fonts.ready.then(function(){
-      var stage = document.getElementById('stage');
-      var W = stage.offsetWidth, H = stage.offsetHeight;
-      var s = 2;
-      try { var maxS = Math.sqrt(12000000/(W*H)); if (s > maxS) s = Math.max(1, Math.floor(maxS*10)/10); } catch(e){}
-      var clone = stage.cloneNode(true);
-      clone.style.transform = 'none';
-      clone.style.boxShadow = 'none';
-      clone.querySelectorAll('[data-noexport]').forEach(function(n){ n.remove(); });
-      var wrap = document.createElement('div');
-      wrap.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-      wrap.style.cssText = 'width:'+W+'px;height:'+H+'px;position:relative;transform:scale('+s+');transform-origin:0 0;';
-      var st = document.createElement('style');
-      st.textContent = document.querySelector('style:not([data-noexport])').textContent;
-      wrap.appendChild(st); wrap.appendChild(clone);
-      var fo = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-      fo.setAttribute('width', W*s); fo.setAttribute('height', H*s); fo.appendChild(wrap);
-      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      svg.setAttribute('width', W*s); svg.setAttribute('height', H*s);
-      svg.setAttribute('viewBox', '0 0 '+W*s+' '+H*s);
-      svg.appendChild(fo);
-      var url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
-      var img = new Image();
-      img.onload = function(){
-        var cv = document.createElement('canvas');
-        cv.width = W*s; cv.height = H*s;
-        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
-        var finish = function(b, cv){
-          busy = false;
-          if (!b){ alert('当前设备画布受限，保存失败'); return; }
-          if (/MicroMessenger/i.test(navigator.userAgent)) {
-            var ov = document.createElement('div');
-            ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;';
-            var hint = document.createElement('div');
-            hint.style.cssText = 'color:#F7E7C3;font-size:15px;letter-spacing:2px;margin-bottom:10px';
-            hint.textContent = '长按下方图片 · 保存到相册';
-            var im = document.createElement('img');
-            im.src = cv.toDataURL('image/png');
-            im.style.cssText = 'max-width:100%;max-height:76vh;object-fit:contain;background:#fff';
-            var x = document.createElement('div');
-            x.style.cssText = 'margin-top:12px;color:rgba(255,255,255,.7);font-size:13px;letter-spacing:2px;cursor:pointer';
-            x.textContent = '关 闭';
-            x.onclick = function(){ ov.remove(); };
-            ov.appendChild(hint); ov.appendChild(im); ov.appendChild(x);
-            document.body.appendChild(ov);
-          } else {
-            var a = document.createElement('a');
-            a.href = URL.createObjectURL(b); a.download = 'poster.png';
-            document.body.appendChild(a); a.click();
-            setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 2000);
-          }
-        };
-        cv.toBlob(function(b){ finish(b, cv); }, 'image/png');
-      };
-      img.onerror = function(){ busy = false; alert('生成失败，请重试'); };
-      img.src = url;
-    });
-  };
-})();
-</script>
-
 </body>
 </html>
