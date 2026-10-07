@@ -475,7 +475,6 @@
   function initCrop() {
     var img = findCropImg(selected);
     if (!img || !img.naturalWidth) return false;
-    if (crop.img === img) return true;
     crop.img = img;
     var box = img.parentElement;
     box.style.overflow = 'hidden'; /* 防止缩放后图片溢出容器 */
@@ -524,7 +523,7 @@
       btn.hidden = !has; btn.textContent = '✂ 裁剪';
       tools.hidden = true;
       ztools.hidden = !has;
-      hint.textContent = '拖动移动 · 双击改字 · 方向键微调(Shift×10) · Del 隐藏';
+      hint.textContent = '拖动移动 · 双击改字 · 缩放±整体缩放照片框 · Del 隐藏';
     }
   }
 
@@ -703,6 +702,19 @@
   });
 
   /* ---------- 工具栏 ---------- */
+  /* 照片框整体等比缩放（虚线框连同图片一起, 围绕中心） */
+  function scalePhoto(el, f) {
+    materialize(el);
+    var newW = el.offsetWidth * f, newH = el.offsetHeight * f;
+    var cx = parseFloat(el.style.left) + el.offsetWidth / 2;
+    var cy = parseFloat(el.style.top) + el.offsetHeight / 2;
+    el.style.width = newW + 'px';
+    el.style.height = newH + 'px';
+    el.style.left = (cx - newW / 2) + 'px';
+    el.style.top = (cy - newH / 2) + 'px';
+    syncSelbox();
+  }
+
   function resize(el, f) {
     if (el.tagName === 'IMG' || el.classList.contains('photo-wrap')) {
       el.style.width = (el.offsetWidth * f) + 'px';
@@ -721,8 +733,8 @@
     if (act === 'png') return exportPNG();
     if (act === 'html') return exportHTML();
     if (act === 'crop') { cropMode ? exitCrop() : enterCrop(); return; }
-    if (act === 'zoomin') { initCrop(); return zoomCrop(1.08); }
-    if (act === 'zoomout') { initCrop(); return zoomCrop(1 / 1.08); }
+    if (act === 'zoomin') { return cropMode ? zoomCrop(1.08) : scalePhoto(selected, 1.08); }
+    if (act === 'zoomout') { return cropMode ? zoomCrop(1 / 1.08) : scalePhoto(selected, 1 / 1.08); }
     if (act === 'cropreset') { initCrop(); crop.z = 1; crop.tx = 0; crop.ty = 0; clampCrop(); applyCrop(); return; }
     if (act === 'reset') {
       exitCrop();
@@ -760,8 +772,6 @@
         var maxS = Math.sqrt(12000000 / (W * H));
         if (s > maxS) s = Math.max(1, Math.floor(maxS * 10) / 10);
       } catch (e) {}
-      /* 安卓微信的 X5/XWeb 内核 foreignObject 布局会崩坏(内容挤压到左侧),直接走 html2canvas-pro */
-      var useH2C = /MicroMessenger/i.test(navigator.userAgent) && /Android/i.test(navigator.userAgent);
       function finish(b, cv) {
         if (!b) { alert('当前设备画布受限，导出失败，请改用「导出 HTML」'); return; }
         if (/MicroMessenger/i.test(navigator.userAgent)) {
@@ -784,25 +794,57 @@
           download(b, 'poster.png');
         }
       }
-      /* 导出画布质检:纯黑像素占比过高 = 布局崩坏,自动切换引擎重试 */
+      /* 导出画布质检:黑块(布局崩坏) 或 照片区失真(html2canvas 大图解码失败成色块) 都判失败 */
       function looksBroken(cv) {
         try {
-          var d = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height).data;
+          var ctx = cv.getContext('2d');
+          var w = cv.width, h = cv.height;
+          var d = ctx.getImageData(0, 0, w, h).data;
           var black = 0, total = 0;
           for (var i = 0; i < d.length; i += 4 * 97) { total++; if (d[i] < 24 && d[i+1] < 24 && d[i+2] < 24) black++; }
-          return total > 0 && black / total > 0.25;
+          if (total > 0 && black / total > 0.25) return true;
+          /* 照片区保真度: 取页面照片中心的实际像素与画布同位置比对 */
+          var probe = document.querySelector('.photo-wrap img, .arch img');
+          if (probe && probe.naturalWidth) {
+            var pr = probe.getBoundingClientRect(), sr = stage.getBoundingClientRect();
+            var scale = w / sr.width;
+            var px = Math.round((pr.left - sr.left + pr.width / 2) * scale);
+            var py = Math.round((pr.top - sr.top + pr.height / 2) * scale);
+            if (px > 2 && px < w - 2 && py > 2 && py < h - 2) {
+              var pc = ctx.getImageData(px - 1, py - 1, 3, 3).data;
+              var pcv = document.createElement('canvas'); pcv.width = 1; pcv.height = 1;
+              var pctx = pcv.getContext('2d');
+              pctx.drawImage(probe, (probe.naturalWidth - 2) / probe.naturalWidth * probe.naturalWidth, probe.naturalHeight / 2 - 1, 2, 2, 0, 0, 1, 1);
+              var pv = pctx.getImageData(0, 0, 1, 1).data;
+              var rr = Math.abs(pc[0] - pv[0]) + Math.abs(pc[4] - pv[4]) + Math.abs(pc[8] - pv[8]);
+              if (rr > 180) return true;
+            }
+          }
+          return false;
         } catch (e) { return false; }
       }
-      function renderH2C(scale, done) {
+      /* 主引擎:html2canvas-pro 对页面直接高清截图 */
+      function loadH2C(cb) {
+        if (window.html2canvas) return cb(true);
         var sc = document.createElement('script');
         sc.src = '../html2canvas-pro.min.js';
-        sc.onload = function () {
-          if (!window.html2canvas) return done(null, null);
-          window.html2canvas(stage, { scale: scale, useCORS: true, logging: false }).then(function (c) { done(c, c); }, function () { done(null, null); });
-        };
-        sc.onerror = function () { done(null, null); };
+        sc.onload = function () { cb(true); };
+        sc.onerror = function () { cb(false); };
         document.body.appendChild(sc);
       }
+      function renderH2C(scale, done) {
+        loadH2C(function (ok) {
+          if (!ok || !window.html2canvas) return done(null, null);
+          var prevT = stage.style.transform;
+          var prevOvX = document.documentElement.style.overflowX;
+          stage.style.transform = 'none';
+          window.html2canvas(stage, { scale: scale, useCORS: true, logging: false, imageTimeout: 15000 }).then(
+            function (cv) { stage.style.transform = prevT; done(cv, cv); },
+            function () { stage.style.transform = prevT; done(null, null); }
+          );
+        });
+      }
+      /* 兜底引擎:foreignObject 序列化(桌面浏览器质量最佳) */
       function renderFO(scale, done) {
         var clone = stage.cloneNode(true);
         clone.style.transform = 'none';
@@ -821,7 +863,6 @@
         svg.setAttribute('width', W * scale); svg.setAttribute('height', H * scale);
         svg.setAttribute('viewBox', '0 0 ' + W * scale + ' ' + H * scale);
         svg.appendChild(fo);
-        /* file:// 页面下 blob URL 的 SVG 会污染画布, data URL 不会 */
         var url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
         var img = new Image();
         img.onload = function () {
@@ -834,23 +875,17 @@
         img.onerror = function () { done(null, null); };
         img.src = url;
       }
-      function tryFO(scale, done) {
-        renderFO(scale, function (b, cv) {
-          if (b && !looksBroken(cv)) return done(b, cv);
-          done(null, cv);
+      /* 截图优先, 失败/崩坏逐级降级: h2c@scale → FO@scale → h2c@1 → FO@1 */
+      renderH2C(s, function (b, cv) {
+        if (b && !looksBroken(cv)) return finish(b, cv);
+        renderFO(s, function (b2, cv2) {
+          if (b2) return finish(b2, cv2);
+          renderH2C(1, function (b3, cv3) {
+            if (b3) return finish(b3, cv3);
+            renderFO(1, function (b4, cv4) { finish(b4, cv4); });
+          });
         });
-      }
-      if (useH2C) {
-        renderH2C(s, function (b, cv) {
-          if (b) return finish(b, cv);
-          tryFO(s, function (b2, cv2) { if (b2) return finish(b2, cv2); tryFO(1, finish); });
-        });
-      } else {
-        tryFO(s, function (b, cv) {
-          if (b) return finish(b, cv);
-          renderH2C(s, function (b2, cv2) { if (b2) return finish(b2, cv2); tryFO(1, finish); });
-        });
-      }
+      });
     });
   }
 
