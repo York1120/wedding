@@ -1,6 +1,6 @@
 # 静态资产缓存策略（Workers static assets 原生支持 _headers）
 # 字体子集会用同名文件重建，max-age 控制在 1 小时内，避免改字后访客命中旧子集缺字；
-# 图片/音频一般原地替换，1 天窗口可接受。
+# 图片/音频统一在 images/ 与 audio/，1 天窗口可接受。
 # 主页 / 与 /index.html 由 Worker 动态返回，不走这里，保持默认 etag 协商缓存。
 
 /inv-b/fonts/*
@@ -9,59 +9,10 @@
   Cache-Control: public, max-age=3600, stale-while-revalidate=604800
 /inv-o/fonts/*
   Cache-Control: public, max-age=3600, stale-while-revalidate=604800
+/inv-w/fonts/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
 
-/inv-b/bgm.m4a
+/images/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-b/bell.m4a
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-b/xi.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-b/share.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-b/call-icon.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-b/%E5%9B%BE%E7%89%871.jpg
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-b/%E5%9B%BE%E7%89%872.jpg
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-b/%E5%9B%BE%E7%89%873.jpg
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-
-/inv-g/bgm.m4a
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-g/bell.m4a
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-g/xi.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-g/share.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-g/call-icon.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-g/%E5%9B%BE%E7%89%871.jpg
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-g/%E5%9B%BE%E7%89%872.jpg
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-g/%E5%9B%BE%E7%89%873.jpg
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-
-/inv-o/bgm.m4a
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-o/bell.m4a
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-o/xi.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-o/share.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-o/call-icon.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-o/%E5%9B%BE%E7%89%871.jpg
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-o/%E5%9B%BE%E7%89%872.jpg
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/inv-o/%E5%9B%BE%E7%89%873.jpg
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-
-/share.png
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-/logo.png
+/audio/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
