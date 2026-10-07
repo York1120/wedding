@@ -1,8 +1,12 @@
 name = "wedding"
 compatibility_date = "2026-10-07"
+main = "worker.js"
 
 # 纯静态站：整个仓库根目录作为资产目录部署（Workers static assets）
 # html_handling 默认 auto-trailing-slash，/inv-b/ 会自动命中 inv-b/index.html
 [assets]
 directory = "."
+binding = "ASSETS"
 not_found_handling = "404-page"
+# 仅主页走 Worker 做访问密码校验（worker.js），其余路径直接命中静态资产
+run_worker_first = ["/", "/index.html"]

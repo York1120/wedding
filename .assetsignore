@@ -1,0 +1,3 @@
+# worker.js 是脚本不是静态资产，禁止被当作文件直接下载
+worker.js
+.assetsignore
