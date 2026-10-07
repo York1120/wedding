@@ -121,8 +121,24 @@
   }
 
   /* ---------- botanical stems ---------- */
-  .stem-l { position: absolute; left: 176px; top: 810px; }
-  .stem-r { position: absolute; right: 176px; top: 850px; }
+  .stem-l { position: absolute; left: 176px; top: 810px; animation: stemSwayL 6s ease-in-out infinite; transform-origin: top center; }
+  .stem-l .leaf-dot, .stem-r .leaf-dot { animation: leafPulse 4s ease-in-out infinite; }
+  .stem-r .leaf-dot { animation-delay: 2s; }
+  @keyframes stemSwayL {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(2.5deg); }
+    65% { transform: rotate(-2deg); }
+  }
+  @keyframes stemSwayR {
+    0%, 100% { transform: rotate(0deg); }
+    35% { transform: rotate(-2.5deg); }
+    70% { transform: rotate(2deg); }
+  }
+  @keyframes leafPulse {
+    0%, 100% { opacity: 0.92; }
+    50% { opacity: 0.65; }
+  }
+  .stem-r { position: absolute; right: 176px; top: 850px; animation: stemSwayR 6.5s ease-in-out infinite; transform-origin: top center; }
 
   /* ---------- formal lines ---------- */
   .eyebrow-cn {
@@ -386,18 +402,18 @@ body.dpp-floating-chat-dragging * { cursor: move !important; }
   <svg class="stem-l" width="250" height="520" viewBox="0 0 250 520" fill="none">
     <path d="M232,508 C182,432 122,352 96,258 C76,186 78,116 108,42" stroke="#8A9B7C" stroke-width="1.8" stroke-linecap="round"></path>
     <g fill="#93A383" opacity="0.92">
-      <ellipse cx="209" cy="473" rx="26" ry="10" transform="rotate(-77 209 473)"></ellipse>
-      <ellipse cx="186" cy="436" rx="26" ry="10" transform="rotate(13 186 436)"></ellipse>
-      <ellipse cx="162" cy="399" rx="25" ry="10" transform="rotate(-75 162 399)"></ellipse>
-      <ellipse cx="141" cy="361" rx="25" ry="10" transform="rotate(19 141 361)"></ellipse>
-      <ellipse cx="121" cy="321" rx="24" ry="10" transform="rotate(-71 121 321)"></ellipse>
-      <ellipse cx="105" cy="279" rx="24" ry="10" transform="rotate(30 105 279)"></ellipse>
-      <ellipse cx="91" cy="227" rx="23" ry="10" transform="rotate(-55 91 227)"></ellipse>
-      <ellipse cx="85" cy="193" rx="23" ry="10" transform="rotate(42 85 193)"></ellipse>
-      <ellipse cx="83" cy="158" rx="22" ry="9.5" transform="rotate(-48 83 158)"></ellipse>
-      <ellipse cx="84" cy="124" rx="22" ry="9.5" transform="rotate(52 84 124)"></ellipse>
-      <ellipse cx="88" cy="89" rx="21" ry="9" transform="rotate(-38 88 89)"></ellipse>
-      <ellipse cx="96" cy="54" rx="20" ry="9" transform="rotate(58 96 54)"></ellipse>
+      <ellipse class="leaf-dot" cx="209" cy="473" rx="26" ry="10" transform="rotate(-77 209 473)"></ellipse>
+      <ellipse class="leaf-dot" cx="186" cy="436" rx="26" ry="10" transform="rotate(13 186 436)"></ellipse>
+      <ellipse class="leaf-dot" cx="162" cy="399" rx="25" ry="10" transform="rotate(-75 162 399)"></ellipse>
+      <ellipse class="leaf-dot" cx="141" cy="361" rx="25" ry="10" transform="rotate(19 141 361)"></ellipse>
+      <ellipse class="leaf-dot" cx="121" cy="321" rx="24" ry="10" transform="rotate(-71 121 321)"></ellipse>
+      <ellipse class="leaf-dot" cx="105" cy="279" rx="24" ry="10" transform="rotate(30 105 279)"></ellipse>
+      <ellipse class="leaf-dot" cx="91" cy="227" rx="23" ry="10" transform="rotate(-55 91 227)"></ellipse>
+      <ellipse class="leaf-dot" cx="85" cy="193" rx="23" ry="10" transform="rotate(42 85 193)"></ellipse>
+      <ellipse class="leaf-dot" cx="83" cy="158" rx="22" ry="9.5" transform="rotate(-48 83 158)"></ellipse>
+      <ellipse class="leaf-dot" cx="84" cy="124" rx="22" ry="9.5" transform="rotate(52 84 124)"></ellipse>
+      <ellipse class="leaf-dot" cx="88" cy="89" rx="21" ry="9" transform="rotate(-38 88 89)"></ellipse>
+      <ellipse class="leaf-dot" cx="96" cy="54" rx="20" ry="9" transform="rotate(58 96 54)"></ellipse>
     </g>
     <g fill="#C2A566">
       <circle cx="118" cy="38" r="5"></circle>
@@ -1065,4 +1081,74 @@ body.dpp-floating-chat-dragging * { cursor: move !important; }
 							</div>
 						</div>
 					</div>
-				  <button id="dpp-chat-launcher-button" data-dpp-chat-launcher-owner="launcher-1791377156780-qx2fly0qcg" type="button" style="" title="Open DS++ Chat" aria-label="Open DS++ Chat"><span class="dpp-chat-launcher__whale" style="background-image:url('chrome-extension://kdmpkkahkhdmdhfkdihkopikgcocbpbf/pet/deepseek-whale-pet-states.png')"></span></button><div id="vcaptions-subtitle-iframe" style="transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: none; position: fixed;"></div></body></html>
+				  <button id="dpp-chat-launcher-button" data-dpp-chat-launcher-owner="launcher-1791377156780-qx2fly0qcg" type="button" style="" title="Open DS++ Chat" aria-label="Open DS++ Chat"><span class="dpp-chat-launcher__whale" style="background-image:url('chrome-extension://kdmpkkahkhdmdhfkdihkopikgcocbpbf/pet/deepseek-whale-pet-states.png')"></span></button><div id="vcaptions-subtitle-iframe" style="transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: none; position: fixed;"></div>
+<style data-noexport>
+  /* ---------- 浪漫粒子层：金瓣飘落 + 星光闪烁 + 光斑上升(整屏覆盖) ---------- */
+  .romance{position:fixed;inset:0;z-index:9998;pointer-events:none;overflow:hidden}
+  .romance i{position:absolute;display:block;pointer-events:none;opacity:0}
+  /* 金色花瓣 */
+  .romance .petal{width:12px;height:12px;border-radius:50% 0 50% 50%;
+    background:linear-gradient(135deg,rgba(218,165,32,.85),rgba(255,223,150,.6));
+    animation:petalFall linear infinite}
+  @keyframes petalFall{
+    0%{transform:translate3d(0,-5vh,0) rotate(0deg) scale(.8);opacity:0}
+    6%{opacity:.7}
+    50%{transform:translate3d(3vw,50vh,0) rotate(180deg) scale(1);opacity:.5}
+    94%{opacity:.3}
+    100%{transform:translate3d(-2vw,108vh,0) rotate(360deg) scale(.7);opacity:0}
+  }
+  /* 星光闪烁 */
+  .romance .star{width:3px;height:3px;border-radius:50%;
+    background:radial-gradient(circle,#FFEFC9 0%,rgba(255,239,201,.4) 60%,transparent);
+    box-shadow:0 0 6px 1px rgba(255,223,150,.6);
+    animation:starTwinkle ease-in-out infinite}
+  @keyframes starTwinkle{
+    0%,100%{opacity:0;transform:scale(.4)}
+    50%{opacity:var(--o,.8);transform:scale(1.3)}
+  }
+  /* 光斑上升 */
+  .romance .orb{width:5px;height:5px;border-radius:50%;
+    background:radial-gradient(circle at 40% 40%,rgba(255,240,200,.9),rgba(232,198,106,.3) 60%,transparent);
+    filter:blur(.5px);animation:orbRise linear infinite}
+  @keyframes orbRise{
+    0%{transform:translate3d(0,106vh,0) scale(.6);opacity:0}
+    12%{opacity:.55}
+    85%{opacity:.3}
+    100%{transform:translate3d(-2vw,-6vh,0) scale(.9);opacity:0}
+  }
+</style>
+
+<div class="romance" data-noexport aria-hidden="true">
+  <i class="petal" style="left:3%;animation-duration:11s;animation-delay:0s"></i>
+  <i class="petal" style="left:12%;animation-duration:14s;animation-delay:3s"></i>
+  <i class="petal" style="left:23%;animation-duration:12s;animation-delay:6s"></i>
+  <i class="petal" style="left:34%;animation-duration:15s;animation-delay:1.5s"></i>
+  <i class="petal" style="left:46%;animation-duration:13s;animation-delay:8s"></i>
+  <i class="petal" style="left:57%;animation-duration:11.5s;animation-delay:4.5s"></i>
+  <i class="petal" style="left:68%;animation-duration:14.5s;animation-delay:2s"></i>
+  <i class="petal" style="left:79%;animation-duration:12.5s;animation-delay:7s"></i>
+  <i class="petal" style="left:90%;animation-duration:13.5s;animation-delay:5s"></i>
+  <i class="petal" style="left:96%;animation-duration:15s;animation-delay:9s"></i>
+  <i class="star" style="left:8%;top:12%;animation-duration:3.5s;animation-delay:.5s;--o:.9"></i>
+  <i class="star" style="left:19%;top:28%;animation-duration:4.2s;animation-delay:1.8s;--o:.7"></i>
+  <i class="star" style="left:31%;top:8%;animation-duration:3.8s;animation-delay:.9s;--o:.85"></i>
+  <i class="star" style="left:44%;top:38%;animation-duration:4.5s;animation-delay:2.4s;--o:.75"></i>
+  <i class="star" style="left:56%;top:18%;animation-duration:3.2s;animation-delay:3.1s;--o:.9"></i>
+  <i class="star" style="left:69%;top:32%;animation-duration:4s;animation-delay:.2s;--o:.8"></i>
+  <i class="star" style="left:81%;top:15%;animation-duration:3.6s;animation-delay:2.8s;--o:.85"></i>
+  <i class="star" style="left:92%;top:42%;animation-duration:4.3s;animation-delay:1.2s;--o:.7"></i>
+  <i class="star" style="left:26%;top:55%;animation-duration:3.9s;animation-delay:4s;--o:.8"></i>
+  <i class="star" style="left:63%;top:62%;animation-duration:4.4s;animation-delay:.7s;--o:.75"></i>
+  <i class="star" style="left:87%;top:70%;animation-duration:3.4s;animation-delay:3.5s;--o:.85"></i>
+  <i class="star" style="left:14%;top:78%;animation-duration:4.1s;animation-delay:2s;--o:.8"></i>
+  <i class="orb" style="left:6%;animation-duration:12s;animation-delay:0s"></i>
+  <i class="orb" style="left:18%;animation-duration:15s;animation-delay:4s"></i>
+  <i class="orb" style="left:31%;animation-duration:13s;animation-delay:8s"></i>
+  <i class="orb" style="left:45%;animation-duration:16s;animation-delay:2s"></i>
+  <i class="orb" style="left:58%;animation-duration:14s;animation-delay:6s"></i>
+  <i class="orb" style="left:71%;animation-duration:12.5s;animation-delay:10s"></i>
+  <i class="orb" style="left:84%;animation-duration:15.5s;animation-delay:1s"></i>
+  <i class="orb" style="left:95%;animation-duration:13.5s;animation-delay:5s"></i>
+</div>
+
+</body></html>
