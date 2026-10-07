@@ -419,11 +419,34 @@
 
   function placeBar() {
     var r = stage.getBoundingClientRect();
-    bar.style.top = (r.bottom + window.scrollY + 12) + 'px';
-    document.body.style.paddingBottom = '70px';
+    var rightSpace = window.innerWidth - r.right;
+    if (rightSpace > 170) {
+      /* 宽屏：工具条竖排贴海报右侧空白区 */
+      bar.style.position = 'fixed';
+      bar.style.left = (r.right + 12) + 'px';
+      bar.style.top = Math.max(12, r.top + 16) + 'px';
+      bar.style.right = 'auto';
+      bar.style.transform = 'none';
+      bar.style.flexDirection = 'column';
+      bar.style.gap = '4px';
+      bar.style.padding = '10px 8px';
+      bar.querySelector('.ed-hint').style.display = 'none';
+    } else {
+      /* 窄屏：回落到海报下方空白区 */
+      bar.style.position = 'absolute';
+      bar.style.left = '50%';
+      bar.style.top = (r.bottom + window.scrollY + 12) + 'px';
+      bar.style.right = 'auto';
+      bar.style.transform = 'translateX(-50%)';
+      bar.style.flexDirection = 'row';
+      bar.style.gap = '6px';
+      bar.style.padding = '8px 12px';
+      bar.querySelector('.ed-hint').style.display = '';
+    }
   }
   placeBar();
   addEventListener('resize', placeBar);
+  addEventListener('scroll', placeBar, { passive: true });
 
   var tools = bar.querySelector('#ed-tools');
   var selbox = document.createElement('div');
