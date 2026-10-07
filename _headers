@@ -16,3 +16,9 @@
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 /audio/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# 海报页 HTML 禁止缓存：编辑频繁，确保访客与微信 webview 每次拿最新版
+/poster/chinese/poster.html
+  Cache-Control: public, max-age=0, must-revalidate
+/poster/western/poster-western.html
+  Cache-Control: public, max-age=0, must-revalidate
