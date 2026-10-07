@@ -2,8 +2,8 @@
 // 其余子页面不经过此脚本，直接命中静态资产。
 
 const PASSWORD = "0";
-const COOKIE = "wedding_gate";
-const MAX_AGE = 60 * 60 * 24 * 30; // 30 天免重复输入
+const COOKIE = "wedding_gate24"; // v2：改名以作废用户浏览器里旧的 30 天 cookie
+const MAX_AGE = 60 * 60 * 24;    // 免密期 24 小时
 
 const TOKEN = [...new Uint8Array(
   await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`wedding-gate-v1:${PASSWORD}`))
@@ -77,6 +77,12 @@ function gatePage(error = "") {
     letter-spacing: 2px;
     color: #ffb4a2;
   }
+  .hint24 {
+    margin-top: 16px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: rgba(243,226,192,.5);
+  }
 </style>
 </head>
 <body>
@@ -87,12 +93,23 @@ function gatePage(error = "") {
     <button type="submit">进 入</button>
   </form>
   ${error ? `<div class="error">${error}</div>` : ""}
+  <div class="hint24">验证后 24 小时内免密访问</div>
 </body>
 </html>`, {
     status: error ? 401 : 200,
     headers: { "content-type": "text/html; charset=utf-8" },
   });
 }
+
+// 免密进入时在主页顶部提示（数秒后自动淡出）
+const HINT_HTML = `
+<div id="gateHint" style="position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:999;
+  background:rgba(0,0,0,.72);color:#F7E7C3;font:13px/1.5 'Kaiti SC','STKaiti','KaiTi',serif;letter-spacing:.12em;
+  padding:8px 18px;border-radius:999px;border:1px solid rgba(232,198,106,.5);box-shadow:0 4px 16px rgba(0,0,0,.35);
+  opacity:0;transition:opacity .6s ease .4s;pointer-events:none;white-space:nowrap">已验证，24小时内免密码访问</div>
+<script>addEventListener('load',()=>{var h=document.getElementById('gateHint');if(!h)return;
+requestAnimationFrame(function(){h.style.opacity=1});
+setTimeout(function(){h.style.opacity=0;setTimeout(function(){h.remove()},800)},4200)});</script>`;
 
 export default {
   async fetch(request, env) {
@@ -119,7 +136,13 @@ export default {
     }
 
     if ((request.headers.get("Cookie") || "").includes(`${COOKIE}=${TOKEN}`)) {
-      return env.ASSETS.fetch(request);
+      const res = await env.ASSETS.fetch(request);
+      if ((res.headers.get("content-type") || "").includes("text/html")) {
+        let html = await res.text();
+        html = html.replace("<body>", "<body>" + HINT_HTML, 1);
+        return new Response(html, res);
+      }
+      return res;
     }
     return gatePage();
   },
