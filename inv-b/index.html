@@ -468,7 +468,6 @@ html.js body:not(.locked) .scroll-cue{animation:heroIn .95s 1.1s cubic-bezier(.2
 }
 </style>
 <noscript><style>.reveal{opacity:1;transform:none}#cover,#callScreen{display:none}body.locked,html.locked{overflow:auto}</style></noscript>
-<script>try{var __w=JSON.parse(localStorage.getItem("wedit.v1")||"{}")["inv-b"];if(__w)window.__wedit=__w}catch(e){}</script>
 </head>
 <body class="locked">
 
@@ -850,7 +849,7 @@ if ('IntersectionObserver' in window){
 }
 
 /* 倒计时 */
-const target = (function(){try{var dd=window.__wedit&&window.__wedit.date;if(dd){var p=dd.split("-");return new Date(+p[0],+p[1]-1,+p[2])}}catch(e){}return new Date(2027, 0, 26)})();
+const target = new Date(2027, 0, 26);
 const days = Math.max(0, Math.ceil((target - new Date()) / 864e5));
 document.getElementById('cd').textContent = days;
 
@@ -858,7 +857,7 @@ document.getElementById('cd').textContent = days;
 (function(){
   const grid = document.getElementById('cal-grid');
   let html = ['一','二','三','四','五','六','日'].map(h=>'<span class="cal-h">'+h+'</span>').join('');
-  const offset = (new Date(target.getFullYear(), target.getMonth(), 1).getDay() + 6) % 7;  /* 周一开头 */
+  const offset = (new Date(2027,0,1).getDay() + 6) % 7;  /* 周一开头 */
   for(let i=0;i<offset;i++) html += '<span></span>';
   for(let d=1;d<=31;d++) html += '<span class="cal-d'+(d===26?' today':'')+'">'+d+'</span>';
   grid.innerHTML = html;
@@ -927,48 +926,6 @@ mbtn.addEventListener('click', e=>{
 function syncMusicBtn(){ mbtn.classList.toggle('playing', !bgm.paused); }
 bgm.addEventListener('play', syncMusicBtn);
 bgm.addEventListener('pause', syncMusicBtn);
-</script>
-<script>
-(function(){try{
-var d=window.__wedit;if(!d)return;var S=window.__WEDIT_MAP=[["周煜全","groom"],["张令仪","bride"],["张思元&刘萍","caller"],["2027.01.26","dot"],["2027 · 01 · 26","spaced"],["2027年1月26日","cnNum"],["二〇二七年一月二十六日","cnHan"],["农历丙午年腊月十九","lunar"],["丙午年腊月十九","lunarShort"],["星期二","wdCn"],["湖南省常德市桃源县沙坪镇","venue"],["张府","venueShort"]];if(!S)return;
-var dp=(d.date||"").split("-"),Y=0,Mo=0,Da=0,hasDate=dp.length===3&&dp[0]&&dp[1]&&dp[2];
-if(hasDate){Y=+dp[0];Mo=+dp[1];Da=+dp[2]}
-var DI="〇一二三四五六七八九";
-function h2(n){return n===10?"十":n<10?DI[n]:n<20?"十"+DI[n-10]:DI[(n/10)|0]+"十"+(n%10?DI[n%10]:"")}
-if(hasDate){
-var WD="日一二三四五六".charAt(new Date(Y,Mo-1,Da).getDay());
-var ENWD=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][new Date(Y,Mo-1,Da).getDay()];
-var ENMU=ENWD.toUpperCase(),ENWT=ENWD.charAt(0).toUpperCase()+ENWD.slice(1);
-var ENMO=["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"][Mo-1];
-var ENM3=ENMO.charAt(0)+ENMO.slice(1,3).toLowerCase();
-var z=function(n){return (n<10?"0":"")+n};
-}
-var V={groom:d.groom,bride:d.bride,caller:d.caller,lunar:d.lunar||"",lunarShort:(d.lunar||"").replace(/^农历/,""),venue:d.venue,venueShort:d.venueShort,venueShortEn:d.venueShortEn,groomEn:d.groomEn,brideEn:d.brideEn};
-if(hasDate){
-V.cnNum=Y+"年"+Mo+"月"+Da+"日";
-V.cnHan=String(Y).split("").map(function(c){return DI[+c]}).join("")+"年"+(Mo===10?"十":Mo<10?DI[Mo]:"十"+DI[Mo-10])+"月"+h2(Da)+"日";
-V.dot=Y+"."+z(Mo)+"."+z(Da);V.spaced=Y+" · "+z(Mo)+" · "+z(Da);V.wdCn="星期"+WD;
-V.enLong=ENMO+" "+Da+", "+Y;V.enTitle=ENWT+", "+ENWD+" "+Da+", "+Y;V.enUpSp=ENMU+" · "+ENMO+" "+Da+" · "+Y;
-V.enUpCom=ENMU+", "+ENMO+" "+Da+", "+Y;V.enDot=ENM3+" · "+Da+" · "+Y;V.enFs=z(Mo)+" · "+Da+" · "+Y;
-}
-var pairs=[];S.forEach(function(p){var v=V[p[1]];if(v)pairs.push([p[0],String(v)])});
-if(!pairs.length)return;
-function rep(t){var out="",i=0;
-  while(i<t.length){
-    var hit=-1,bl=0,bv=null;
-    for(var k=0;k<pairs.length;k++){
-      var h=t.indexOf(pairs[k][0],i);
-      if(h>-1&&(hit<0||h<hit||(h===hit&&pairs[k][0].length>bl))){hit=h;bl=pairs[k][0].length;bv=pairs[k][1]}
-    }
-    if(bv===null){out+=t.slice(i);break}
-    out+=t.slice(i,hit)+bv;i=hit+bl;
-  }
-  return out;
-}
-function walk(n){if(n.nodeType===3){var t=n.nodeValue;if(t)n.nodeValue=rep(t)}else if(n.nodeType===1){var tag=n.tagName;if(tag==="SCRIPT"||tag==="STYLE")return;var c=n.firstChild;while(c){var nx=c.nextSibling;walk(c);c=nx}}}
-walk(document.body);
-var as=document.querySelectorAll("a[href]");for(var i=0;i<as.length;i++){var h=as[i].getAttribute("href");if(h){var nh=rep(h);if(nh!==h)as[i].setAttribute("href",nh)}}
-}catch(e){}})();
 </script>
 <script>
 (function(){try{
