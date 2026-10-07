@@ -195,20 +195,21 @@
   var FIELDS={groom:"新郎姓名",bride:"新娘姓名",date:"婚期",lunar:"农历文案",venue:"地点",venueShort:"地点简称",caller:"来电显示",venueShortEn:"地点简称(英)",groomEn:"新郎英文名",brideEn:"新娘英文名"};
   var ITEMS={
     "inv-b":{label:"请柬 · N",order:["groom","bride","date","lunar","venue","venueShort","caller"]},
-    "inv-g":{label:"请柬 · M",order:["groom","bride","date","lunar","venueShort","caller"]},
+    "inv-g":{label:"请柬 · M",order:["groom","bride","date","lunar","venue","venueShort","caller"]},
     "inv-o":{label:"请柬 · X",order:["groom","bride","date","lunar","venue","venueShort","caller"]},
     "inv-w":{label:"请柬 · W",order:["groom","bride","date","lunar","venue","venueShort","venueShortEn","caller"]},
     "pcn":{label:"海报 · 中式",order:["groom","bride","date","lunar","venue","venueShort"]},
     "pwe":{label:"海报 · 西式",order:["groomEn","brideEn","groom","bride","date","lunar","venueShort"]}
   };
   var DEF={groom:"周煜全",bride:"张令仪",date:"2027-01-26",lunar:"农历丙午年腊月十九",
-    venue:"湖南省常德市桃源县沙坪镇",venueShort:"张府",venueShortEn:"Zhang Mansion",
+    venueShort:"张府",venueShortEn:"Zhang Mansion",venue:{},
     groomEn:"Lingyi",brideEn:"Yuquan",caller:{}};
+  DEF.venue["inv-b"]=DEF.venue["inv-o"]=DEF.venue["inv-w"]=DEF.venue["pcn"]="湖南省常德市桃源县沙坪镇";
   DEF.caller["inv-b"]="张思元&刘萍";DEF.caller["inv-g"]="周小健&张燕玲";DEF.caller["inv-o"]="周煜全&张令仪";DEF.caller["inv-w"]="周煜全&张令仪";
   var store={},active="inv-b";
   function load(){try{store=JSON.parse(localStorage.getItem("wedit.v1")||"{}")||{}}catch(e){store={}}}
   function persist(){localStorage.setItem("wedit.v1",JSON.stringify(store))}
-  function defv(k,f){return f==="caller"?(DEF.caller[k]||""):(DEF[f]||"")}
+  function defv(k,f){if(f==="caller")return DEF.caller[k]||"";if(f==="venue")return DEF.venue[k]!=null?DEF.venue[k]:"";return DEF[f]||""}
   function cur(k,f){var o=store[k]||{};return o[f]!=null?String(o[f]):defv(k,f)}
   function toast(m){var t=document.getElementById("editToast");t.textContent=m;t.style.opacity=1;setTimeout(function(){t.style.opacity=0},2200)}
   function renderTabs(){var w=document.getElementById("ewTabs");w.innerHTML="";Object.keys(ITEMS).forEach(function(k){
@@ -218,6 +219,7 @@
     var w=document.createElement("div");w.className="ew-f";
     var l=document.createElement("label");l.textContent=FIELDS[fd]||fd;w.appendChild(l);
     var i=document.createElement("input");i.type=(fd==="date")?"date":"text";i.value=cur(active,fd);i.setAttribute("data-f",fd);
+    if(!defv(active,fd))i.placeholder="留空保持页面现状";
     w.appendChild(i);f.appendChild(w)})}
   function openPanel(){load();renderTabs();renderForm();document.getElementById("editWrap").className="open"}
   document.getElementById("editBtn").onclick=openPanel;

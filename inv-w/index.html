@@ -939,6 +939,7 @@ function rep(t){var out="",i=0;
 }
 function walk(n){if(n.nodeType===3){var t=n.nodeValue;if(t)n.nodeValue=rep(t)}else if(n.nodeType===1){var tag=n.tagName;if(tag==="SCRIPT"||tag==="STYLE")return;var c=n.firstChild;while(c){var nx=c.nextSibling;walk(c);c=nx}}}
 walk(document.body);
+var as=document.querySelectorAll("a[href]");for(var i=0;i<as.length;i++){var h=as[i].getAttribute("href");if(h){var nh=rep(h);if(nh!==h)as[i].setAttribute("href",nh)}}
 }catch(e){}})();
 </script>
 </body>

@@ -934,7 +934,7 @@ bgm.addEventListener('pause', syncMusicBtn);
 </script>
 <script>
 (function(){try{
-var d=window.__wedit;if(!d)return;var S=window.__WEDIT_MAP=[["周煜全","groom"],["张令仪","bride"],["周小健&张燕玲","caller"],["2027.01.26","dot"],["2027 · 01 · 26","spaced"],["2027年1月26日","cnNum"],["二〇二七年一月二十六日","cnHan"],["农历丙午年腊月十九","lunar"],["丙午年腊月十九","lunarShort"],["星期二","wdCn"],["周府","venueShort"]];if(!S)return;
+var d=window.__wedit;if(!d)return;var S=window.__WEDIT_MAP=[["周煜全","groom"],["张令仪","bride"],["周小健&张燕玲","caller"],["2027.01.26","dot"],["2027 · 01 · 26","spaced"],["2027年1月26日","cnNum"],["二〇二七年一月二十六日","cnHan"],["农历丙午年腊月十九","lunar"],["丙午年腊月十九","lunarShort"],["星期二","wdCn"],["〔男方宴会地址〕","venue"],["男方宴会地址","venue"],["周府","venueShort"]];if(!S)return;
 var dp=(d.date||"").split("-"),Y=0,Mo=0,Da=0,hasDate=dp.length===3&&dp[0]&&dp[1]&&dp[2];
 if(hasDate){Y=+dp[0];Mo=+dp[1];Da=+dp[2]}
 var DI="〇一二三四五六七八九";
@@ -971,6 +971,7 @@ function rep(t){var out="",i=0;
 }
 function walk(n){if(n.nodeType===3){var t=n.nodeValue;if(t)n.nodeValue=rep(t)}else if(n.nodeType===1){var tag=n.tagName;if(tag==="SCRIPT"||tag==="STYLE")return;var c=n.firstChild;while(c){var nx=c.nextSibling;walk(c);c=nx}}}
 walk(document.body);
+var as=document.querySelectorAll("a[href]");for(var i=0;i<as.length;i++){var h=as[i].getAttribute("href");if(h){var nh=rep(h);if(nh!==h)as[i].setAttribute("href",nh)}}
 }catch(e){}})();
 </script>
 </body>
