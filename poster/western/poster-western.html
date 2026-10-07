@@ -760,65 +760,97 @@
         var maxS = Math.sqrt(12000000 / (W * H));
         if (s > maxS) s = Math.max(1, Math.floor(maxS * 10) / 10);
       } catch (e) {}
-      var clone = stage.cloneNode(true);
-      clone.style.transform = 'none';
-      clone.style.boxShadow = 'none';
-      clone.querySelectorAll('[data-noexport]').forEach(function (n) { n.remove(); });
-      var wrap = document.createElement('div');
-      wrap.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-      wrap.style.cssText = 'width:' + W + 'px;height:' + H + 'px;position:relative;transform:scale(' + s + ');transform-origin:0 0;';
-      var st = document.createElement('style');
-      st.textContent = document.querySelector('style:not([data-noexport])').textContent;
-      wrap.appendChild(st); wrap.appendChild(clone);
-      var fo = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-      fo.setAttribute('width', W * s); fo.setAttribute('height', H * s); fo.appendChild(wrap);
-      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      svg.setAttribute('width', W * s); svg.setAttribute('height', H * s);
-      svg.setAttribute('viewBox', '0 0 ' + W * s + ' ' + H * s);
-      svg.appendChild(fo);
-      /* file:// 页面下 blob URL 的 SVG 会污染画布, data URL 不会 */
-      var url = 'data:image/svg+xml;charset=utf-8,' +
-        encodeURIComponent(new XMLSerializer().serializeToString(svg));
-      var img = new Image();
-      img.onload = function () {
-        var draw = function (scale, done) {
+      /* 安卓微信的 X5/XWeb 内核 foreignObject 布局会崩坏(内容挤压到左侧),直接走 html2canvas-pro */
+      var useH2C = /MicroMessenger/i.test(navigator.userAgent) && /Android/i.test(navigator.userAgent);
+      function finish(b, cv) {
+        if (!b) { alert('当前设备画布受限，导出失败，请改用「导出 HTML」'); return; }
+        if (/MicroMessenger/i.test(navigator.userAgent)) {
+          /* 微信内 blob 下载被屏蔽:全屏展示,长按保存 */
+          var ov = document.createElement('div');
+          ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;';
+          var hint = document.createElement('div');
+          hint.style.cssText = 'color:#F7E7C3;font-size:15px;letter-spacing:2px;margin-bottom:10px';
+          hint.textContent = '长按下方图片 · 保存到相册';
+          var im = document.createElement('img');
+          im.src = cv.toDataURL('image/png');
+          im.style.cssText = 'max-width:100%;max-height:76vh;object-fit:contain;background:#fff';
+          var x = document.createElement('div');
+          x.style.cssText = 'margin-top:12px;color:rgba(255,255,255,.7);font-size:13px;letter-spacing:2px;cursor:pointer';
+          x.textContent = '关 闭';
+          x.onclick = function () { ov.remove(); };
+          ov.appendChild(hint); ov.appendChild(im); ov.appendChild(x);
+          document.body.appendChild(ov);
+        } else {
+          download(b, 'poster.png');
+        }
+      }
+      /* 导出画布质检:纯黑像素占比过高 = 布局崩坏,自动切换引擎重试 */
+      function looksBroken(cv) {
+        try {
+          var d = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height).data;
+          var black = 0, total = 0;
+          for (var i = 0; i < d.length; i += 4 * 97) { total++; if (d[i] < 24 && d[i+1] < 24 && d[i+2] < 24) black++; }
+          return total > 0 && black / total > 0.25;
+        } catch (e) { return false; }
+      }
+      function renderH2C(scale, done) {
+        var sc = document.createElement('script');
+        sc.src = '../html2canvas-pro.min.js';
+        sc.onload = function () {
+          if (!window.html2canvas) return done(null, null);
+          window.html2canvas(stage, { scale: scale, useCORS: true, logging: false }).then(function (c) { done(c, c); }, function () { done(null, null); });
+        };
+        sc.onerror = function () { done(null, null); };
+        document.body.appendChild(sc);
+      }
+      function renderFO(scale, done) {
+        var clone = stage.cloneNode(true);
+        clone.style.transform = 'none';
+        clone.style.boxShadow = 'none';
+        clone.querySelectorAll('[data-noexport]').forEach(function (n) { n.remove(); });
+        var wrap = document.createElement('div');
+        wrap.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+        wrap.style.cssText = 'width:' + W + 'px;height:' + H + 'px;position:relative;transform:scale(' + scale + ');transform-origin:0 0;';
+        var st = document.createElement('style');
+        st.textContent = document.querySelector('style:not([data-noexport])').textContent;
+        wrap.appendChild(st); wrap.appendChild(clone);
+        var fo = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+        fo.setAttribute('width', W * scale); fo.setAttribute('height', H * scale); fo.appendChild(wrap);
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('width', W * scale); svg.setAttribute('height', H * scale);
+        svg.setAttribute('viewBox', '0 0 ' + W * scale + ' ' + H * scale);
+        svg.appendChild(fo);
+        /* file:// 页面下 blob URL 的 SVG 会污染画布, data URL 不会 */
+        var url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
+        var img = new Image();
+        img.onload = function () {
           var cv = document.createElement('canvas');
           cv.width = Math.round(W * scale); cv.height = Math.round(H * scale);
           cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
           URL.revokeObjectURL(url);
-          cv.toBlob(function (b) { done(b, cv); }, 'image/png');
+          done(cv, cv);
         };
-        var finish = function (b, cv) {
-          if (!b) { alert('当前设备画布受限，导出失败，请改用「导出 HTML」'); return; }
-          if (/MicroMessenger/i.test(navigator.userAgent)) {
-            /* 微信内 blob 下载被屏蔽:全屏展示,长按保存 */
-            var ov = document.createElement('div');
-            ov.setAttribute('data-noexport', '');
-            ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;';
-            var hint = document.createElement('div');
-            hint.style.cssText = 'color:#F7E7C3;font-size:15px;letter-spacing:2px;margin-bottom:10px';
-            hint.textContent = '长按下方图片 · 保存到相册';
-            var im = document.createElement('img');
-            im.src = cv.toDataURL('image/png');
-            im.style.cssText = 'max-width:100%;max-height:76vh;object-fit:contain;background:#fff';
-            var x = document.createElement('div');
-            x.style.cssText = 'margin-top:12px;color:rgba(255,255,255,.7);font-size:13px;letter-spacing:2px;cursor:pointer';
-            x.textContent = '关 闭';
-            x.onclick = function () { ov.remove(); };
-            ov.appendChild(hint); ov.appendChild(im); ov.appendChild(x);
-            document.body.appendChild(ov);
-          } else {
-            download(b, 'poster-edited.png');
-          }
-        };
-        draw(s, function (b, cv) {
-          if (!b && s > 1) { draw(1, function (b2, cv2) { finish(b2, cv2); }); }
-          else finish(b, cv);
+        img.onerror = function () { done(null, null); };
+        img.src = url;
+      }
+      function tryFO(scale, done) {
+        renderFO(scale, function (b, cv) {
+          if (b && !looksBroken(cv)) return done(b, cv);
+          done(null, cv);
         });
-      };
-      img.onerror = function () { URL.revokeObjectURL(url); alert('导出失败，请改用「导出 HTML」'); };
-      img.src = url;
+      }
+      if (useH2C) {
+        renderH2C(s, function (b, cv) {
+          if (b) return finish(b, cv);
+          tryFO(s, function (b2, cv2) { if (b2) return finish(b2, cv2); tryFO(1, finish); });
+        });
+      } else {
+        tryFO(s, function (b, cv) {
+          if (b) return finish(b, cv);
+          renderH2C(s, function (b2, cv2) { if (b2) return finish(b2, cv2); tryFO(1, finish); });
+        });
+      }
     });
   }
 
