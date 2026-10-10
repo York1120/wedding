@@ -175,6 +175,11 @@
   }
 
   /* names station */
+  /* ===== 版面纵向平衡（2026-10-11 重排）=====
+     地点字号 88px→38px 后，原「.loc-2 → .div-2」留下 113px 空档，底部又空 189px，
+     版面重心偏上、落款区被挤在底部。
+     重排原则：时间区 / 地点区保持紧凑（呼应原有 27 / 25 节奏），
+     落款区（div-2 → host → footline）舒展，把空档匀回下半版。 */
   /* 高度 232px：邀请句 top:172px + 行高 54px = 底边 226px，需留 6px 余量。
      下方 .div-1 相应下移到 1120px（容器底 872+232=1104，仍有 16px 间隙）。 */
   .names { position: absolute; top: 872px; width: 100%; height: 232px; }
@@ -223,7 +228,7 @@
     background: var(--gold); opacity: 0.9;
   }
   .div-1 { top: 1120px; }
-  .div-2 { top: 1622px; opacity: 0.75; }
+  .div-2 { top: 1610px; opacity: 0.75; }
 
   /* section labels */
   .sec-label {
@@ -236,32 +241,32 @@
     margin: 0 26px; position: relative; top: -6px;
   }
   .sec-label .bar.r { transform: scaleX(-1); }
-  .lab-time { top: 1160px; }
-  .lab-loc  { top: 1382px; }
+  .lab-time { top: 1172px; }
+  .lab-loc  { top: 1402px; }
 
   .time-1 {
-    position: absolute; top: 1234px; width: 100%;
+    position: absolute; top: 1246px; width: 100%;
     color: var(--cream); font-size: 38px; font-weight: 400; letter-spacing: 0.12em; padding-left: 0.12em;
   }
   .time-2 {
-    position: absolute; top: 1300px; width: 100%;
+    position: absolute; top: 1314px; width: 100%;
     color: var(--cream-dim); font-size: 30px; font-weight: 400; letter-spacing: 0.22em; padding-left: 0.22em; opacity: 0.95;
   }
 
   /* 地点：字体/字号/字距/颜色与 .time-1（公历行，含「星期二」）完全一致 */
   .loc-2 {
-    position: absolute; top: 1454px; width: 100%;
+    position: absolute; top: 1476px; width: 100%;
     color: var(--cream); font-size: 38px; font-weight: 400;
     letter-spacing: 0.12em; padding-left: 0.12em;
   }
 
   .host {
-    position: absolute; top: 1688px; width: 100%;
+    position: absolute; top: 1700px; width: 100%;
     color: var(--cream); font-size: 37px; font-weight: 400; letter-spacing: 0.24em; padding-left: 0.24em;
   }
   .host .yao { color: var(--gold-hi); }
   .footline {
-    position: absolute; top: 1772px; width: 100%;
+    position: absolute; top: 1820px; width: 100%;
     color: var(--cream-dim); font-size: 27px; font-weight: 400; letter-spacing: 0.24em; padding-left: 0.24em; opacity: 0.85;
   }
 </style>
