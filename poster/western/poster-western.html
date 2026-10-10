@@ -862,17 +862,52 @@
       function canvasToBlob(cv) {
         return new Promise(function (res) { cv.toBlob(function (b) { res(b); }, 'image/png'); });
       }
+/* html2canvas 不支持 background-clip:text —— 它会把渐变当普通背景矩形画出，
+         而文字是 color:transparent 的，于是导出图上出现「金色方块 + 字消失」。
+         导出前把这些元素临时降级为纯色文字，导完立刻还原。
+         取渐变中间色，最接近视觉观感。 */
+      function degradeGradText() {
+        var touched = [];
+        var nodes = document.querySelectorAll('#stage *');
+        for (var i = 0; i < nodes.length; i++) {
+          var el = nodes[i];
+          var cs = getComputedStyle(el);
+          var clip = cs.webkitBackgroundClip || cs.backgroundClip;
+          if (clip !== 'text') continue;
+          if (!el.textContent || !el.textContent.trim()) continue;
+          touched.push({ el: el, bg: el.style.background, color: el.style.color });
+          el.style.background = 'none';
+          el.style.color = pickInk(cs.backgroundImage) || '#E3BF7C';
+        }
+        return function restore() {
+          touched.forEach(function (t) {
+            t.el.style.background = t.bg;
+            t.el.style.color = t.color;
+          });
+        };
+      }
+      /* 从 linear-gradient(...) 里取一个中间色 */
+      function pickInk(bgImage) {
+        if (!bgImage || bgImage === 'none') return null;
+        var m = bgImage.match(/linear-gradient\([^)]*\)/);
+        var seg = m ? m[0] : bgImage;
+        var stops = seg.match(/#[0-9a-fA-F]{3,8}/g);
+        if (!stops || !stops.length) return null;
+        return stops[Math.floor(stops.length / 2)];
+      }
       function renderH2C(scale, done) {
         loadH2C(function (ok) {
           if (!ok || !window.html2canvas) return done(null, null);
           var prevT = stage.style.transform;
           stage.style.transform = 'none';
+          var restoreGrad = degradeGradText();
           window.html2canvas(stage, { scale: scale, useCORS: true, logging: false, imageTimeout: 15000 }).then(
             function (cv) {
+              restoreGrad();
               stage.style.transform = prevT;
               canvasToBlob(cv).then(function (b) { done(b, cv); }, function () { done(null, cv); });
             },
-            function () { stage.style.transform = prevT; done(null, null); }
+            function () { restoreGrad(); stage.style.transform = prevT; done(null, null); }
           );
         });
       }
