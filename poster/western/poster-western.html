@@ -225,7 +225,7 @@
   }
 </style>
 <style data-noexport="">#ed-bar{position:absolute;left:50%;transform:translateX(-50%);z-index:99999;top:0;display:flex;gap:6px;align-items:center;background:rgba(22,14,10,.85);padding:8px 12px;border-radius:10px;font:13px/1.4 system-ui,sans-serif;color:#f3e8d2;box-shadow:0 6px 24px rgba(0,0,0,.4)}#ed-bar button{background:#3d2c20;border:1px solid #a98e5f;color:#f3e8d2;border-radius:6px;padding:4px 11px;cursor:pointer;font-size:13px;font-family:inherit}#ed-bar button:hover{background:#5a3f2b}#ed-bar button.primary{background:#8a6a3a;border-color:#d8bd85}#ed-bar .ed-hint{opacity:.65;margin-left:8px;font-size:12px}#ed-bar[hidden]{display:none}.ed-on img{-webkit-user-drag:none;user-select:none}.ed-on :is(.photo-wrap,.photo3-wrap,.arch,.calligraphy,.blessing,.corner-xi-l1,.corner-xi-l2,.xi-hero,.salute,.verse,.name-l,.name-r,.role,.name,.seal-medal,.divider,.sec-label,.time-1,.time-2,.loc-1,.loc-2,.host,.footline,.corner-xi-r1,.corner-xi-r2,.seal-v,.sprig-top,.eyebrow,.name-1,.amp,.name-2,.cn-names,.stem-l,.stem-r,.slot-label,.presence,.date-1,.date-2,.date-cn,.div-sm,.venue-1,.venue-2,.venue-cn,.seal,.host-cn){cursor:move}.ed-on :is(.photo-wrap,.photo3-wrap,.arch,.calligraphy,.blessing,.corner-xi-l1,.corner-xi-l2,.xi-hero,.salute,.verse,.name-l,.name-r,.role,.name,.seal-medal,.divider,.sec-label,.time-1,.time-2,.loc-1,.loc-2,.host,.footline,.corner-xi-r1,.corner-xi-r2,.seal-v,.sprig-top,.eyebrow,.name-1,.amp,.name-2,.cn-names,.stem-l,.stem-r,.slot-label,.presence,.date-1,.date-2,.date-cn,.div-sm,.venue-1,.venue-2,.venue-cn,.seal,.host-cn):hover{outline:1.5px dashed rgba(255,235,190,.75);outline-offset:2px}[contenteditable="true"]{outline:2px solid #e8c87c!important;cursor:text!important;user-select:text}#ed-selbox{position:absolute;border:1.5px dashed #e8c87c;pointer-events:none;z-index:9990;display:none}#ed-guide{position:absolute;top:0;width:1px;height:100%;background:rgba(232,200,124,.8);pointer-events:none;z-index:9989;display:none}.ed-crop :is(.photo-wrap,.arch){cursor:grab}.ed-crop :is(.photo-wrap,.arch):active{cursor:grabbing}</style></head>
-<body><div id="stage" style="transform: scale(0.378095);" class="ed-on">
+<body><div id="stage" style="transform: scale(0.378095);">
 
   <div class="frame-outer"></div>
   <div class="frame-inner"></div>
@@ -335,9 +335,7 @@
 
   <div class="seal"><span>L&amp;Y</span></div>
 
-  <div class="grain"></div>
-
-<div id="ed-selbox" data-noexport="" style="display: none;"></div><div id="ed-guide" data-noexport="" style="display: none;"></div></div>
+  <div class="grain"></div></div>
 
 <script>
   const stage = document.getElementById('stage');
@@ -451,6 +449,13 @@
   addEventListener('scroll', placeBar, { passive: true });
 
   var tools = bar.querySelector('#ed-tools');
+  /* 清掉可能残留的同名节点（历史「导出 HTML」产物会烤进运行时 DOM）。
+     否则 getElementById 会拿到旧节点，选中框/参考线写到没人看的元素上，
+     表现为点选无反应。 */
+  ['ed-selbox', 'ed-guide'].forEach(function (id) {
+    var old = document.getElementById(id);
+    if (old) old.remove();
+  });
   var selbox = document.createElement('div');
   var guide = document.createElement('div');
   selbox.id = 'ed-selbox'; guide.id = 'ed-guide';
@@ -920,109 +925,15 @@
   function exportHTML() {
     if (selected) deselect();
     selbox.style.display = 'none'; guide.style.display = 'none';
-    var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    var doc = document.documentElement.cloneNode(true);
+    doc.querySelectorAll('[data-noexport]').forEach(function (n) { n.remove(); });
+    var st = doc.querySelector('#stage');
+    if (st) st.classList.remove('ed-on');
+    var html = '<!DOCTYPE html>\n' + doc.outerHTML;
     download(new Blob([html], { type: 'text/html;charset=utf-8' }), 'poster-edited.html');
   }
 })();
 
-</script><div data-noexport="" id="ed-bar" style="position: fixed; left: 1145.24px; top: 16px; right: auto; transform: none; flex-direction: column; gap: 4px; padding: 10px 8px;"><button id="ed-toggle" class="primary">✓ 完成</button><span id="ed-tools"><button data-act="minus">字号 −</button><button data-act="plus">字号 ＋</button><span id="zoom-tools" hidden=""><button data-act="zoomout">缩放 −</button><button data-act="zoomin">缩放 ＋</button></span><button data-act="crop" id="ed-cropbtn" hidden="">✂ 裁剪</button><span id="crop-tools" hidden=""><button data-act="cropreset">重置裁剪</button></span><button data-act="center">居中</button><button data-act="hide">隐藏</button><button data-act="png">💾 保存图片</button><button data-act="html">导出 HTML</button><button data-act="reset">恢复默认</button><span class="ed-hint" style="display: none;">拖动移动 · 双击改字 · 方向键微调(Shift×10) · Del 隐藏</span></span></div>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;a8cb1a270a6b4daa9fb7cb6f2cb03417&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
-
-
-<div id="mbGetImgModule" class="mb-getmaterial-box" style="display: block;">
-		               <div class="wzy-dialog"></div>
-		               <div class="btn-group">
-		                  <div class="btn-group-body">
-		                     <span>采集</span>
-		                     <svg class="wzyiconxiala" width="200px" height="200.00px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M732.16000001 431.104L535.04 645.12c-6.656 6.656-13.312 9.728-23.04 9.728s-16.384-3.072-23.04-9.728L291.83999999 431.104c-9.728-9.728-13.312-26.112-6.65599999-39.424 6.656-13.31200001 16.384-23.04 29.696-23.04l394.752 0c13.312 0 26.112 9.728 29.696 23.04 6.14399999 13.312 3.072 29.696-7.16799999 39.424z"></path></svg>
-		                  </div>
-		                  <div class="mb-getmaterial-dropdown">
-							<ul class="mb-getmaterial-medias"><li data-ghid="mb" data-ghidname="美编素材库" class="collect-active"><svg t="1667288501413" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2556" width="200" height="200"><path d="M219.952 512.576l210.432 210.432-45.248 45.256-210.432-210.432z" p-id="2557"></path><path d="M799.672 262.264l45.256 45.256-460.464 460.464-45.256-45.256z" p-id="2558"></path></svg>美编素材库</li></ul>
-							<div>编辑</div>
-							<ul class="mb-getmaterial-opts">
-								<li class="mb-getmaterial-add-btn"><svg t="1667288501413" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2556" width="200" height="200"><path d="M219.952 512.576l210.432 210.432-45.248 45.256-210.432-210.432z" p-id="2557"></path><path d="M799.672 262.264l45.256 45.256-460.464 460.464-45.256-45.256z" p-id="2558"></path></svg>添加新的媒体</li>
-								<li class="mb-getmaterial-hide-btn"><svg t="1667288501413" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2556" width="200" height="200"><path d="M219.952 512.576l210.432 210.432-45.248 45.256-210.432-210.432z" p-id="2557"></path><path d="M799.672 262.264l45.256 45.256-460.464 460.464-45.256-45.256z" p-id="2558"></path></svg>隐藏采集图片</li>
-							</ul> 
-						  </div>
-		               </div>
-					</div>
-					<div id="mbCollectedMp">
-						<div class="mb-collected-mp">
-							<h3>选择采集的公众号</h3>
-							<ul class="mb-collected-mps"><li data-ghid="mb" data-ghidname="美编素材库" class="collect-active"><span></span>美编素材库</li></ul>
-							<div class="mb-collected-mp-footer">
-								<div class="mb-collected-mp-footer-cancel">取 消</div>
-								<div class="mb-collected-mp-footer-enter">确 定</div>
-							</div>
-						</div>
-					</div>
-				  <style data-noexport>
-  /* ---------- 浪漫粒子层：金瓣飘落 + 星光闪烁 + 光斑上升(整屏覆盖) ---------- */
-  .romance{position:fixed;inset:0;z-index:9998;pointer-events:none;overflow:hidden}
-  .romance i{position:absolute;display:block;pointer-events:none;opacity:0}
-  /* 金色花瓣 */
-  .romance .petal{width:12px;height:12px;border-radius:50% 0 50% 50%;
-    background:linear-gradient(135deg,rgba(218,165,32,.85),rgba(255,223,150,.6));
-    animation:petalFall linear infinite}
-  @keyframes petalFall{
-    0%{transform:translate3d(0,-5vh,0) rotate(0deg) scale(.8);opacity:0}
-    6%{opacity:.7}
-    50%{transform:translate3d(3vw,50vh,0) rotate(180deg) scale(1);opacity:.5}
-    94%{opacity:.3}
-    100%{transform:translate3d(-2vw,108vh,0) rotate(360deg) scale(.7);opacity:0}
-  }
-  /* 星光闪烁 */
-  .romance .star{width:3px;height:3px;border-radius:50%;
-    background:radial-gradient(circle,#FFEFC9 0%,rgba(255,239,201,.4) 60%,transparent);
-    box-shadow:0 0 6px 1px rgba(255,223,150,.6);
-    animation:starTwinkle ease-in-out infinite}
-  @keyframes starTwinkle{
-    0%,100%{opacity:0;transform:scale(.4)}
-    50%{opacity:var(--o,.8);transform:scale(1.3)}
-  }
-  /* 光斑上升 */
-  .romance .orb{width:5px;height:5px;border-radius:50%;
-    background:radial-gradient(circle at 40% 40%,rgba(255,240,200,.9),rgba(232,198,106,.3) 60%,transparent);
-    filter:blur(.5px);animation:orbRise linear infinite}
-  @keyframes orbRise{
-    0%{transform:translate3d(0,106vh,0) scale(.6);opacity:0}
-    12%{opacity:.55}
-    85%{opacity:.3}
-    100%{transform:translate3d(-2vw,-6vh,0) scale(.9);opacity:0}
-  }
-</style>
-
-<div class="romance" data-noexport aria-hidden="true">
-  <i class="petal" style="left:3%;animation-duration:11s;animation-delay:0s"></i>
-  <i class="petal" style="left:12%;animation-duration:14s;animation-delay:3s"></i>
-  <i class="petal" style="left:23%;animation-duration:12s;animation-delay:6s"></i>
-  <i class="petal" style="left:34%;animation-duration:15s;animation-delay:1.5s"></i>
-  <i class="petal" style="left:46%;animation-duration:13s;animation-delay:8s"></i>
-  <i class="petal" style="left:57%;animation-duration:11.5s;animation-delay:4.5s"></i>
-  <i class="petal" style="left:68%;animation-duration:14.5s;animation-delay:2s"></i>
-  <i class="petal" style="left:79%;animation-duration:12.5s;animation-delay:7s"></i>
-  <i class="petal" style="left:90%;animation-duration:13.5s;animation-delay:5s"></i>
-  <i class="petal" style="left:96%;animation-duration:15s;animation-delay:9s"></i>
-  <i class="star" style="left:8%;top:12%;animation-duration:3.5s;animation-delay:.5s;--o:.9"></i>
-  <i class="star" style="left:19%;top:28%;animation-duration:4.2s;animation-delay:1.8s;--o:.7"></i>
-  <i class="star" style="left:31%;top:8%;animation-duration:3.8s;animation-delay:.9s;--o:.85"></i>
-  <i class="star" style="left:44%;top:38%;animation-duration:4.5s;animation-delay:2.4s;--o:.75"></i>
-  <i class="star" style="left:56%;top:18%;animation-duration:3.2s;animation-delay:3.1s;--o:.9"></i>
-  <i class="star" style="left:69%;top:32%;animation-duration:4s;animation-delay:.2s;--o:.8"></i>
-  <i class="star" style="left:81%;top:15%;animation-duration:3.6s;animation-delay:2.8s;--o:.85"></i>
-  <i class="star" style="left:92%;top:42%;animation-duration:4.3s;animation-delay:1.2s;--o:.7"></i>
-  <i class="star" style="left:26%;top:55%;animation-duration:3.9s;animation-delay:4s;--o:.8"></i>
-  <i class="star" style="left:63%;top:62%;animation-duration:4.4s;animation-delay:.7s;--o:.75"></i>
-  <i class="star" style="left:87%;top:70%;animation-duration:3.4s;animation-delay:3.5s;--o:.85"></i>
-  <i class="star" style="left:14%;top:78%;animation-duration:4.1s;animation-delay:2s;--o:.8"></i>
-  <i class="orb" style="left:6%;animation-duration:12s;animation-delay:0s"></i>
-  <i class="orb" style="left:18%;animation-duration:15s;animation-delay:4s"></i>
-  <i class="orb" style="left:31%;animation-duration:13s;animation-delay:8s"></i>
-  <i class="orb" style="left:45%;animation-duration:16s;animation-delay:2s"></i>
-  <i class="orb" style="left:58%;animation-duration:14s;animation-delay:6s"></i>
-  <i class="orb" style="left:71%;animation-duration:12.5s;animation-delay:10s"></i>
-  <i class="orb" style="left:84%;animation-duration:15.5s;animation-delay:1s"></i>
-  <i class="orb" style="left:95%;animation-duration:13.5s;animation-delay:5s"></i>
-</div>
-
-</body></html>
+</script>
+</body>
+</html>
