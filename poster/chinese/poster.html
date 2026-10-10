@@ -175,7 +175,9 @@
   }
 
   /* names station */
-  .names { position: absolute; top: 872px; width: 100%; height: 190px; }
+  /* 高度 232px：邀请句 top:172px + 行高 54px = 底边 226px，需留 6px 余量。
+     下方 .div-1 相应下移到 1120px（容器底 872+232=1104，仍有 16px 间隙）。 */
+  .names { position: absolute; top: 872px; width: 100%; height: 232px; }
   .role {
     font-size: 27px; color: var(--gold-dim); letter-spacing: 0.5em; padding-left: 0.5em;
     font-weight: 400;
@@ -196,11 +198,12 @@
     width: 158px;
   }
 
-  /* 落款邀请：置于新郎新娘名字下方、囍字印章之下 */
+  /* 落款邀请：置于新郎新娘名字下方、囍字印章之下。
+     字号/字重/字距与 .host（「敬邀」所在行）完全一致，仅保留自己的暗金色以区分层次。 */
   .invite-note {
     position: absolute; top: 172px; width: 100%;
-    color: var(--gold-dim); font-size: 24px; font-weight: 400;
-    letter-spacing: 0.1em; padding-left: 0.1em;
+    color: var(--gold-dim); font-size: 37px; font-weight: 400;
+    letter-spacing: 0.24em; padding-left: 0.24em;
   }
 
   /* dividers */
@@ -219,7 +222,7 @@
     transform: translate(-50%, -50%) rotate(45deg);
     background: var(--gold); opacity: 0.9;
   }
-  .div-1 { top: 1102px; }
+  .div-1 { top: 1120px; }
   .div-2 { top: 1622px; opacity: 0.75; }
 
   /* section labels */
@@ -245,12 +248,11 @@
     color: var(--cream-dim); font-size: 30px; font-weight: 400; letter-spacing: 0.22em; padding-left: 0.22em; opacity: 0.95;
   }
 
+  /* 地点：字体/字号/字距/颜色与 .time-1（公历行，含「星期二」）完全一致 */
   .loc-2 {
     position: absolute; top: 1454px; width: 100%;
-    font-family: 'MaShanZheng'; font-size: 88px;
-    background: linear-gradient(178deg, #F5E2B2 4%, #E3BF7C 62%, #CB9E58 98%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    filter: drop-shadow(0 6px 16px rgba(58, 8, 8, 0.4));
+    color: var(--cream); font-size: 38px; font-weight: 400;
+    letter-spacing: 0.12em; padding-left: 0.12em;
   }
 
   .host {
