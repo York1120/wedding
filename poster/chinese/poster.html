@@ -175,11 +175,18 @@
   }
 
   /* names station */
-  /* ===== 版面纵向平衡（2026-10-11 重排）=====
-     地点字号 88px→38px 后，原「.loc-2 → .div-2」留下 113px 空档，底部又空 189px，
-     版面重心偏上、落款区被挤在底部。
-     重排原则：时间区 / 地点区保持紧凑（呼应原有 27 / 25 节奏），
-     落款区（div-2 → host → footline）舒展，把空档匀回下半版。 */
+  /* ===== 版面等距重排（2026-10-11 第二轮）=====
+     第一轮只把空档「匀」了，但视觉间距仍为 37/27/13/44/27/78/75/66，极差 65px，
+     板块层级也倒了（标题下 13px，内容下却空 78px）。
+     本轮按语义分三类间隔，用固定比例在固定跨度内求解，保证四段板块间距完全相等：
+
+       S 板块间距 ×1.50 = 63.4px   （分隔线→时间 / 时间→地点 / 地点→分隔线 / 分隔线→落款）
+       I 板块内   ×0.80 = 33.8px   （时间标题→公历、地点标题→地点）
+       R 行间距   ×0.55 = 23.2px   （公历→农历、落款→日期）
+
+     跨度固定为 .div-1 墨迹顶 1119 → .footline 墨迹底 1859（底部留白保持 141px 不变）。
+     墨迹边界用 Range.getClientRects() 取，不用元素盒子 —— line-height 产生的
+     上下留白会让盒子间距与视觉间距不一致，按盒子算必然不均。 */
   /* 高度 232px：邀请句 top:172px + 行高 54px = 底边 226px，需留 6px 余量。
      下方 .div-1 相应下移到 1120px（容器底 872+232=1104，仍有 16px 间隙）。 */
   .names { position: absolute; top: 872px; width: 100%; height: 232px; }
@@ -228,7 +235,7 @@
     background: var(--gold); opacity: 0.9;
   }
   .div-1 { top: 1120px; }
-  .div-2 { top: 1610px; opacity: 0.75; }
+  .div-2 { top: 1665px; opacity: 0.75; }
 
   /* section labels */
   .sec-label {
@@ -241,27 +248,27 @@
     margin: 0 26px; position: relative; top: -6px;
   }
   .sec-label .bar.r { transform: scaleX(-1); }
-  .lab-time { top: 1172px; }
-  .lab-loc  { top: 1402px; }
+  .lab-time { top: 1198px; }
+  .lab-loc  { top: 1465px; }
 
   .time-1 {
-    position: absolute; top: 1246px; width: 100%;
+    position: absolute; top: 1279px; width: 100%;
     color: var(--cream); font-size: 38px; font-weight: 400; letter-spacing: 0.12em; padding-left: 0.12em;
   }
   .time-2 {
-    position: absolute; top: 1314px; width: 100%;
+    position: absolute; top: 1357px; width: 100%;
     color: var(--cream-dim); font-size: 30px; font-weight: 400; letter-spacing: 0.22em; padding-left: 0.22em; opacity: 0.95;
   }
 
   /* 地点：字体/字号/字距/颜色与 .time-1（公历行，含「星期二」）完全一致 */
   .loc-2 {
-    position: absolute; top: 1476px; width: 100%;
+    position: absolute; top: 1545px; width: 100%;
     color: var(--cream); font-size: 38px; font-weight: 400;
     letter-spacing: 0.12em; padding-left: 0.12em;
   }
 
   .host {
-    position: absolute; top: 1700px; width: 100%;
+    position: absolute; top: 1743px; width: 100%;
     color: var(--cream); font-size: 37px; font-weight: 400; letter-spacing: 0.24em; padding-left: 0.24em;
   }
   .host .yao { color: var(--gold-hi); }
