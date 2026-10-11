@@ -190,15 +190,16 @@
      跨度固定为 .div-1 墨迹顶 1119 → .footline 墨迹底 1859（底部留白保持 141px 不变）。
      墨迹边界用 Range.getClientRects() 取，不用元素盒子 —— line-height 产生的
      上下留白会让盒子间距与视觉间距不一致，按盒子算必然不均。 */
-  /* 高度 300px：邀请句两行 top:158px，墨迹顶偏移 +8.3px（line-height 上方留白），
-     墨迹高 2×38px 行距 123.1px → 墨迹底相对容器 289.4px，留 10.6px 余量。
-     top 由 872 → 817（-55）：邀请句从 1 行 37px 变 2 行 38px 后多占约 69px，
-     上移 55px 补回大部分，使「邀请句墨迹底 → .div-1 墨迹顶」回到 21.2px
-     （改动前为 21.3px，等于没动）。
-     容器底 817+300=1117 < .div-1 的 1120，留 3px。
-     代价：.verse 墨迹底 → 名字墨迹顶的间距由 100.1px 收紧到 47.1px，
-     这是邀请句变两行的必然代价 —— 上半版整体收紧，下半版 9 个定位值全部不动。 */
-  .names { position: absolute; top: 817px; width: 100%; height: 300px; }
+  /* 高度 300px：邀请句 top:192px、line-height 1.45（两行墨迹高 110.2px，
+     墨迹顶偏移 +8.3px → 墨迹底相对容器 310.5px，超出故 height 取 320px）。
+     top 872 → 804（-68）、height 232 → 320：
+     把「名字 → 邀请句」的间距从 1.0px 拉开到 35px。
+     ⚠️ 这 1.0px 是上一轮的隐患：浏览器里靠 1px 勉强不碰，但 html2canvas
+     用自己的字体度量重算，1px 必然被吃掉 → 导出的 PNG 里「诚邀每户一位、」
+     会压在「周煜全 / 张令仪」上（用户 2026-10-11 实测复现）。留 35px 才是安全的。
+     line-height 1.62 → 1.45：两行省下 12.9px，用来把上方空白让给邀请句。
+     下半版 9 个定位值全部不动。 */
+  .names { position: absolute; top: 804px; width: 100%; height: 320px; }
   .role {
     font-size: 27px; color: var(--gold-dim); letter-spacing: 0.5em; padding-left: 0.5em;
     font-weight: 400;
@@ -224,10 +225,10 @@
      字体/字号/字重/字距/颜色与 .time-1（公历行）完全一致 —— 37px → 38px、
      暗金 --gold-dim → 米白 --cream，使其在红底上足够醒目。 */
   .invite-note {
-    position: absolute; top: 158px; width: 100%;
+    position: absolute; top: 192px; width: 100%;
     color: var(--cream); font-size: 38px; font-weight: 400;
     letter-spacing: 0.12em; padding-left: 0.12em;
-    line-height: 1.62;
+    line-height: 1.45;
   }
   .invite-note .ln1, .invite-note .ln2 { display: block; }
 
