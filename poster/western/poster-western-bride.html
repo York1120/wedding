@@ -892,6 +892,19 @@
         });
       }
       /* 兜底引擎:foreignObject 序列化(桌面浏览器质量最佳) */
+      /* 主引擎:foreignObject 序列化 —— 让浏览器自己的渲染管线出图,
+         所以渐变文字 / drop-shadow / 字体度量全部与网页所见一致。
+         必须注入**全部**非编辑器 style 块: 海报 CSS 分散在 4 个 style 里,
+         只取第一个会丢失绝大部分样式, 克隆舞台没有背景和面板定位,
+         looksBroken() 误判为崩坏 -> 永远回退 html2canvas(重绘),
+         那正是「导出图与网页不一致」的总根源。 */
+      function collectPageCSS() {
+        var parts = [];
+        document.querySelectorAll('style:not([data-noexport])').forEach(function (s) {
+          parts.push(s.textContent);
+        });
+        return parts.join(String.fromCharCode(10));
+      }
       function renderFO(scale, done) {
         var clone = stage.cloneNode(true);
         clone.style.transform = 'none';
@@ -901,7 +914,7 @@
         wrap.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
         wrap.style.cssText = 'width:' + W + 'px;height:' + H + 'px;position:relative;transform:scale(' + scale + ');transform-origin:0 0;';
         var st = document.createElement('style');
-        st.textContent = document.querySelector('style:not([data-noexport])').textContent;
+        st.textContent = collectPageCSS();
         wrap.appendChild(st); wrap.appendChild(clone);
         var fo = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
         fo.setAttribute('width', W * scale); fo.setAttribute('height', H * scale); fo.appendChild(wrap);

@@ -940,7 +940,20 @@
           );
         });
       }
-      /* 兜底引擎:foreignObject 序列化(桌面浏览器质量最佳) */
+      /* 主引擎:foreignObject 序列化 —— 让浏览器自己的渲染管线出图,
+         所以渐变文字 / drop-shadow / 字体度量全部与网页所见一致。
+         ⚠️ 必须注入**全部**非编辑器 style 块, 不能只取第一个:
+         海报 CSS 分散在 4 个 style 里(第一个仅 14KB / 全部 329KB),
+         只取第一个会导致 94% 的样式丢失 —— 克隆出来的舞台没有背景和面板定位,
+         looksBroken() 看到 blackRatio 0.748 误判为崩坏, 于是永远回退到
+         html2canvas(重绘), 这正是「导出图与网页不一致」的总根源。 */
+      function collectPageCSS() {
+        var parts = [];
+        document.querySelectorAll('style:not([data-noexport])').forEach(function (s) {
+          parts.push(s.textContent);
+        });
+        return parts.join(String.fromCharCode(10));
+      }
       function renderFO(scale, done) {
         var clone = stage.cloneNode(true);
         clone.style.transform = 'none';
@@ -950,7 +963,7 @@
         wrap.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
         wrap.style.cssText = 'width:' + W + 'px;height:' + H + 'px;position:relative;transform:scale(' + scale + ');transform-origin:0 0;';
         var st = document.createElement('style');
-        st.textContent = document.querySelector('style:not([data-noexport])').textContent;
+        st.textContent = collectPageCSS();
         wrap.appendChild(st); wrap.appendChild(clone);
         var fo = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
         fo.setAttribute('width', W * scale); fo.setAttribute('height', H * scale); fo.appendChild(wrap);
@@ -971,8 +984,10 @@
         img.onerror = function () { done(null, null); };
         img.src = url;
       }
-      /* FO 优先(画质最佳且桌面已验证), 失败/崩坏逐级降级: FO@scale → h2c@scale → FO@1 → h2c@1
-         (安卓微信 X5 的 foreignObject 会崩坏 → 走 h2c; html2canvas 照片色块缺陷 → 质检拦截后回退) */
+      /* 降级链:FO@scale → h2c@scale → FO@1 → h2c@1
+   FO 让浏览器自己渲染, 与网页所见一致; h2c 是 Canvas2D 重绘,
+   字体度量/渐变/drop-shadow 都会走样, 仅在 FO 不可用时兜底
+   (安卓微信 X5 的 foreignObject 会崩, 那时才落到 h2c)。 */
       renderFO(s, function (b, cv) {
         if (b && !looksBroken(cv)) return finish(b, cv);
         renderH2C(s, function (b2, cv2) {
