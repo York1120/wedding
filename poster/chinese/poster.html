@@ -199,7 +199,7 @@
      会压在「周煜全 / 张令仪」上（用户 2026-10-11 实测复现）。留 35px 才是安全的。
      line-height 1.62 → 1.45：两行省下 12.9px，用来把上方空白让给邀请句。
      下半版 9 个定位值全部不动。 */
-  .names { position: absolute; top: 804px; width: 100%; height: 320px; }
+  .names { position: absolute; top: 804px; width: 100%; height: 365px; }
   .role {
     font-size: 27px; color: var(--gold-dim); letter-spacing: 0.5em; padding-left: 0.5em;
     font-weight: 400;
@@ -221,16 +221,16 @@
   }
 
   /* 落款邀请：置于新郎新娘名字下方、囍字印章之下。
-     两行排版：「诚邀每户一位、」/「每房男老人和女老人各一位」。
-     字体/字号/字重/字距/颜色与 .time-1（公历行）完全一致 —— 37px → 38px、
-     暗金 --gold-dim → 米白 --cream，使其在红底上足够醒目。 */
+     三行排版：「诚邀每户一位、」/「每房男老人和女老人、」/「本房普请各一位」。
+     字体/字号/字重/字距/颜色与 .time-1（公历行）完全一致 —— 38px / 米白 --cream。
+     下方时间/地点/落款区块整体随邀请句增加一行而下移 55px，保持版式节奏。 */
   .invite-note {
     position: absolute; top: 192px; width: 100%;
     color: var(--cream); font-size: 38px; font-weight: 400;
     letter-spacing: 0.12em; padding-left: 0.12em;
     line-height: 1.45;
   }
-  .invite-note .ln1, .invite-note .ln2 { display: block; }
+  .invite-note span { display: block; }
 
   /* dividers */
   .divider {
@@ -248,8 +248,8 @@
     transform: translate(-50%, -50%) rotate(45deg);
     background: var(--gold); opacity: 0.9;
   }
-  .div-1 { top: 1120px; }
-  .div-2 { top: 1665px; opacity: 0.75; }
+  .div-1 { top: 1175px; }
+  .div-2 { top: 1720px; opacity: 0.75; }
 
   /* section labels */
   .sec-label {
@@ -262,27 +262,27 @@
     margin: 0 26px; position: relative; top: -6px;
   }
   .sec-label .bar.r { transform: scaleX(-1); }
-  .lab-time { top: 1198px; }
-  .lab-loc  { top: 1465px; }
+  .lab-time { top: 1253px; }
+  .lab-loc  { top: 1520px; }
 
   .time-1 {
-    position: absolute; top: 1279px; width: 100%;
+    position: absolute; top: 1334px; width: 100%;
     color: var(--cream); font-size: 38px; font-weight: 400; letter-spacing: 0.12em; padding-left: 0.12em;
   }
   .time-2 {
-    position: absolute; top: 1357px; width: 100%;
+    position: absolute; top: 1412px; width: 100%;
     color: var(--cream); font-size: 38px; font-weight: 400; letter-spacing: 0.12em; padding-left: 0.12em;
   }
 
   /* 地点：字体/字号/字距/颜色与 .time-1（公历行，含「星期二」）完全一致 */
   .loc-2 {
-    position: absolute; top: 1545px; width: 100%;
+    position: absolute; top: 1600px; width: 100%;
     color: var(--cream); font-size: 38px; font-weight: 400;
     letter-spacing: 0.12em; padding-left: 0.12em;
   }
 
   .host {
-    position: absolute; top: 1743px; width: 100%;
+    position: absolute; top: 1798px; width: 100%;
     color: var(--cream); font-size: 37px; font-weight: 400; letter-spacing: 0.24em; padding-left: 0.24em;
   }
   .host .yao { color: var(--gold-hi); }
@@ -348,7 +348,7 @@
         <div class="role">新娘</div>
         <div class="name">张令仪</div>
       </div>
-      <div class="invite-note"><span class="ln1">诚邀每户一位、</span><span class="ln2">每房男老人和女老人、本房普请各一位</span></div>
+      <div class="invite-note"><span class="ln1">诚邀每户一位、</span><span class="ln2">每房男老人和女老人、</span><span class="ln3">本房普请各一位</span></div>
     </div>
 
     <div class="divider div-1"><span class="diamond"></span></div>
