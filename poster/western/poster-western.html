@@ -6,7 +6,7 @@
 <link rel="icon" type="image/png" href="../../images/logo.png">
 <meta property="og:site_name" content="Yuquan &amp; Lingyi · Wedding Invitation">
 <meta property="og:title" content="Yuquan &amp; Lingyi · Wedding Invitation">
-<meta property="og:description" content="谨定于2027年2月9日，江西吉安横江镇車田村周府，敬备喜宴，恭候光临。">
+<meta property="og:description" content="谨定于2027年2月9日，江西吉安横江镇車田村本村祠堂，敬备喜宴，恭候光临。">
 <meta property="og:image" content="/images/share.png">
 <meta property="og:image:secure_url" content="/images/share.png">
 <meta property="og:image:type" content="image/png">
@@ -14,7 +14,7 @@
 <meta property="og:image:height" content="500">
 <meta property="og:image:alt" content="囍 · 周煜全与张令仪婚礼请柬">
 <meta itemprop="name" content="Yuquan &amp; Lingyi · Wedding Invitation">
-<meta itemprop="description" content="谨定于2027年2月9日，江西吉安横江镇車田村周府，敬备喜宴，恭候光临。">
+<meta itemprop="description" content="谨定于2027年2月9日，江西吉安横江镇車田村本村祠堂，敬备喜宴，恭候光临。">
 <meta itemprop="image" content="/images/share.png">
 <title>Yuquan &amp; Lingyi · Wedding Invitation</title>
 <style>
@@ -198,10 +198,13 @@
     font-family: 'Cormorant'; font-weight: 400; font-size: 25px;
     letter-spacing: 0.08em; color: var(--ink-soft);
   }
+  /* 地点中文行：字体/字号/字重/字距/颜色/左内边距与 .date-cn（「公历」行）完全一致
+     25px → 33px、ls 0.08em → 0.12em、--ink-soft → --ink、padding-left 0.55em → 0.3em。
+     字号变大后墨迹高 36 → 47px，下方到 .seal 仍余 104.5px，不挤压。 */
   .venue-cn {
     position: absolute; top: 1812px; width: 100%; text-align: center;
-    font-family: 'NotoSerifSC'; font-weight: 400; font-size: 25px; letter-spacing: 0.08em;
-    padding-left: 0.55em; color: var(--ink-soft);
+    font-family: 'NotoSerifSC'; font-weight: 400; font-size: 33px; letter-spacing: 0.12em;
+    padding-left: 0.3em; color: var(--ink);
   }
 
   .host-cn {
@@ -328,8 +331,8 @@
   <div class="div-sm"><span class="diamond"></span></div>
 
   <div class="venue-1">ZHOU FAMILY RESIDENCE</div>
-  <div class="venue-2">Hengjiang Town, Ji'an County, Ji'an City, Jiangxi · 江西省吉安市吉安县横江镇屋头村委会車田村</div>
-  <div class="venue-cn">周府</div>
+  <div class="venue-2">江西省吉安市吉安县横江镇屋头村委会車田村</div>
+  <div class="venue-cn">本村祠堂</div>
 
   <div class="host-cn">周小健 · 张燕玲</div>
 
