@@ -18,6 +18,9 @@ def collect_text(html_path):
     src = open(html_path, encoding="utf-8").read()
     body = re.sub(r"<!--.*?-->", "", src, flags=re.S)
     body = re.sub(r"<(style|script)\b.*?</\1>", "", body, flags=re.S | re.I)
+    # 备案信息块强制使用系统字体栈（data-system-font），不依赖自托管字体子集，
+    # 因此不计入覆盖检查 —— 否则每次改备案文案都会误报缺字。
+    body = re.sub(r"<div[^>]*data-system-font[^>]*>.*?</div>", "", body, flags=re.S | re.I)
     return htmllib.unescape(re.sub(r"<[^>]+>", "", body))
 
 
