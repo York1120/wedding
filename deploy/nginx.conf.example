@@ -1,0 +1,76 @@
+# ============================================================================
+# wedding.yorkedu.cn · Nginx 反向代理配置
+# ----------------------------------------------------------------------------
+# 部署位置：/etc/nginx/conf.d/wedding.conf（或 sites-available + 软链）
+#
+# 【重要】不要把 root 指向仓库目录！否则 worker.js（含明文密码）、.git、
+# poster/src 等都能被直接下载。这里只做反代，静态文件全部交给 Node 服务处理，
+# 由 server.mjs 统一执行排除规则和缓存策略。
+# ============================================================================
+
+# HTTP 全量跳 HTTPS
+server {
+    listen 80;
+    listen [::]:80;
+    server_name wedding.yorkedu.cn;
+
+    # 证书续期验证目录保持可访问
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+    server_name wedding.yorkedu.cn;
+
+    # 腾讯云免费证书或 Let's Encrypt，按实际路径改
+    ssl_certificate     /etc/nginx/ssl/wedding.yorkedu.cn.pem;
+    ssl_certificate_key /etc/nginx/ssl/wedding.yorkedu.cn.key;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 10m;
+
+    # 海报导出会传 base64 图片，放宽请求体
+    client_max_body_size 32m;
+
+    # 基础安全头
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+    add_header X-Frame-Options SAMEORIGIN always;
+
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css application/javascript application/json
+               application/xml image/svg+xml;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Range 透传：iOS 播放 m4a 需要 206 Partial Content
+        proxy_set_header Range    $http_range;
+        proxy_set_header If-Range $http_if_range;
+
+        # 音频流式播放不要缓冲整文件
+        proxy_buffering off;
+        proxy_request_buffering off;
+
+        proxy_connect_timeout 10s;
+        proxy_read_timeout    60s;
+        proxy_send_timeout    60s;
+    }
+}

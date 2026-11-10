@@ -24,3 +24,7 @@ inv-b/README.md
 inv-g/README.md
 inv-o/README.md
 inv-w/README.md
+
+# 腾讯云部署文件：属于服务器运维产物，不是静态资产，禁止公开下载
+server.mjs
+deploy/

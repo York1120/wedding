@@ -1,0 +1,27 @@
+[Unit]
+Description=Wedding invitation site (Node gate service)
+Documentation=file:///var/www/wedding/deploy/README.md
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/wedding
+
+# 运行时配置（端口 + 访问密码）放在独立环境文件里，权限 600，
+# 避免密码出现在本 unit 文件或 ps 输出中
+EnvironmentFile=/etc/wedding.env
+
+ExecStart=/usr/bin/node /var/www/wedding/server.mjs
+Restart=always
+RestartSec=3
+
+# 收紧权限：只读运行目录
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
